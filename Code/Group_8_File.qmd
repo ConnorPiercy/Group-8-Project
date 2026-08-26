@@ -12,6 +12,7 @@ library("readxl")
 library(tidyverse)
 library(gt)
 library(GGally)
+library(cowplot)
 Table1_raw <- read_excel("../Data/Table1_raw.xlsx")
 
 Table1 <- read_excel("../Data/Table1_clean.xlsx")
@@ -211,9 +212,24 @@ dm_plot <- ggplot(data.frame(dM), aes(x=dM)) +
   geom_segment(data=cut.points,
                aes(x=upper.quantiles, xend=upper.quantiles,
                    y=rep(0,3), yend=density.at.quantiles),
-               col="blue", size=2) +
+               col="blue", linewidth=2) +
   xlab("Squared Mahalanobis distances and cut points") +
   ylab("Histogram and density")
+
+Table1_elements_log$dM <- dM
+Table1_elements_log$suprise <- cut(Table1_elements_log$dM,
+                                   breaks = c(0, upper.quantiles, Inf),
+                                   labels=c("typical", "somewhat", "Suprising", "very"))
+
+dm_results <- data.frame(
+  Sample = Table1_log[[1]],
+  dM = dM,
+  surprise = Table1_elements_log$suprise
+)
+
+dm_results <- dm_results %>% 
+  dplyr::arrange(desc(dM)) %>% 
+  head(5)
 ```
 
     2.  Chi-square
@@ -239,16 +255,89 @@ dm_plot <- ggplot(data.frame(dM), aes(x=dM)) +
 #| fig-height: 12
 #| warning: false
 #| message: false
-pairs <- ggpairs(data = Table1_elements_log, 
-        ggplot2::aes(alpha=.5), #Add col=suprise when done the dm^2 work
-        upper = list(continuous = "density", combo = "box_no_facet")) + 
-  ggplot2::scale_color_manual(values=c("lightgray", "green", "blue", "red")) +
-  ggplot2::theme(axis.text.x = element_text(angle=90, hjust=1)) +
-  ggplot2::theme(
-    axis.text = ggplot2::element_blank(),
-    axis.ticks = ggplot2::element_blank(),
-    strip.text = ggplot2::element_text(size = 7)
+#Had problems with the pairs plot from lectures mainly with the contours and scatter-points
+#Two fix I built the two types of plots seperately so I can change the sizes and bins
+#Then added them in seperately in the ggpairs command like done in the lectures
+#The main problem was that they become squished when using the inbuilt command due to
+#their being 17 variables. So doing them seperately helped fix that
+
+surprise_points <- function(data, mapping, ...){
+  ggplot(data = data, mapping = mapping) +
+    geom_point(
+      aes(colour = suprise),
+      alpha = 0.5)}
+upper_contour <- function(data, mapping, ...) {
+  ggplot(data = data, mapping = mapping) +
+    stat_density_2d(
+      colour = "blue",
+      linewidth = 0.3,
+      bins = 3)}
+
+pairs <- ggpairs(data = Table1_elements_log,
+  columns = 1:17,
+  lower = list(continuous = surprise_points),
+  upper = list(continuous = upper_contour),
+  diag = list(continuous = wrap(
+      "densityDiag",
+      colour = "black",
+      fill = "grey"))) +
+  scale_color_manual(
+    values = c(
+      "lightgray",
+      "green",
+      "blue",
+      "red")) +
+  theme(axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    strip.text = element_text(size = 7))
+
+# Legend for the pairs plot 
+#Tried adding the main part to the pairs plot code itself but wouldnt show so 
+#doing it seperately using cowplot. 
+legend_plot <- ggplot(
+  Table1_elements_log,
+  aes(x = suprise, y = 1, colour = suprise)
+) +
+  geom_point() +
+  scale_color_manual(
+    values = c(
+      "typical" = "lightgray",
+      "somewhat" = "green",
+      "Suprising" = "blue",
+      "very" = "red"
+    ),
+    labels = c(
+      "typical" = "Typical (<90%)",
+      "somewhat" = "Somewhat surprising (90–95%)",
+      "Suprising" = "Surprising (95–99%)",
+      "very" = "Very surprising (>99%)"
+    ),
+    name = "Mahalanobis classification",
+    drop = FALSE
+  ) +
+  guides(
+    colour = guide_legend(
+      nrow = 1,
+      override.aes = list(alpha = 1, size = 3)
+    )
+  ) +
+  theme_void() +
+  theme(
+    legend.position = "right",
+    legend.box.margin = margin(5,10,5,10)
   )
+#cowplot adds the legend that we made separately to the pairs plot
+#Very annoying work but none the less like the result
+legend <- cowplot::get_legend(legend_plot)
+#Something that cowplot can use as ggpairs isnt a ggplot2 ggplot
+pairs_grob <- GGally::ggmatrix_gtable(pairs)
+
+final_pairs <- cowplot::plot_grid(
+  pairs_grob,
+  legend,
+  ncol = 1,
+  rel_heights = c(1, 0.14)
+)
 ```
 
 5. Correlation Heat map
@@ -297,6 +386,8 @@ decp_boxplot
 ```{r}
 #| echo: false
 dm_plot
+table(Table1_elements_log$suprise)
+dm_results
 ```
 
 3.  Correlation Heat map
@@ -309,7 +400,9 @@ dm_plot
 
 ```{r}
 #| echo: false
-pairs
+#| warning: false
+#| message: false
+final_pairs
 ```
 
 5.  Principle component analysis (For the reproducing question)
