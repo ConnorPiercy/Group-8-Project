@@ -37,11 +37,11 @@ The aim of this analysis is too find groups within the data and reproduce what w
 
 - arent gonna have in list format just sections for now so we know what we need to do, we can edit it later to fit a paragraph apa-7 style format hopefully. 
 
-1, Data Transformation (Will fix up later to make more formal)
+Data Transformation (Will fix up later to make more formal)
 There are a few problems with the original data set given in Table 1 of the original paper that need to be corrected to accurately analysis the data.
     1. Original Data contains both percentages and Ratios of ug/g (micro gram/gram) concentrations of elements in each mural sample. This makes the two sets of concentrations incomparable due to percentages ceiling of 100. To fix this a log10 transformation will be done on the data, as done in the original paper. 
     2. To do a log10 transformation we must deal with the () bracketed values in the ratio concentrations. These are estimated concentrations that are below the detection limit. To deal with this in the data we can just treat them as the values estimated and remove the brackets for analysis. 
-    3. Lastly we need to deal with the [] in the data set. These values are specifically listed as 0, but aren't considered 0. These values are considered close to the detection limit. As log10(0) is not a real number, for the analysis we will convert 0's in the dataset to 0.1 as a pseudo-count. This will both allow us to compute these values and not shrink the sample size. 
+    3. Lastly we need to deal with the [""] in the data set. These values are specifically listed as 0, but aren't considered 0. These values are considered close to the detection limit. As log10(0) is not a real number, for the analysis we will convert 0's in the data set to 0.1 as a pseudo-count. This will both allow us to compute these values and not shrink the sample size. 
 
 ```{r}
 #| include: false
@@ -77,24 +77,15 @@ Table1_long_log <- Table1_log %>%
   )
 ```
 
-2.  Descriptive Statistics (mean, median, sd, min, max of each variable)
+1.  Descriptive Statistics (mean, median, sd, min, max of each variable)
 
-3.  Check normality
+2. Correlation Heat map
 
-    1.  Mahalanobis Distance Plot
-    2.  Chi-square
+3.  Mahalanobis Distances
     
 4. Exploratory pairs plot 17x17 for the 17 variables
 
-    1.  Histograms with notched box plots for each variable to show distribution
-
-    2.  contours to show 3rd box plots (can also just do heat map for with contours painted on)
-
-    3.  Mahalanobis-coloured scatter plots
-
-        {All of this in one plot, as seen in the one in inference} - 03.pdf
-
-5. Correlation Heat map
+5. Normality Check
 
 6.  Principle component analysis (For the reproducing question)
 
