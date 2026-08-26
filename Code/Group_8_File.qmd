@@ -27,18 +27,17 @@ The original article, PIXE analysis on Maya blue in Prehispanic and colonial mur
 
 The aim of this analysis is too find groups within the data and reproduce what was found in the original paper. The reason for this is to support the conclusions made by Sanchez del rio et al (2006) about the 3 zones found in the data during their analysis. By doing this we can reassert the claims made about the differences between the different types of murals and their distinct zones of style. This report will contain both a quantitative and qualitative analysis of the data, as well as PCA and cluster analysis to explore the possible groups in the data.
 
-### Method
+### Method Section
 
-Explain Data: Number of observations, variables, variables measured, and mention/reference table 1 from paper.
+- Explain Data: Number of observations, variables, variables measured, and mention/reference table 1 from paper.
 
-Statistical Methods we are going to use} (Can put code in here for what we do to show the method of doing it if needed but I will talk to lecturer about if we need to or not.
+- Statistical Methods we are going to use, maybe how each works to get the outcome we find to answer the questions. 
 
-We are doing this on the elements, comparing them to each other to find patterns, etc. names down the rows of the table are just the observations
+- We are doing this on the elements, comparing them to each other to find patterns, etc. names down the rows of the table are just the observations
 
-Methods we are doing based off lectures, can change if needed
+- arent gonna have in list format just sections for now so we know what we need to do, we can edit it later to fit a paragraph apa-7 style format hopefully. 
 
-1.  Data Transformation
-
+1, Data Transformation (Will fix up later to make more formal)
 There are a few problems with the original data set given in Table 1 of the original paper that need to be corrected to accurately analysis the data.
     1. Original Data contains both percentages and Ratios of ug/g (micro gram/gram) concentrations of elements in each mural sample. This makes the two sets of concentrations incomparable due to percentages ceiling of 100. To fix this a log10 transformation will be done on the data, as done in the original paper. 
     2. To do a log10 transformation we must deal with the () bracketed values in the ratio concentrations. These are estimated concentrations that are below the detection limit. To deal with this in the data we can just treat them as the values estimated and remove the brackets for analysis. 
@@ -46,6 +45,9 @@ There are a few problems with the original data set given in Table 1 of the orig
 
 ```{r}
 #| include: false
+### Kept this transformation in the method section.
+
+
 #Non transformed table - dont use. 
 Table1 <- Table1 %>% 
   mutate(across(where(is.numeric), abs))
@@ -55,10 +57,7 @@ Table1[Table1 == 0] <- 0.1
 #Log Table - Use as variables become comparable
 Table1_log <- Table1 %>% 
   mutate(across(where(is.numeric), log10))
-```
 
-
-```{r}
 #Change table around to long ways for boxplots in future as current table arrangement didnt work.
 
 #This one incase we need it for the non-transformed. 
@@ -80,9 +79,47 @@ Table1_long_log <- Table1_log %>%
 
 2.  Descriptive Statistics (mean, median, sd, min, max of each variable)
 
+3.  Check normality
+
+    1.  Mahalanobis Distance Plot
+    2.  Chi-square
+    
+4. Exploratory pairs plot 17x17 for the 17 variables
+
+    1.  Histograms with notched box plots for each variable to show distribution
+
+    2.  contours to show 3rd box plots (can also just do heat map for with contours painted on)
+
+    3.  Mahalanobis-coloured scatter plots
+
+        {All of this in one plot, as seen in the one in inference} - 03.pdf
+
+5. Correlation Heat map
+
+6.  Principle component analysis (For the reproducing question)
+
+    1.  Scree plot
+    2.  scores plot
+    3.  loadings
+
+7.  Cluster analysis
+
+
+### Results Section 
+
+1.  Show and explain through the analysis of what we described in the method. (Plots will go in here with explanations and thoughts under each.
+
+Need to answer these main results questions: 
+ - Can you assume that the data follow a multivariate normal distribution?
+ - Are there “surprising” observations? - (Yes found in Mahalanobis Distnace plot 5 of them)
+
+<!-- -->
+
+1.  Descriptive Statistics (mean, median, sd, min, max of each variable)
+
 ```{r}
-#| include: false
-# Descriptives table of Raw data - Show why we need to transform
+#| echo: false
+# Descriptive table of Raw data - Show why we need to transform
 desc_pixe <- Table1 %>% 
   summarise(
     across(
@@ -106,6 +143,7 @@ desc_pixe <- Table1 %>%
     names_from = Statistics,
     values_from = Value
   )
+
 output_desc_pix <- desc_pixe %>% 
   gt() %>% 
   cols_label(
@@ -127,12 +165,12 @@ output_desc_pix <- desc_pixe %>%
   tab_options(
     table.font.size = 12
   )
+output_desc_pix
 ```
-
 
 ```{r}
 #| echo: false
-#Log Transformaed Descriptives Table
+# Log Descriptives Table
 desc_pixe_log <- Table1_log %>% 
   summarise(
     across(
@@ -177,22 +215,34 @@ output_desc_pix_log <- desc_pixe_log %>%
   tab_options(
     table.font.size = 12
   )
+output_desc_pix_log
 ```
 
+Box Plot of Descriptives
 ```{r}
+#| echo: false
+#| message: false
+#| warning: false
 #Box Plot of transformed data
 decp_boxplot <- ggplot(data = Table1_long_log, aes(x = Element_Group, y = Concentrations)) + 
   geom_boxplot(aes(fill = Element_Group), notch = TRUE, outlier.shape = 1.5) + 
   theme_bw() +
   theme(axis.text.x = element_text(size = 7, angle = 90, hjust = 1, vjust = 0.5), 
         legend.position = "none")
+decp_boxplot
 ```
 
-3.  Check normality
-
-    1.  Mahalanobis Distance Plot
+2.  Correlation Heat map
 
 ```{r}
+
+```
+
+3.  Mahalanobis Distances 
+
+```{r}
+#| echo: false
+# Mahalanobis Distances 
 Table1_elements_log <- Table1_log[, -1]
 mu_hat <- colMeans(Table1_elements_log)
 Sigma_hat <- cov(Table1_elements_log)
@@ -230,31 +280,17 @@ dm_results <- data.frame(
 dm_results <- dm_results %>% 
   dplyr::arrange(desc(dM)) %>% 
   head(5)
+dm_plot
+table(Table1_elements_log$suprise)
+dm_results
 ```
 
-    2.  Chi-square
+4.  Exploratory pairs plot 17x17 for the 17 variables
 
 ```{r}
-
-```
-
-
-
-4. Exploratory pairs plot 17x17 for the 17 variables
-
-    1.  Histograms with notched box plots for each variable to show distribution
-
-    2.  contours to show 3rd box plots (can also just do heat map for with contours painted on)
-
-    3.  Mahalanobis-coloured scatter plots
-
-        {All of this in one plot, as seen in the one in inference - 03.pdf
-
-```{r}
-#| fig-width: 12
-#| fig-height: 12
-#| warning: false
+#| echo: false
 #| message: false
+#| warning: false
 #Had problems with the pairs plot from lectures mainly with the contours and scatter-points
 #Two fix I built the two types of plots seperately so I can change the sizes and bins
 #Then added them in seperately in the ggpairs command like done in the lectures
@@ -338,19 +374,21 @@ final_pairs <- cowplot::plot_grid(
   ncol = 1,
   rel_heights = c(1, 0.14)
 )
+#Takes about 15 seconds to load.
+final_pairs
 ```
 
-5. Correlation Heat map
+#Answer Question "Are there “surprising” observations?"
+
+5. normality check for assuming normality questions
 
 ```{r}
 
 ```
 
-6.  Principle component analysis (For the reproducing question)
+#Answer Question "Can you assume that the data follow a multivariate normal distribution?"
 
-    1.  Scree plot
-    2.  scores plot
-    3.  loadings
+6.  Principle component analysis (For the reproducing question)
 
 ```{r}
 
@@ -362,60 +400,8 @@ final_pairs <- cowplot::plot_grid(
 
 ```
 
-### Results
+#Answer Questions: "Can you find groups in these data" and "Can you reproduce Fig. 2? Do you agree with the conclusions the authors draw about the “zones”?"
 
-1.  Show and explain through the analysis of what we described in the method. (Plots will go in here with explanations and thoughts under each.
-
-<!-- -->
-
-1.  Descriptive Statistics (mean, median, sd, min, max of each variable)
-
-```{r}
-#| echo: false
-output_desc_pix
-output_desc_pix_log
-```
-Box Plot
-```{r}
-#| echo: false
-decp_boxplot
-```
-
-2.  Normality Check 
-
-```{r}
-#| echo: false
-dm_plot
-table(Table1_elements_log$suprise)
-dm_results
-```
-
-3.  Correlation Heat map
-
-```{r}
-
-```
-
-4.  Exploratory pairs plot 17x17 for the 17 variables
-
-```{r}
-#| echo: false
-#| warning: false
-#| message: false
-final_pairs
-```
-
-5.  Principle component analysis (For the reproducing question)
-
-```{r}
-
-```
-
-6.  Cluster analysis
-
-```{r}
-
-```
 
 ### Discussion
 
