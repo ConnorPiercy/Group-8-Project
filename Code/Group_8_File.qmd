@@ -23,8 +23,6 @@ Table1$`29-Cu` <- as.numeric(Table1$`29-Cu`)
 
 ### Introduction
 
-TEST COMMIT WORKS
-
 The original article, PIXE analysis on Maya blue in Prehispanic and colonial mural paintings, by Sanchez del Rio et al (2006), sampled, analysed and grouped using PCA on murals containing Maya Blue across different archaeological sites. Across the sites they collected 35 samples from murals and either the elements concentration percent or the ratio of micro gram to gram ratio of that element in the mural. From these murals they sampled 17 different chemical elements from sodium to lead. They found with their PCA that 70% of the total variance in the sample population can be described using only the first three principle components and was similar to what was observed in other art forms. The three zones found were CEC, Prehispanic, and convents. with the first clustering in a small group separate from the rest of the samples.
 
 The aim of this analysis is too find groups within the data and reproduce what was found in the original paper. The reason for this is to support the conclusions made by Sanchez del rio et al (2006) about the 3 zones found in the data during their analysis. By doing this we can reassert the claims made about the differences between the different types of murals and their distinct zones of style. This report will contain both a quantitative and qualitative analysis of the data, as well as PCA and cluster analysis to explore the possible groups in the data.
