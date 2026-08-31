@@ -23,25 +23,23 @@ Table1$`29-Cu` <- as.numeric(Table1$`29-Cu`)
 
 ### Introduction
 
+TEST COMMIT WORKS
+
 The original article, PIXE analysis on Maya blue in Prehispanic and colonial mural paintings, by Sanchez del Rio et al (2006), sampled, analysed and grouped using PCA on murals containing Maya Blue across different archaeological sites. Across the sites they collected 35 samples from murals and either the elements concentration percent or the ratio of micro gram to gram ratio of that element in the mural. From these murals they sampled 17 different chemical elements from sodium to lead. They found with their PCA that 70% of the total variance in the sample population can be described using only the first three principle components and was similar to what was observed in other art forms. The three zones found were CEC, Prehispanic, and convents. with the first clustering in a small group separate from the rest of the samples.
 
 The aim of this analysis is too find groups within the data and reproduce what was found in the original paper. The reason for this is to support the conclusions made by Sanchez del rio et al (2006) about the 3 zones found in the data during their analysis. By doing this we can reassert the claims made about the differences between the different types of murals and their distinct zones of style. This report will contain both a quantitative and qualitative analysis of the data, as well as PCA and cluster analysis to explore the possible groups in the data.
 
 ### Method Section
 
-- Explain Data: Number of observations, variables, variables measured, and mention/reference table 1 from paper.
+-   Explain Data: Number of observations, variables, variables measured, and mention/reference table 1 from paper.
 
-- Statistical Methods we are going to use, maybe how each works to get the outcome we find to answer the questions. 
+-   Statistical Methods we are going to use, maybe how each works to get the outcome we find to answer the questions.
 
-- We are doing this on the elements, comparing them to each other to find patterns, etc. names down the rows of the table are just the observations
+-   We are doing this on the elements, comparing them to each other to find patterns, etc. names down the rows of the table are just the observations
 
-- arent gonna have in list format just sections for now so we know what we need to do, we can edit it later to fit a paragraph apa-7 style format hopefully. 
+-   arent gonna have in list format just sections for now so we know what we need to do, we can edit it later to fit a paragraph apa-7 style format hopefully.
 
-Data Transformation (Will fix up later to make more formal)
-There are a few problems with the original data set given in Table 1 of the original paper that need to be corrected to accurately analysis the data.
-    1. Original Data contains both percentages and Ratios of ug/g (micro gram/gram) concentrations of elements in each mural sample. This makes the two sets of concentrations incomparable due to percentages ceiling of 100. To fix this a log10 transformation will be done on the data, as done in the original paper. 
-    2. To do a log10 transformation we must deal with the () bracketed values in the ratio concentrations. These are estimated concentrations that are below the detection limit. To deal with this in the data we can just treat them as the values estimated and remove the brackets for analysis. 
-    3. Lastly we need to deal with the [""] in the data set. These values are specifically listed as 0, but aren't considered 0. These values are considered close to the detection limit. As log10(0) is not a real number, for the analysis we will convert 0's in the data set to 0.1 as a pseudo-count. This will both allow us to compute these values and not shrink the sample size. 
+Data Transformation (Will fix up later to make more formal) There are a few problems with the original data set given in Table 1 of the original paper that need to be corrected to accurately analysis the data. 1. Original Data contains both percentages and Ratios of ug/g (micro gram/gram) concentrations of elements in each mural sample. This makes the two sets of concentrations incomparable due to percentages ceiling of 100. To fix this a log10 transformation will be done on the data, as done in the original paper. 2. To do a log10 transformation we must deal with the () bracketed values in the ratio concentrations. These are estimated concentrations that are below the detection limit. To deal with this in the data we can just treat them as the values estimated and remove the brackets for analysis. 3. Lastly we need to deal with the \[""\] in the data set. These values are specifically listed as 0, but aren't considered 0. These values are considered close to the detection limit. As log10(0) is not a real number, for the analysis we will convert 0's in the data set to 0.1 as a pseudo-count. This will both allow us to compute these values and not shrink the sample size.
 
 ```{r}
 #| include: false
@@ -79,13 +77,13 @@ Table1_long_log <- Table1_log %>%
 
 1.  Descriptive Statistics (mean, median, sd, min, max of each variable)
 
-2. Correlation Heat map
+2.  Correlation Heat map
 
 3.  Mahalanobis Distances
-    
-4. Exploratory pairs plot 17x17 for the 17 variables
 
-5. Normality Check
+4.  Exploratory pairs plot 17x17 for the 17 variables
+
+5.  Normality Check
 
 6.  Principle component analysis (For the reproducing question)
 
@@ -95,14 +93,11 @@ Table1_long_log <- Table1_log %>%
 
 7.  Cluster analysis
 
-
-### Results Section 
+### Results Section
 
 1.  Show and explain through the analysis of what we described in the method. (Plots will go in here with explanations and thoughts under each.
 
-Need to answer these main results questions: 
- - Can you assume that the data follow a multivariate normal distribution?
- - Are there “surprising” observations? - (Yes found in Mahalanobis Distnace plot 5 of them)
+Need to answer these main results questions: - Can you assume that the data follow a multivariate normal distribution? - Are there “surprising” observations? - (Yes found in Mahalanobis Distnace plot 5 of them)
 
 <!-- -->
 
@@ -210,6 +205,7 @@ output_desc_pix_log
 ```
 
 Box Plot of Descriptives
+
 ```{r}
 #| echo: false
 #| message: false
@@ -229,7 +225,7 @@ decp_boxplot
 
 ```
 
-3.  Mahalanobis Distances 
+3.  Mahalanobis Distances
 
 ```{r}
 #| echo: false
@@ -371,7 +367,7 @@ final_pairs
 
 #Answer Question "Are there “surprising” observations?"
 
-5. normality check for assuming normality questions
+5.  normality check for assuming normality questions
 
 ```{r}
 
@@ -392,7 +388,6 @@ final_pairs
 ```
 
 #Answer Questions: "Can you find groups in these data" and "Can you reproduce Fig. 2? Do you agree with the conclusions the authors draw about the “zones”?"
-
 
 ### Discussion
 
