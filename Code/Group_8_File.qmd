@@ -29,19 +29,15 @@ The aim of this analysis is too find groups within the data and reproduce what w
 
 ### Method Section
 
-- Explain Data: Number of observations, variables, variables measured, and mention/reference table 1 from paper.
+-   Explain Data: Number of observations, variables, variables measured, and mention/reference table 1 from paper.
 
-- Statistical Methods we are going to use, maybe how each works to get the outcome we find to answer the questions. 
+-   Statistical Methods we are going to use, maybe how each works to get the outcome we find to answer the questions.
 
-- We are doing this on the elements, comparing them to each other to find patterns, etc. names down the rows of the table are just the observations
+-   We are doing this on the elements, comparing them to each other to find patterns, etc. names down the rows of the table are just the observations
 
-- arent gonna have in list format just sections for now so we know what we need to do, we can edit it later to fit a paragraph apa-7 style format hopefully. 
+-   arent gonna have in list format just sections for now so we know what we need to do, we can edit it later to fit a paragraph apa-7 style format hopefully.
 
-Data Transformation (Will fix up later to make more formal)
-There are a few problems with the original data set given in Table 1 of the original paper that need to be corrected to accurately analysis the data.
-    1. Original Data contains both percentages and Ratios of ug/g (micro gram/gram) concentrations of elements in each mural sample. This makes the two sets of concentrations incomparable due to percentages ceiling of 100. To fix this a log10 transformation will be done on the data, as done in the original paper. 
-    2. To do a log10 transformation we must deal with the () bracketed values in the ratio concentrations. These are estimated concentrations that are below the detection limit. To deal with this in the data we can just treat them as the values estimated and remove the brackets for analysis. 
-    3. Lastly we need to deal with the [""] in the data set. These values are specifically listed as 0, but aren't considered 0. These values are considered close to the detection limit. As log10(0) is not a real number, for the analysis we will convert 0's in the data set to 0.1 as a pseudo-count. This will both allow us to compute these values and not shrink the sample size. 
+Data Transformation (Will fix up later to make more formal) There are a few problems with the original data set given in Table 1 of the original paper that need to be corrected to accurately analysis the data. 1. Original Data contains both percentages and Ratios of ug/g (micro gram/gram) concentrations of elements in each mural sample. This makes the two sets of concentrations incomparable due to percentages ceiling of 100. To fix this a log10 transformation will be done on the data, as done in the original paper. 2. To do a log10 transformation we must deal with the () bracketed values in the ratio concentrations. These are estimated concentrations that are below the detection limit. To deal with this in the data we can just treat them as the values estimated and remove the brackets for analysis. 3. Lastly we need to deal with the \[""\] in the data set. These values are specifically listed as 0, but aren't considered 0. These values are considered close to the detection limit. As log10(0) is not a real number, for the analysis we will convert 0's in the data set to 0.1 as a pseudo-count. This will both allow us to compute these values and not shrink the sample size.
 
 ```{r}
 #| include: false
@@ -79,13 +75,13 @@ Table1_long_log <- Table1_log %>%
 
 1.  Descriptive Statistics (mean, median, sd, min, max of each variable)
 
-2. Correlation Heat map
+2.  Correlation Heat map
 
 3.  Mahalanobis Distances
-    
-4. Exploratory pairs plot 17x17 for the 17 variables
 
-5. Normality Check
+4.  Exploratory pairs plot 17x17 for the 17 variables
+
+5.  Normality Check
 
 6.  Principle component analysis (For the reproducing question)
 
@@ -95,14 +91,11 @@ Table1_long_log <- Table1_log %>%
 
 7.  Cluster analysis
 
-
-### Results Section 
+### Results Section
 
 1.  Show and explain through the analysis of what we described in the method. (Plots will go in here with explanations and thoughts under each.
 
-Need to answer these main results questions: 
- - Can you assume that the data follow a multivariate normal distribution?
- - Are there “surprising” observations? - (Yes found in Mahalanobis Distnace plot 5 of them)
+Need to answer these main results questions: - Can you assume that the data follow a multivariate normal distribution? - Are there “surprising” observations? - (Yes found in Mahalanobis Distnace plot 5 of them)
 
 <!-- -->
 
@@ -211,6 +204,7 @@ output_desc_pix_log
 
 
 Box Plot of Descriptives
+
 ```{r}
 #| echo: false
 #| message: false
@@ -230,7 +224,7 @@ decp_boxplot
 
 ```
 
-3.  Mahalanobis Distances 
+3.  Mahalanobis Distances
 
 ```{r}
 #| echo: false
@@ -372,7 +366,7 @@ final_pairs
 
 #Answer Question "Are there “surprising” observations?"
 
-5. normality check for assuming normality questions
+5.  normality check for assuming normality questions
 
 ```{r}
 
@@ -393,7 +387,6 @@ final_pairs
 ```
 
 #Answer Questions: "Can you find groups in these data" and "Can you reproduce Fig. 2? Do you agree with the conclusions the authors draw about the “zones”?"
-
 
 ### Discussion
 
