@@ -209,6 +209,7 @@ output_desc_pix_log <- desc_pixe_log %>%
 output_desc_pix_log
 ```
 
+
 Box Plot of Descriptives
 ```{r}
 #| echo: false
