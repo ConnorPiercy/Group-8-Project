@@ -13,6 +13,7 @@ library(tidyverse)
 library(gt)
 library(GGally)
 library(cowplot)
+library(MVN)
 Table1_raw <- read_excel("../Data/Table1_raw.xlsx")
 
 Table1 <- read_excel("../Data/Table1_clean.xlsx")
@@ -36,8 +37,17 @@ The aim of this analysis is too find groups within the data and reproduce what w
 -   We are doing this on the elements, comparing them to each other to find patterns, etc. names down the rows of the table are just the observations
 
 -   arent gonna have in list format just sections for now so we know what we need to do, we can edit it later to fit a paragraph apa-7 style format hopefully.
+#------------------
 
-Data Transformation (Will fix up later to make more formal) There are a few problems with the original data set given in Table 1 of the original paper that need to be corrected to accurately analysis the data. 1. Original Data contains both percentages and Ratios of ug/g (micro gram/gram) concentrations of elements in each mural sample. This makes the two sets of concentrations incomparable due to percentages ceiling of 100. To fix this a log10 transformation will be done on the data, as done in the original paper. 2. To do a log10 transformation we must deal with the () bracketed values in the ratio concentrations. These are estimated concentrations that are below the detection limit. To deal with this in the data we can just treat them as the values estimated and remove the brackets for analysis. 3. Lastly we need to deal with the \[""\] in the data set. These values are specifically listed as 0, but aren't considered 0. These values are considered close to the detection limit. As log10(0) is not a real number, for the analysis we will convert 0's in the data set to 0.1 as a pseudo-count. This will both allow us to compute these values and not shrink the sample size.
+#### Data Transformation 
+
+There are a few issues with the original data set in Table 1 that need to be addressed before performing the analysis.
+
+1. Different concentration ranges: The original data contain elemental concentrations reported either as percentages or as µg/g (micrograms per gram). Because these measurements have substantially different concentration ranges, a \(\log_{10}\) transformation is applied to the concentrations. This follows the procedure used in the original paper, where the authors state that the logarithm of the concentrations was used to avoid large discrepancies in concentration range.
+
+2. Values below the detection limit: Some concentrations in Table 1 are reported in parentheses ( ). According to the original paper, these values are below the limit of detection (LOD). Since numerical estimates are still provided, these estimated concentrations are retained for the analysis and the parentheses are removed.
+
+3. Values close to the detection limit: Values reported in square brackets [ ] are identified by the authors as being close to the LOD. Some of these values are reported as [0]. Since \(\log_{10}(0)\) is undefined, values recorded as zero are replaced with a small positive pseudo-count of 0.1 before applying the \(\log_{10}\) transformation. This allows these observations to remain in the analysis rather than removing the corresponding samples.
 
 ```{r}
 #| include: false
@@ -234,7 +244,6 @@ mu_hat <- colMeans(Table1_elements_log)
 Sigma_hat <- cov(Table1_elements_log)
 p <- ncol(Table1_elements_log)
 
-
 dM <- mahalanobis(Table1_elements_log, center=mu_hat, cov=Sigma_hat)
 upper.quantiles <- qchisq(c(.9, .95, .99), df=p)
 density.at.quantiles <- dchisq(x=upper.quantiles, df=p)
@@ -366,10 +375,44 @@ final_pairs
 
 #Answer Question "Are there “surprising” observations?"
 
-5.  normality check for assuming normality questions
+5.  normality check for assuming normality questions (Chi-square QQ plot on mahalonbis distances)
 
 ```{r}
+#We use the DM^2 values and compare them to the chi-square quantiles.
+qq_elements <- Table1_elements_log[, -c(18, 19)]
+n <- nrow(qq_elements)
+p <- ncol(qq_elements)
 
+chi_quantiles <- qchisq(
+  ppoints(n),
+  df = p
+)
+
+qq_data <- data.frame(
+  Theoretical = qchisq(ppoints(n), df = p),
+  Observed = sort(dM)
+)
+
+#Plot
+normality_plot <- ggplot(qq_data,aes(x = Theoretical, y = Observed)) +
+  geom_point(size = 2) +
+  geom_abline(intercept = 0,
+    slope = 1,
+    linetype = "dashed",
+    color = "red") +
+  labs(x = "Theoretical chi-square(17) quantiles",
+    y = "Ordered dm^2",
+    title = "Multivariate Q-Q Plot"
+  ) +
+  theme_minimal()
+normality_plot
+
+mvn_result <- mvn(
+  data = qq_elements,
+  mvn_test = "mardia"
+)
+mvn_result$multivariate_normality
+mvn_result$univariate_normality
 ```
 
 #Answer Question "Can you assume that the data follow a multivariate normal distribution?"
