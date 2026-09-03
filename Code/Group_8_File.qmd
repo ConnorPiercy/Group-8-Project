@@ -2,8 +2,10 @@
 title: "Group 8 Project"
 subtitle: "PIXE analysis on Maya blue in Prehispanic and colonial mural paintings"
 author: "Awet, Connor, Lachlan, Pablo,"
-format: html
-editor: visual
+format: 
+  html:
+    toc: true
+    toc-depth: 3
 ---
 
 ```{r}
@@ -22,43 +24,43 @@ Table1$`15-P` <- as.numeric(Table1$`15-P`)
 Table1$`29-Cu` <- as.numeric(Table1$`29-Cu`)
 ```
 
-### Introduction
+# Introduction
 
 The original article, PIXE analysis on Maya blue in Prehispanic and colonial mural paintings, by Sanchez del Rio et al (2006), sampled, analysed and grouped using PCA on murals containing Maya Blue across different archaeological sites. Across the sites they collected 35 samples from murals and either the elements concentration percent or the ratio of micro gram to gram ratio of that element in the mural. From these murals they sampled 17 different chemical elements from sodium to lead. They found with their PCA that 70% of the total variance in the sample population can be described using only the first three principle components and was similar to what was observed in other art forms. The three zones found were CEC, Prehispanic, and convents. with the first clustering in a small group separate from the rest of the samples.
 
 The aim of this analysis is too find groups within the data and reproduce what was found in the original paper. The reason for this is to support the conclusions made by Sanchez del rio et al (2006) about the 3 zones found in the data during their analysis. By doing this we can reassert the claims made about the differences between the different types of murals and their distinct zones of style. This report will contain both a quantitative and qualitative analysis of the data, as well as PCA and cluster analysis to explore the possible groups in the data.
 
-### Method Section
+# Methodology
 
--   Explain Data: Number of observations, variables, variables measured, and mention/reference table 1 from paper.
-
--   Statistical Methods we are going to use, maybe how each works to get the outcome we find to answer the questions.
-
--   We are doing this on the elements, comparing them to each other to find patterns, etc. names down the rows of the table are just the observations
-
--   arent gonna have in list format just sections for now so we know what we need to do, we can edit it later to fit a paragraph apa-7 style format hopefully.
-#------------------
-
-#### Data Transformation 
+## Data Transformation 
 
 There are a few issues with the original data set in Table 1 that need to be addressed before performing the analysis.
 
 1. Different concentration ranges: The original data contain elemental concentrations reported either as percentages or as µg/g (micrograms per gram). Because these measurements have substantially different concentration ranges, a \(\log_{10}\) transformation is applied to the concentrations. This follows the procedure used in the original paper, where the authors state that the logarithm of the concentrations was used to avoid large discrepancies in concentration range.
-
 2. Values below the detection limit: Some concentrations in Table 1 are reported in parentheses ( ). According to the original paper, these values are below the limit of detection (LOD). Since numerical estimates are still provided, these estimated concentrations are retained for the analysis and the parentheses are removed.
+3. ### Replace with Awets transformation of NA's and 0's 
 
-3. Values close to the detection limit: Values reported in square brackets [ ] are identified by the authors as being close to the LOD. Some of these values are reported as [0]. Since \(\log_{10}(0)\) is undefined, values recorded as zero are replaced with a small positive pseudo-count of 0.1 before applying the \(\log_{10}\) transformation. This allows these observations to remain in the analysis rather than removing the corresponding samples.
+
+# Results
+<!-- -->
+
+## Quantitative Descriptive Analysis
 
 ```{r}
 #| include: false
 ### Kept this transformation in the method section.
 
-
 #Non transformed table - dont use. 
+# Make estimated concentrations positive
 Table1 <- Table1 %>% 
   mutate(across(where(is.numeric), abs))
-Table1[is.na(Table1)] <- 0
-Table1[Table1 == 0] <- 0.1
+
+# Replace values recorded as zero with half of the
+# smallest positive value for that element
+Table1 <- Table1 %>%
+  mutate(across(where(is.numeric),
+      ~ {replacement <- min(.x[.x > 0], na.rm = TRUE) / 2
+        ifelse(is.na(.x) | .x == 0,replacement, .x)}))
 
 #Log Table - Use as variables become comparable
 Table1_log <- Table1 %>% 
@@ -82,34 +84,6 @@ Table1_long_log <- Table1_log %>%
     values_to = "Concentrations"
   )
 ```
-
-1.  Descriptive Statistics (mean, median, sd, min, max of each variable)
-
-2.  Correlation Heat map
-
-3.  Mahalanobis Distances
-
-4.  Exploratory pairs plot 17x17 for the 17 variables
-
-5.  Normality Check
-
-6.  Principle component analysis (For the reproducing question)
-
-    1.  Scree plot
-    2.  scores plot
-    3.  loadings
-
-7.  Cluster analysis
-
-### Results Section
-
-1.  Show and explain through the analysis of what we described in the method. (Plots will go in here with explanations and thoughts under each.
-
-Need to answer these main results questions: - Can you assume that the data follow a multivariate normal distribution? - Are there “surprising” observations? - (Yes found in Mahalanobis Distnace plot 5 of them)
-
-<!-- -->
-
-1.  Descriptive Statistics (mean, median, sd, min, max of each variable)
 
 ```{r}
 #| echo: false
@@ -212,8 +186,7 @@ output_desc_pix_log <- desc_pixe_log %>%
 output_desc_pix_log
 ```
 
-
-Box Plot of Descriptives
+## Graphical and Qualitative Analysis
 
 ```{r}
 #| echo: false
@@ -228,13 +201,7 @@ decp_boxplot <- ggplot(data = Table1_long_log, aes(x = Element_Group, y = Concen
 decp_boxplot
 ```
 
-2.  Correlation Heat map
-
-```{r}
-
-```
-
-3.  Mahalanobis Distances
+## Are There Surprising Observations?
 
 ```{r}
 #| echo: false
@@ -280,7 +247,6 @@ table(Table1_elements_log$suprise)
 dm_results
 ```
 
-4.  Exploratory pairs plot 17x17 for the 17 variables
 
 ```{r}
 #| echo: false
@@ -373,11 +339,10 @@ final_pairs <- cowplot::plot_grid(
 final_pairs
 ```
 
-#Answer Question "Are there “surprising” observations?"
-
-5.  normality check for assuming normality questions (Chi-square QQ plot on mahalonbis distances)
+## Can you assume that the data follows a multivariate normal distribution?
 
 ```{r}
+#| echo: false
 #We use the DM^2 values and compare them to the chi-square quantiles.
 qq_elements <- Table1_elements_log[, -c(18, 19)]
 n <- nrow(qq_elements)
@@ -415,30 +380,23 @@ mvn_result$multivariate_normality
 mvn_result$univariate_normality
 ```
 
-#Answer Question "Can you assume that the data follow a multivariate normal distribution?"
 
-6.  Principle component analysis (For the reproducing question)
+## Can we find groups in this data
 
-```{r}
+## Can we reproduce Fig.2
 
-```
 
-7.  Cluster analysis
 
-```{r}
 
-```
 
-#Answer Questions: "Can you find groups in these data" and "Can you reproduce Fig. 2? Do you agree with the conclusions the authors draw about the “zones”?"
-
-### Discussion
+# Discussion
 
 Answering the questions from the document and any other conclusions we have from the analysis
 
 1.  Can you find groups in these data?
 2.  Can you reproduce Fig. 2? Do you agree with the conclusions the authors draw about the “zones”?
 
-#### References {style="text-align: center;"}
+# References {style="text-align: center;"}
 
 > Andonie, R., and I. Dzitac. 2010. “How to Write a Good Paper in Computer Science and How Will It Be Measured by ISI Web of Knowledge.” International Journal of Computers, Communications & Control V (4): 432–44. https://doi.org/10.15837/ijccc.2010.4.2493.
 >

@@ -80,10 +80,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </head>
 
-<body class="fullcontent quarto-light">
+<body class="quarto-light">
 
 <div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
-
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#methodology" id="toc-methodology" class="nav-link" data-scroll-target="#methodology">Methodology</a>
+  <ul class="collapse">
+  <li><a href="#data-transformation" id="toc-data-transformation" class="nav-link" data-scroll-target="#data-transformation">Data Transformation</a></li>
+  </ul></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a>
+  <ul class="collapse">
+  <li><a href="#quantitative-descriptive-analysis" id="toc-quantitative-descriptive-analysis" class="nav-link" data-scroll-target="#quantitative-descriptive-analysis">Quantitative Descriptive Analysis</a></li>
+  <li><a href="#graphical-and-qualitative-analysis" id="toc-graphical-and-qualitative-analysis" class="nav-link" data-scroll-target="#graphical-and-qualitative-analysis">Graphical and Qualitative Analysis</a></li>
+  <li><a href="#are-there-surprising-observations" id="toc-are-there-surprising-observations" class="nav-link" data-scroll-target="#are-there-surprising-observations">Are There Surprising Observations?</a></li>
+  <li><a href="#can-you-assume-that-the-data-follows-a-multivariate-normal-distribution" id="toc-can-you-assume-that-the-data-follows-a-multivariate-normal-distribution" class="nav-link" data-scroll-target="#can-you-assume-that-the-data-follows-a-multivariate-normal-distribution">Can you assume that the data follows a multivariate normal distribution?</a></li>
+  <li><a href="#can-we-find-groups-in-this-data" id="toc-can-we-find-groups-in-this-data" class="nav-link" data-scroll-target="#can-we-find-groups-in-this-data">Can we find groups in this data</a></li>
+  <li><a href="#can-we-reproduce-fig.2" id="toc-can-we-reproduce-fig.2" class="nav-link" data-scroll-target="#can-we-reproduce-fig.2">Can we reproduce Fig.2</a></li>
+  </ul></li>
+  <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion">Discussion</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
+</div>
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
@@ -112,150 +135,47 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="introduction" class="level3">
-<h3 class="anchored" data-anchor-id="introduction">Introduction</h3>
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
 <p>The original article, PIXE analysis on Maya blue in Prehispanic and colonial mural paintings, by Sanchez del Rio et al (2006), sampled, analysed and grouped using PCA on murals containing Maya Blue across different archaeological sites. Across the sites they collected 35 samples from murals and either the elements concentration percent or the ratio of micro gram to gram ratio of that element in the mural. From these murals they sampled 17 different chemical elements from sodium to lead. They found with their PCA that 70% of the total variance in the sample population can be described using only the first three principle components and was similar to what was observed in other art forms. The three zones found were CEC, Prehispanic, and convents. with the first clustering in a small group separate from the rest of the samples.</p>
 <p>The aim of this analysis is too find groups within the data and reproduce what was found in the original paper. The reason for this is to support the conclusions made by Sanchez del rio et al (2006) about the 3 zones found in the data during their analysis. By doing this we can reassert the claims made about the differences between the different types of murals and their distinct zones of style. This report will contain both a quantitative and qualitative analysis of the data, as well as PCA and cluster analysis to explore the possible groups in the data.</p>
 </section>
-<section id="method" class="level3">
-<h3 class="anchored" data-anchor-id="method">Method</h3>
-<p>Explain Data: Number of observations, variables, variables measured, and mention/reference table 1 from paper.</p>
-<p>Statistical Methods we are going to use} (Can put code in here for what we do to show the method of doing it if needed but I will talk to lecturer about if we need to or not.</p>
-<p>We are doing this on the elements, comparing them to each other to find patterns, etc. names down the rows of the table are just the observations</p>
-<p>Methods we are doing based off lectures, can change if needed</p>
+<section id="methodology" class="level1">
+<h1>Methodology</h1>
+<section id="data-transformation" class="level2">
+<h2 class="anchored" data-anchor-id="data-transformation">Data Transformation</h2>
+<p>There are a few issues with the original data set in Table 1 that need to be addressed before performing the analysis.</p>
 <ol type="1">
-<li>Data Transformation</li>
-</ol>
-<p>There are a few problems with the original data set given in Table 1 of the original paper that need to be corrected to accurately analysis the data. 1. Original Data contains both percentages and Ratios of ug/g (micro gram/gram) concentrations of elements in each mural sample. This makes the two sets of concentrations incomparable due to percentages ceiling of 100. To fix this a log10 transformation will be done on the data, as done in the original paper. 2. To do a log10 transformation we must deal with the () bracketed values in the ratio concentrations. These are estimated concentrations that are below the detection limit. To deal with this in the data we can just treat them as the values estimated and remove the brackets for analysis. 3. Lastly we need to deal with the [] in the data set. These values are specifically listed as 0, but aren’t considered 0. These values are considered close to the detection limit. As log10(0) is not a real number, for the analysis we will convert 0’s in the dataset to 0.1 as a pseudo-count. This will both allow us to compute these values and not shrink the sample size.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Change table around to long ways for boxplots in future as current table arrangement didnt work.</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#This one incase we need it for the non-transformed. </span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>Table1_long <span class="ot">&lt;-</span> Table1 <span class="sc">%&gt;%</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="sc">-</span>Elements,</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"Element_Group"</span>,     </span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"Concentrations"</span>   </span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co">#Main Table we use for boxplot</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>Table1_long_log <span class="ot">&lt;-</span> Table1_log <span class="sc">%&gt;%</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="sc">-</span>Elements,</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"Element_Group"</span>,     </span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"Concentrations"</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<ol start="2" type="1">
-<li>Descriptive Statistics (mean, median, sd, min, max of each variable)</li>
-</ol>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Box Plot of transformed data</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>decp_boxplot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> Table1_long_log, <span class="fu">aes</span>(<span class="at">x =</span> Element_Group, <span class="at">y =</span> Concentrations)) <span class="sc">+</span> </span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">fill =</span> Element_Group), <span class="at">notch =</span> <span class="cn">TRUE</span>, <span class="at">outlier.shape =</span> <span class="fl">1.5</span>) <span class="sc">+</span> </span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">7</span>, <span class="at">angle =</span> <span class="dv">90</span>, <span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">vjust =</span> <span class="fl">0.5</span>), </span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<ol start="3" type="1">
-<li><p>Check normality</p>
-<ol type="1">
-<li>Mahalanobis Distance Plot</li>
-</ol></li>
-</ol>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>Table1_elements_log <span class="ot">&lt;-</span> Table1_log[, <span class="sc">-</span><span class="dv">1</span>]</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>mu_hat <span class="ot">&lt;-</span> <span class="fu">colMeans</span>(Table1_elements_log)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>Sigma_hat <span class="ot">&lt;-</span> <span class="fu">cov</span>(Table1_elements_log)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ncol</span>(Table1_elements_log)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>dM <span class="ot">&lt;-</span> <span class="fu">mahalanobis</span>(Table1_elements_log, <span class="at">center=</span>mu_hat, <span class="at">cov=</span>Sigma_hat)</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>upper.quantiles <span class="ot">&lt;-</span> <span class="fu">qchisq</span>(<span class="fu">c</span>(.<span class="dv">9</span>, .<span class="dv">95</span>, .<span class="dv">99</span>), <span class="at">df=</span>p)</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>density.at.quantiles <span class="ot">&lt;-</span> <span class="fu">dchisq</span>(<span class="at">x=</span>upper.quantiles, <span class="at">df=</span>p)</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>cut.points <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(upper.quantiles, density.at.quantiles)</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>dm_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="fu">data.frame</span>(dM), <span class="fu">aes</span>(<span class="at">x=</span>dM)) <span class="sc">+</span></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y=</span><span class="fu">after_stat</span>(density)), <span class="at">bins=</span><span class="fu">nclass.FD</span>(dM),</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill=</span><span class="st">"white"</span>, <span class="at">col=</span><span class="st">"black"</span>) <span class="sc">+</span></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_rug</span>() <span class="sc">+</span></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_function</span>(<span class="at">fun=</span>dchisq, <span class="at">args =</span> <span class="fu">list</span>(<span class="at">df=</span>p),</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>                <span class="at">col=</span><span class="st">"red"</span>, <span class="at">linewidth=</span><span class="dv">2</span>, <span class="at">alpha=</span>.<span class="dv">7</span>, <span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">25</span>)) <span class="sc">+</span></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="at">data=</span>cut.points,</span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>               <span class="fu">aes</span>(<span class="at">x=</span>upper.quantiles, <span class="at">xend=</span>upper.quantiles,</span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>                   <span class="at">y=</span><span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">3</span>), <span class="at">yend=</span>density.at.quantiles),</span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>               <span class="at">col=</span><span class="st">"blue"</span>, <span class="at">size=</span><span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Squared Mahalanobis distances and cut points"</span>) <span class="sc">+</span></span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Histogram and density"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
-ℹ Please use `linewidth` instead.</code></pre>
-</div>
-</div>
-<pre><code>2.  Chi-square</code></pre>
-<ol start="4" type="1">
-<li><p>Exploratory pairs plot 17x17 for the 17 variables</p>
-<ol type="1">
-<li><p>Histograms with notched box plots for each variable to show distribution</p></li>
-<li><p>contours to show 3rd box plots (can also just do heat map for with contours painted on)</p></li>
-<li><p>Mahalanobis-coloured scatter plots</p>
-<p>{All of this in one plot, as seen in the one in inference - 03.pdf</p></li>
-</ol></li>
-</ol>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>pairs <span class="ot">&lt;-</span> <span class="fu">ggpairs</span>(<span class="at">data =</span> Table1_elements_log, </span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>        ggplot2<span class="sc">::</span><span class="fu">aes</span>(<span class="at">alpha=</span>.<span class="dv">5</span>), <span class="co">#Add col=suprise when done the dm^2 work</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">upper =</span> <span class="fu">list</span>(<span class="at">continuous =</span> <span class="st">"density"</span>, <span class="at">combo =</span> <span class="st">"box_no_facet"</span>)) <span class="sc">+</span> </span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">scale_color_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">"lightgray"</span>, <span class="st">"green"</span>, <span class="st">"blue"</span>, <span class="st">"red"</span>)) <span class="sc">+</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle=</span><span class="dv">90</span>, <span class="at">hjust=</span><span class="dv">1</span>)) <span class="sc">+</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">theme</span>(</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text =</span> ggplot2<span class="sc">::</span><span class="fu">element_blank</span>(),</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.ticks =</span> ggplot2<span class="sc">::</span><span class="fu">element_blank</span>(),</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">strip.text =</span> ggplot2<span class="sc">::</span><span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">7</span>)</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<ol start="5" type="1">
-<li>Correlation Heat map</li>
-</ol>
-<ol start="6" type="1">
-<li><p>Principle component analysis (For the reproducing question)</p>
-<ol type="1">
-<li>Scree plot</li>
-<li>scores plot</li>
-<li>loadings</li>
-</ol></li>
-</ol>
-<ol start="7" type="1">
-<li>Cluster analysis</li>
+<li>Different concentration ranges: The original data contain elemental concentrations reported either as percentages or as µg/g (micrograms per gram). Because these measurements have substantially different concentration ranges, a (_{10}) transformation is applied to the concentrations. This follows the procedure used in the original paper, where the authors state that the logarithm of the concentrations was used to avoid large discrepancies in concentration range.</li>
+<li>Values below the detection limit: Some concentrations in Table 1 are reported in parentheses ( ). According to the original paper, these values are below the limit of detection (LOD). Since numerical estimates are still provided, these estimated concentrations are retained for the analysis and the parentheses are removed.</li>
+<li><h3 id="replace-with-awets-transformation-of-nas-and-0s" class="anchored">Replace with Awets transformation of NA’s and 0’s</h3></li>
 </ol>
 </section>
-<section id="results" class="level3">
-<h3 class="anchored" data-anchor-id="results">Results</h3>
-<ol type="1">
-<li>Show and explain through the analysis of what we described in the method. (Plots will go in here with explanations and thoughts under each.</li>
-</ol>
+</section>
+<section id="results" class="level1">
+<h1>Results</h1>
 <!-- -->
-<ol type="1">
-<li>Descriptive Statistics (mean, median, sd, min, max of each variable)</li>
-</ol>
+<section id="quantitative-descriptive-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="quantitative-descriptive-analysis">Quantitative Descriptive Analysis</h2>
 <div class="cell">
 <div class="cell-output-display">
-<div id="rahfkwmpvg" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#rahfkwmpvg table {
+<div id="huhjrsuxtv" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#huhjrsuxtv table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#rahfkwmpvg thead, #rahfkwmpvg tbody, #rahfkwmpvg tfoot, #rahfkwmpvg tr, #rahfkwmpvg td, #rahfkwmpvg th {
+#huhjrsuxtv thead, #huhjrsuxtv tbody, #huhjrsuxtv tfoot, #huhjrsuxtv tr, #huhjrsuxtv td, #huhjrsuxtv th {
   border-style: none;
 }
 
-#rahfkwmpvg p {
+#huhjrsuxtv p {
   margin: 0;
   padding: 0;
 }
 
-#rahfkwmpvg .gt_table {
+#huhjrsuxtv .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -281,12 +201,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-left-color: #D3D3D3;
 }
 
-#rahfkwmpvg .gt_caption {
+#huhjrsuxtv .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#rahfkwmpvg .gt_title {
+#huhjrsuxtv .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -298,7 +218,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-width: 0;
 }
 
-#rahfkwmpvg .gt_subtitle {
+#huhjrsuxtv .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -310,7 +230,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-width: 0;
 }
 
-#rahfkwmpvg .gt_heading {
+#huhjrsuxtv .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -322,13 +242,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#rahfkwmpvg .gt_bottom_border {
+#huhjrsuxtv .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#rahfkwmpvg .gt_col_headings {
+#huhjrsuxtv .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -343,7 +263,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#rahfkwmpvg .gt_col_heading {
+#huhjrsuxtv .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -363,7 +283,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#rahfkwmpvg .gt_column_spanner_outer {
+#huhjrsuxtv .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -375,15 +295,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 4px;
 }
 
-#rahfkwmpvg .gt_column_spanner_outer:first-child {
+#huhjrsuxtv .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#rahfkwmpvg .gt_column_spanner_outer:last-child {
+#huhjrsuxtv .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#rahfkwmpvg .gt_column_spanner {
+#huhjrsuxtv .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -395,11 +315,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   width: 100%;
 }
 
-#rahfkwmpvg .gt_spanner_row {
+#huhjrsuxtv .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#rahfkwmpvg .gt_group_heading {
+#huhjrsuxtv .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -425,7 +345,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   text-align: left;
 }
 
-#rahfkwmpvg .gt_empty_group_heading {
+#huhjrsuxtv .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -440,15 +360,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: middle;
 }
 
-#rahfkwmpvg .gt_from_md > :first-child {
+#huhjrsuxtv .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#rahfkwmpvg .gt_from_md > :last-child {
+#huhjrsuxtv .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#rahfkwmpvg .gt_row {
+#huhjrsuxtv .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -467,7 +387,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#rahfkwmpvg .gt_stub {
+#huhjrsuxtv .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -480,7 +400,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#rahfkwmpvg .gt_stub_row_group {
+#huhjrsuxtv .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -494,15 +414,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: top;
 }
 
-#rahfkwmpvg .gt_row_group_first td {
+#huhjrsuxtv .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#rahfkwmpvg .gt_row_group_first th {
+#huhjrsuxtv .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#rahfkwmpvg .gt_summary_row {
+#huhjrsuxtv .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -512,16 +432,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#rahfkwmpvg .gt_first_summary_row {
+#huhjrsuxtv .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#rahfkwmpvg .gt_first_summary_row.thick {
+#huhjrsuxtv .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#rahfkwmpvg .gt_last_summary_row {
+#huhjrsuxtv .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -531,7 +451,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#rahfkwmpvg .gt_grand_summary_row {
+#huhjrsuxtv .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -541,7 +461,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#rahfkwmpvg .gt_first_grand_summary_row {
+#huhjrsuxtv .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -551,7 +471,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-color: #D3D3D3;
 }
 
-#rahfkwmpvg .gt_last_grand_summary_row_top {
+#huhjrsuxtv .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -561,11 +481,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#rahfkwmpvg .gt_striped {
+#huhjrsuxtv .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#rahfkwmpvg .gt_table_body {
+#huhjrsuxtv .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -574,7 +494,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#rahfkwmpvg .gt_footnotes {
+#huhjrsuxtv .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -588,7 +508,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#rahfkwmpvg .gt_footnote {
+#huhjrsuxtv .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -597,7 +517,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#rahfkwmpvg .gt_sourcenotes {
+#huhjrsuxtv .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -611,7 +531,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#rahfkwmpvg .gt_sourcenote {
+#huhjrsuxtv .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -619,72 +539,72 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#rahfkwmpvg .gt_left {
+#huhjrsuxtv .gt_left {
   text-align: left;
 }
 
-#rahfkwmpvg .gt_center {
+#huhjrsuxtv .gt_center {
   text-align: center;
 }
 
-#rahfkwmpvg .gt_right {
+#huhjrsuxtv .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#rahfkwmpvg .gt_font_normal {
+#huhjrsuxtv .gt_font_normal {
   font-weight: normal;
 }
 
-#rahfkwmpvg .gt_font_bold {
+#huhjrsuxtv .gt_font_bold {
   font-weight: bold;
 }
 
-#rahfkwmpvg .gt_font_italic {
+#huhjrsuxtv .gt_font_italic {
   font-style: italic;
 }
 
-#rahfkwmpvg .gt_super {
+#huhjrsuxtv .gt_super {
   font-size: 65%;
 }
 
-#rahfkwmpvg .gt_footnote_marks {
+#huhjrsuxtv .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#rahfkwmpvg .gt_asterisk {
+#huhjrsuxtv .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#rahfkwmpvg .gt_indent_1 {
+#huhjrsuxtv .gt_indent_1 {
   text-indent: 5px;
 }
 
-#rahfkwmpvg .gt_indent_2 {
+#huhjrsuxtv .gt_indent_2 {
   text-indent: 10px;
 }
 
-#rahfkwmpvg .gt_indent_3 {
+#huhjrsuxtv .gt_indent_3 {
   text-indent: 15px;
 }
 
-#rahfkwmpvg .gt_indent_4 {
+#huhjrsuxtv .gt_indent_4 {
   text-indent: 20px;
 }
 
-#rahfkwmpvg .gt_indent_5 {
+#huhjrsuxtv .gt_indent_5 {
   text-indent: 25px;
 }
 
-#rahfkwmpvg .katex-display {
+#huhjrsuxtv .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#rahfkwmpvg div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#huhjrsuxtv div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -749,9 +669,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Elements">17-Cl*</td>
-<td class="gt_row gt_right" headers="M">0.20</td>
-<td class="gt_row gt_right" headers="SD">0.32</td>
-<td class="gt_row gt_right" headers="Median">0.08</td>
+<td class="gt_row gt_right" headers="M">0.19</td>
+<td class="gt_row gt_right" headers="SD">0.33</td>
+<td class="gt_row gt_right" headers="Median">0.07</td>
 <td class="gt_row gt_right" headers="Min">0.01</td>
 <td class="gt_row gt_right" headers="Max">1.36</td>
 </tr>
@@ -781,10 +701,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Elements">15-P</td>
-<td class="gt_row gt_right" headers="M">4,759.19</td>
-<td class="gt_row gt_right" headers="SD">18,652.00</td>
-<td class="gt_row gt_right" headers="Median">0.10</td>
-<td class="gt_row gt_right" headers="Min">0.10</td>
+<td class="gt_row gt_right" headers="M">4,802.86</td>
+<td class="gt_row gt_right" headers="SD">18,640.58</td>
+<td class="gt_row gt_right" headers="Median">85.00</td>
+<td class="gt_row gt_right" headers="Min">85.00</td>
 <td class="gt_row gt_right" headers="Max">99,600.00</td>
 </tr>
 <tr class="odd">
@@ -813,10 +733,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Elements">29-Cu</td>
-<td class="gt_row gt_right" headers="M">12.35</td>
-<td class="gt_row gt_right" headers="SD">9.75</td>
+<td class="gt_row gt_right" headers="M">12.37</td>
+<td class="gt_row gt_right" headers="SD">9.71</td>
 <td class="gt_row gt_right" headers="Median">10.00</td>
-<td class="gt_row gt_right" headers="Min">0.10</td>
+<td class="gt_row gt_right" headers="Min">1.00</td>
 <td class="gt_row gt_right" headers="Max">40.00</td>
 </tr>
 <tr class="odd">
@@ -848,24 +768,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </div>
 </div>
+</div>
+<div class="cell">
 <div class="cell-output-display">
-<div id="tzscjjplhk" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#tzscjjplhk table {
+<div id="rfagzciruf" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#rfagzciruf table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#tzscjjplhk thead, #tzscjjplhk tbody, #tzscjjplhk tfoot, #tzscjjplhk tr, #tzscjjplhk td, #tzscjjplhk th {
+#rfagzciruf thead, #rfagzciruf tbody, #rfagzciruf tfoot, #rfagzciruf tr, #rfagzciruf td, #rfagzciruf th {
   border-style: none;
 }
 
-#tzscjjplhk p {
+#rfagzciruf p {
   margin: 0;
   padding: 0;
 }
 
-#tzscjjplhk .gt_table {
+#rfagzciruf .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -891,12 +813,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-left-color: #D3D3D3;
 }
 
-#tzscjjplhk .gt_caption {
+#rfagzciruf .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#tzscjjplhk .gt_title {
+#rfagzciruf .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -908,7 +830,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-width: 0;
 }
 
-#tzscjjplhk .gt_subtitle {
+#rfagzciruf .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -920,7 +842,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-width: 0;
 }
 
-#tzscjjplhk .gt_heading {
+#rfagzciruf .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -932,13 +854,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#tzscjjplhk .gt_bottom_border {
+#rfagzciruf .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#tzscjjplhk .gt_col_headings {
+#rfagzciruf .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -953,7 +875,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#tzscjjplhk .gt_col_heading {
+#rfagzciruf .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -973,7 +895,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#tzscjjplhk .gt_column_spanner_outer {
+#rfagzciruf .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -985,15 +907,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 4px;
 }
 
-#tzscjjplhk .gt_column_spanner_outer:first-child {
+#rfagzciruf .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#tzscjjplhk .gt_column_spanner_outer:last-child {
+#rfagzciruf .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#tzscjjplhk .gt_column_spanner {
+#rfagzciruf .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1005,11 +927,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   width: 100%;
 }
 
-#tzscjjplhk .gt_spanner_row {
+#rfagzciruf .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#tzscjjplhk .gt_group_heading {
+#rfagzciruf .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1035,7 +957,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   text-align: left;
 }
 
-#tzscjjplhk .gt_empty_group_heading {
+#rfagzciruf .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1050,15 +972,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: middle;
 }
 
-#tzscjjplhk .gt_from_md > :first-child {
+#rfagzciruf .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#tzscjjplhk .gt_from_md > :last-child {
+#rfagzciruf .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#tzscjjplhk .gt_row {
+#rfagzciruf .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1077,7 +999,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#tzscjjplhk .gt_stub {
+#rfagzciruf .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1090,7 +1012,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#tzscjjplhk .gt_stub_row_group {
+#rfagzciruf .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1104,15 +1026,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: top;
 }
 
-#tzscjjplhk .gt_row_group_first td {
+#rfagzciruf .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#tzscjjplhk .gt_row_group_first th {
+#rfagzciruf .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#tzscjjplhk .gt_summary_row {
+#rfagzciruf .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1122,16 +1044,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#tzscjjplhk .gt_first_summary_row {
+#rfagzciruf .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#tzscjjplhk .gt_first_summary_row.thick {
+#rfagzciruf .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#tzscjjplhk .gt_last_summary_row {
+#rfagzciruf .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1141,7 +1063,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#tzscjjplhk .gt_grand_summary_row {
+#rfagzciruf .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1151,7 +1073,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#tzscjjplhk .gt_first_grand_summary_row {
+#rfagzciruf .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1161,7 +1083,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-color: #D3D3D3;
 }
 
-#tzscjjplhk .gt_last_grand_summary_row_top {
+#rfagzciruf .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1171,11 +1093,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#tzscjjplhk .gt_striped {
+#rfagzciruf .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#tzscjjplhk .gt_table_body {
+#rfagzciruf .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1184,7 +1106,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#tzscjjplhk .gt_footnotes {
+#rfagzciruf .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1198,7 +1120,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#tzscjjplhk .gt_footnote {
+#rfagzciruf .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1207,7 +1129,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#tzscjjplhk .gt_sourcenotes {
+#rfagzciruf .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1221,7 +1143,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#tzscjjplhk .gt_sourcenote {
+#rfagzciruf .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1229,72 +1151,72 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#tzscjjplhk .gt_left {
+#rfagzciruf .gt_left {
   text-align: left;
 }
 
-#tzscjjplhk .gt_center {
+#rfagzciruf .gt_center {
   text-align: center;
 }
 
-#tzscjjplhk .gt_right {
+#rfagzciruf .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#tzscjjplhk .gt_font_normal {
+#rfagzciruf .gt_font_normal {
   font-weight: normal;
 }
 
-#tzscjjplhk .gt_font_bold {
+#rfagzciruf .gt_font_bold {
   font-weight: bold;
 }
 
-#tzscjjplhk .gt_font_italic {
+#rfagzciruf .gt_font_italic {
   font-style: italic;
 }
 
-#tzscjjplhk .gt_super {
+#rfagzciruf .gt_super {
   font-size: 65%;
 }
 
-#tzscjjplhk .gt_footnote_marks {
+#rfagzciruf .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#tzscjjplhk .gt_asterisk {
+#rfagzciruf .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#tzscjjplhk .gt_indent_1 {
+#rfagzciruf .gt_indent_1 {
   text-indent: 5px;
 }
 
-#tzscjjplhk .gt_indent_2 {
+#rfagzciruf .gt_indent_2 {
   text-indent: 10px;
 }
 
-#tzscjjplhk .gt_indent_3 {
+#rfagzciruf .gt_indent_3 {
   text-indent: 15px;
 }
 
-#tzscjjplhk .gt_indent_4 {
+#rfagzciruf .gt_indent_4 {
   text-indent: 20px;
 }
 
-#tzscjjplhk .gt_indent_5 {
+#rfagzciruf .gt_indent_5 {
   text-indent: 25px;
 }
 
-#tzscjjplhk .katex-display {
+#rfagzciruf .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#tzscjjplhk div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#rfagzciruf div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1359,10 +1281,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Elements">17-Cl*</td>
-<td class="gt_row gt_right" headers="M">−1.02</td>
-<td class="gt_row gt_right" headers="SD">0.52</td>
-<td class="gt_row gt_right" headers="Median">−1.10</td>
-<td class="gt_row gt_right" headers="Min">−2.00</td>
+<td class="gt_row gt_right" headers="M">−1.14</td>
+<td class="gt_row gt_right" headers="SD">0.63</td>
+<td class="gt_row gt_right" headers="Median">−1.15</td>
+<td class="gt_row gt_right" headers="Min">−2.30</td>
 <td class="gt_row gt_right" headers="Max">0.13</td>
 </tr>
 <tr class="odd">
@@ -1391,10 +1313,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Elements">15-P</td>
-<td class="gt_row gt_right" headers="M">1.03</td>
-<td class="gt_row gt_right" headers="SD">2.17</td>
-<td class="gt_row gt_right" headers="Median">−1.00</td>
-<td class="gt_row gt_right" headers="Min">−1.00</td>
+<td class="gt_row gt_right" headers="M">2.53</td>
+<td class="gt_row gt_right" headers="SD">0.78</td>
+<td class="gt_row gt_right" headers="Median">1.93</td>
+<td class="gt_row gt_right" headers="Min">1.93</td>
 <td class="gt_row gt_right" headers="Max">5.00</td>
 </tr>
 <tr class="odd">
@@ -1423,10 +1345,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Elements">29-Cu</td>
-<td class="gt_row gt_right" headers="M">0.92</td>
-<td class="gt_row gt_right" headers="SD">0.48</td>
+<td class="gt_row gt_right" headers="M">0.95</td>
+<td class="gt_row gt_right" headers="SD">0.38</td>
 <td class="gt_row gt_right" headers="Median">1.00</td>
-<td class="gt_row gt_right" headers="Min">−1.00</td>
+<td class="gt_row gt_right" headers="Min">0.00</td>
 <td class="gt_row gt_right" headers="Max">1.60</td>
 </tr>
 <tr class="odd">
@@ -1459,69 +1381,146 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>Box Plot</p>
-<div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>Notch went outside hinges
-ℹ Do you want `notch = FALSE`?</code></pre>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Group_8_File_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-<ol start="2" type="1">
-<li>Normality Check</li>
-</ol>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Group_8_File_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-<ol start="3" type="1">
-<li>Correlation Heat map</li>
-</ol>
-<ol start="4" type="1">
-<li>Exploratory pairs plot 17x17 for the 17 variables</li>
-</ol>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Group_8_File_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-<ol start="5" type="1">
-<li>Principle component analysis (For the reproducing question)</li>
-</ol>
-<ol start="6" type="1">
-<li>Cluster analysis</li>
-</ol>
 </section>
-<section id="discussion" class="level3">
-<h3 class="anchored" data-anchor-id="discussion">Discussion</h3>
+<section id="graphical-and-qualitative-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="graphical-and-qualitative-analysis">Graphical and Qualitative Analysis</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Group_8_File_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="are-there-surprising-observations" class="level2">
+<h2 class="anchored" data-anchor-id="are-there-surprising-observations">Are There Surprising Observations?</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Group_8_File_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  typical  somewhat Suprising      very 
+       30         4         1         0 </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Sample       dM  surprise
+1 TAJ1_4 29.34327 Suprising
+2 Tot1_1 26.66402  somewhat
+3 TAJ1_1 26.47125  somewhat
+4 Jiu1_1 25.79784  somewhat
+5 Cec1_3 24.90653  somewhat</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Group_8_File_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="can-you-assume-that-the-data-follows-a-multivariate-normal-distribution" class="level2">
+<h2 class="anchored" data-anchor-id="can-you-assume-that-the-data-follows-a-multivariate-normal-distribution">Can you assume that the data follows a multivariate normal distribution?</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#We use the DM^2 values and compare them to the chi-square quantiles.</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>qq_elements <span class="ot">&lt;-</span> Table1_elements_log[, <span class="sc">-</span><span class="fu">c</span>(<span class="dv">18</span>, <span class="dv">19</span>)]</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(qq_elements)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ncol</span>(qq_elements)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>chi_quantiles <span class="ot">&lt;-</span> <span class="fu">qchisq</span>(</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ppoints</span>(n),</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">df =</span> p</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>qq_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">Theoretical =</span> <span class="fu">qchisq</span>(<span class="fu">ppoints</span>(n), <span class="at">df =</span> p),</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">Observed =</span> <span class="fu">sort</span>(dM)</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co">#Plot</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>normality_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(qq_data,<span class="fu">aes</span>(<span class="at">x =</span> Theoretical, <span class="at">y =</span> Observed)) <span class="sc">+</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">intercept =</span> <span class="dv">0</span>,</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">slope =</span> <span class="dv">1</span>,</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">linetype =</span> <span class="st">"dashed"</span>,</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Theoretical chi-square(17) quantiles"</span>,</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Ordered dm^2"</span>,</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Multivariate Q-Q Plot"</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>normality_plot</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Group_8_File_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>mvn_result <span class="ot">&lt;-</span> <span class="fu">mvn</span>(</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> qq_elements,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">mvn_test =</span> <span class="st">"mardia"</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>mvn_result<span class="sc">$</span>multivariate_normality</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             Test Statistic p.value     Method          MVN
+1 Mardia Skewness  1095.997   0.003 asymptotic ✗ Not normal
+2 Mardia Kurtosis    -0.434   0.664 asymptotic     ✓ Normal</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>mvn_result<span class="sc">$</span>univariate_normality</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>               Test Variable Statistic p.value    Normality
+1  Anderson-Darling   11-Na*     0.416   0.315     ✓ Normal
+2  Anderson-Darling   12-Mg*     0.503   0.192     ✓ Normal
+3  Anderson-Darling   13-Al*     0.438   0.278     ✓ Normal
+4  Anderson-Darling   14-Si*     0.318   0.523     ✓ Normal
+5  Anderson-Darling    16-S*     0.587   0.119     ✓ Normal
+6  Anderson-Darling   17-Cl*     0.673   0.072     ✓ Normal
+7  Anderson-Darling    19-K*     0.214   0.837     ✓ Normal
+8  Anderson-Darling   20-Ca*     2.670  &lt;0.001 ✗ Not normal
+9  Anderson-Darling   26-Fe*     0.317   0.524     ✓ Normal
+10 Anderson-Darling     15-P     3.143  &lt;0.001 ✗ Not normal
+11 Anderson-Darling    22-Ti     0.328   0.506     ✓ Normal
+12 Anderson-Darling    25-Mn     2.809  &lt;0.001 ✗ Not normal
+13 Anderson-Darling    28-Ni     0.812   0.032 ✗ Not normal
+14 Anderson-Darling    29-Cu     0.233   0.783     ✓ Normal
+15 Anderson-Darling    30-Zn     0.690   0.065     ✓ Normal
+16 Anderson-Darling    38-Sr     0.450   0.261     ✓ Normal
+17 Anderson-Darling    82-Pb     0.412   0.323     ✓ Normal</code></pre>
+</div>
+</div>
+</section>
+<section id="can-we-find-groups-in-this-data" class="level2">
+<h2 class="anchored" data-anchor-id="can-we-find-groups-in-this-data">Can we find groups in this data</h2>
+</section>
+<section id="can-we-reproduce-fig.2" class="level2">
+<h2 class="anchored" data-anchor-id="can-we-reproduce-fig.2">Can we reproduce Fig.2</h2>
+</section>
+</section>
+<section id="discussion" class="level1">
+<h1>Discussion</h1>
 <p>Answering the questions from the document and any other conclusions we have from the analysis</p>
 <ol type="1">
 <li>Can you find groups in these data?</li>
 <li>Can you reproduce Fig. 2? Do you agree with the conclusions the authors draw about the “zones”?</li>
 </ol>
-<section id="references" class="level4" style="text-align: center;">
-<h4 style="text-align: center;" class="anchored" data-anchor-id="references">References</h4>
+</section>
+<section id="references" class="level1" style="text-align: center;">
+<h1 style="text-align: center;">References</h1>
 <blockquote class="blockquote">
 <p>Andonie, R., and I. Dzitac. 2010. “How to Write a Good Paper in Computer Science and How Will It Be Measured by ISI Web of Knowledge.” International Journal of Computers, Communications &amp; Control V (4): 432–44. https://doi.org/10.15837/ijccc.2010.4.2493.</p>
 <p>Frery, A. C., L. Gomez, and A. C. Medeiros. 2020. “A Badging System for Reproducibility and Replicability in Remote Sensing Research.” IEEE Journal of Selected Topics on Applied Earth Observations and Remote Sensing 13: 4988–95. https://doi.org/10.1109/JSTARS.2020.3019 418.</p>
 <p>Sánchez del Río, M., Martinetto, P., Solís, C. &amp; Reyes-Valerio, C. (2006), ‘PIXE analysis on Maya blue in Prehispanic and colonial mural paintings’, Nuclear Instruments and Methods in Physics Research Section B: Beam Interactions with Materials and Atoms 249(1–2), 628–632.</p>
 </blockquote>
-</section>
 </section>
 
 </main>
