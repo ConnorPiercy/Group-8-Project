@@ -97,6 +97,9 @@ desc_pixe <- Table1 %>%
         SD = ~sd(.x, na.rm = TRUE),
         Median = ~median(.x, na.rm = TRUE),
         Min = ~min(.x, na.rm =TRUE),
+        Q1 = ~round(quantile(.x, probs = 0.25, na.rm = TRUE),2),
+        IQR = ~round((quantile(.x, probs = 0.75, na.rm =TRUE) - quantile(.x, probs = 0.25, na.rm = TRUE)), 2),
+        Q3 = ~round(quantile(.x, probs = 0.75, na.rm = TRUE),2),
         Max = ~max(.x, na.rm =TRUE)
       )
     )
@@ -117,9 +120,12 @@ output_desc_pix <- desc_pixe %>%
   cols_label(
     Elements = "Element",
     M = md("Mean"),
-    SD = md("*SD*"),
+    SD = md("Standard D."),
     Median = "Median",
     Min = "Minimum",
+    Q1 = "1st Quartile",
+    IQR = "Inter-Q Range",
+    Q3 = "3rd Quartile",
     Max = "Maximum"
   ) %>% 
   fmt_number(
@@ -148,6 +154,9 @@ desc_pixe_log <- Table1_log %>%
         SD = ~sd(.x, na.rm = TRUE),
         Median = ~median(.x, na.rm = TRUE),
         Min = ~min(.x, na.rm =TRUE),
+        Q1 = ~round(quantile(.x, probs = 0.25, na.rm = TRUE),2),
+        IQR = ~round((quantile(.x, probs = 0.75, na.rm =TRUE) - quantile(.x, probs = 0.25, na.rm = TRUE)), 2),
+        Q3 = ~round(quantile(.x, probs = 0.75, na.rm = TRUE),2),
         Max = ~max(.x, na.rm =TRUE)
       )
     )
@@ -167,9 +176,12 @@ output_desc_pix_log <- desc_pixe_log %>%
   cols_label(
     Elements = "Element",
     M = md("Mean"),
-    SD = md("*SD*"),
+    SD = md("Standard D."),
     Median = "Median",
     Min = "Minimum",
+    Q1 = "1st Quartile",
+    IQR = "Inter-Q Range",
+    Q3 = "3rd Quartile",
     Max = "Maximum"
   ) %>% 
   fmt_number(
