@@ -215,16 +215,6 @@ decp_boxplot <- ggplot(data = Table1_long_log, aes(x = Element_Group, y = Concen
 decp_boxplot
 ```
 
-## Correlation Hotmap
-
-```{r}
-#| echo: false
-ggcorrplot(cor(Table1_log[,-(1:2)]),
-           method = "circle",
-           hc.order = TRUE,
-           type = "lower")
-```
-
 ## Are There Surprising Observations?
 
 ```{r}
@@ -381,7 +371,7 @@ qq_data <- data.frame(
   Observed = sort(dM)
 )
 
-#Plot
+#Chi-square QQ-plot
 normality_plot <- ggplot(qq_data,aes(x = Theoretical, y = Observed)) +
   geom_point(size = 2) +
   geom_abline(intercept = 0,
@@ -395,6 +385,7 @@ normality_plot <- ggplot(qq_data,aes(x = Theoretical, y = Observed)) +
   theme_minimal()
 normality_plot
 
+#Mardia Multivariate Normal Test and individual anderson-darling tests of normality
 mvn_result <- mvn(
   data = qq_elements,
   mvn_test = "mardia"
@@ -406,13 +397,24 @@ mvn_result$univariate_normality
 ## Can we find groups in this data
 
 ```{r}
+#| echo: false
+#Correlation Heatmap: Pablo
+ggcorrplot(cor(Table1_log[,-(1:2)]),
+           method = "circle",
+           hc.order = TRUE,
+           type = "lower")
+```
 
+```{r}
+#| echo: false
+#PCA
 ```
 
 ## Can we reproduce Fig.2
 
 ```{r}
-
+#| echo: false
+#Cluster Analysis
 ```
 
 # Discussion
