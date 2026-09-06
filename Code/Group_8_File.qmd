@@ -26,22 +26,18 @@ Table1$`29-Cu` <- as.numeric(Table1$`29-Cu`)
 
 # Introduction
 
-The original article, PIXE analysis on Maya blue in Prehispanic and colonial mural paintings, by Sanchez del Rio et al (2006), sampled, analysed and grouped using PCA on murals containing Maya Blue across different archaeological sites. Across the sites they collected 35 samples from murals and either the elements concentration percent or the ratio of micro gram to gram ratio of that element in the mural. From these murals they sampled 17 different chemical elements from sodium to lead. They found with their PCA that 70% of the total variance in the sample population can be described using only the first three principle components and was similar to what was observed in other art forms. The three zones found were CEC, Prehispanic, and convents. with the first clustering in a small group separate from the rest of the samples.
+  The original article, PIXE analysis on Maya blue in Prehispanic and colonial mural paintings, by Sanchez del Rio et al (2006), sampled, analysed and grouped using PCA on murals containing Maya Blue across different archaeological sites. Across the sites they collected 35 samples from murals and either the elements concentration percent or the ratio of micro gram to gram ratio of that element in the mural. From these murals they sampled 17 different chemical elements from sodium to lead. They found with their PCA that 70% of the total variance in the sample population can be described using only the first three principle components and was similar to what was observed in other art forms. The three zones found were CEC, Prehispanic, and convents. with the first clustering in a small group separate from the rest of the samples.
 
-The aim of this analysis is too find groups within the data and reproduce what was found in the original paper. The reason for this is to support the conclusions made by Sanchez del rio et al (2006) about the 3 zones found in the data during their analysis. By doing this we can reassert the claims made about the differences between the different types of murals and their distinct zones of style. This report will contain both a quantitative and qualitative analysis of the data, as well as PCA and cluster analysis to explore the possible groups in the data.
+  The aim of this analysis is too find groups within the data and reproduce what was found in the original paper. The reason for this is to support the conclusions made by Sanchez del rio et al (2006) about the 3 zones found in the data during their analysis. By doing this we can reassert the claims made about the differences between the different types of murals and their distinct zones of style. This report will contain both a quantitative and qualitative analysis of the data, as well as PCA and cluster analysis to explore the possible groups in the data.
 
 # Methodology
 
-## Data Transformation 
-
-There are a few issues with the original data set in Table 1 that need to be addressed before performing the analysis.
-
-1. Different concentration ranges: The original data contain elemental concentrations reported either as percentages or as µg/g (micrograms per gram). Because these measurements have substantially different concentration ranges, a \(\log_{10}\) transformation is applied to the concentrations. This follows the procedure used in the original paper, where the authors state that the logarithm of the concentrations was used to avoid large discrepancies in concentration range.
-2. Values below the detection limit: Some concentrations in Table 1 are reported in parentheses ( ). According to the original paper, these values are below the limit of detection (LOD). Since numerical estimates are still provided, these estimated concentrations are retained for the analysis and the parentheses are removed.
-3. ### Replace with Awets transformation of NA's and 0's 
+## Data Transformation
+  The data was transformed in line with the original study to be able to address different issues with comparison and estimating of element concentrations. Different concentration ranges: The original data contain elemental concentrations reported either as percentages or as µg/g (micrograms per gram). Because these measurements have substantially different concentration ranges, a (\log\_{10}) transformation is applied to the concentrations. This follows the procedure used in the original paper, where the authors state that the logarithm of the concentrations was used to avoid large discrepancies in concentration range. Values below the detection limit: Some concentrations in Table 1 are reported in parentheses ( ). According to the original paper, these values are below the limit of detection (LOD). Since numerical estimates are still provided, these estimated concentrations are retained for the analysis and the parentheses are removed. Lastly we conducted a transformation of both NA and 0 values found in the data. Sanchez del Rio et al (2006) described that values that were given as 0's arent treated as 0's, and were instead concentrations that were below the detection limit, and as such were instead very small concentrations of elements. Moreover we cannot do a (\log\_{10}) transformation of the data if observations contain 0's. This leaves us to therefore transform these 0's into estimates to both do this transformation, and not remove concentrations that are there but very small. Therefore we run a function that runs through each column that is numeric, and then filters out any values that are less than or equal to zero, ignores NAs (na.rm = TRUE), finds the smallest remaining positive number, and divides it by two. Finally it checks every cell in that column. If a cell is either NA or exactly 0, it substitutes it with the replacement value.
 
 
 # Results
+
 <!-- -->
 
 ## Quantitative Descriptive Analysis
@@ -58,9 +54,14 @@ Table1 <- Table1 %>%
 # Replace values recorded as zero with half of the
 # smallest positive value for that element
 Table1 <- Table1 %>%
-  mutate(across(where(is.numeric),
-      ~ {replacement <- min(.x[.x > 0], na.rm = TRUE) / 2
-        ifelse(is.na(.x) | .x == 0,replacement, .x)}))
+  mutate(across(
+    where(is.numeric),
+    ~ replace(
+        .x,
+        is.na(.x) | .x == 0,
+        min(.x[.x > 0], na.rm = TRUE) / 2
+      )
+  ))
 
 #Log Table - Use as variables become comparable
 Table1_log <- Table1 %>% 
@@ -259,7 +260,6 @@ table(Table1_elements_log$suprise)
 dm_results
 ```
 
-
 ```{r}
 #| echo: false
 #| message: false
@@ -392,14 +392,15 @@ mvn_result$multivariate_normality
 mvn_result$univariate_normality
 ```
 
-
 ## Can we find groups in this data
+```{r}
+
+```
 
 ## Can we reproduce Fig.2
+```{r}
 
-
-
-
+```
 
 # Discussion
 
