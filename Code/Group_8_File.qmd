@@ -17,6 +17,7 @@ library(GGally)
 library(cowplot)
 library(MVN)
 library(ggcorrplot)
+library(mvtnorm)
 Table1_raw <- read_excel("../Data/Table1_raw.xlsx")
 
 Table1 <- read_excel("../Data/Table1_clean.xlsx")
@@ -142,6 +143,7 @@ output_desc_pix <- desc_pixe %>%
     table.font.size = 12
   )
 output_desc_pix
+gtsave(output_desc_pix, "output_desc_pix.png")
 ```
 
 ```{r}
@@ -399,16 +401,137 @@ mvn_result$univariate_normality
 ```{r}
 #| echo: false
 #Correlation Heatmap: Pablo
-ggcorrplot(cor(Table1_log[,-(1:2)]),
+#Fixed Issue with plot, changed to [,-1] as [,-(1:2)] includes columns 1 and 2, which removes 11-Na* from the plot
+#[,-1] removes only the elements column as intended
+ggcorrplot(cor(Table1_log[,-1]),
            method = "circle",
            hc.order = TRUE,
            type = "lower")
 ```
 
+\[need to explain correlogram here\]
+
+From the correlogram we can pick two examples of the relationships between elements existing in the data
+
+### Relationship between 12-Mg\* and 14-Si\*
+
+```{r}
+#| include: false
+#Look at two specific relationships too show off and talk about. 
+mu <- colMeans(Table1_log[,-1])
+Sigma <- var(Table1_log[,-1])
+rho <- cor(Table1_log[,-1])
+
+#Means
+(mu_mg_si <- mu[c("12-Mg*", "14-Si*")])
+#Covariance Matrix
+(Sigma_mg_si <- Sigma[c("12-Mg*", "14-Si*"), c("12-Mg*", "14-Si*")])
+#Correlation Matrix
+(rho_mg_si <- rho[c("12-Mg*", "14-Si*"), c("12-Mg*", "14-Si*")])
+```
+
+```{r}
+#| echo: false
+#| warning: false
+#| fig-width: 6
+#| fig-height: 6
+#| fig-align: center
+#Plot of 
+n <- 100
+x <- seq(mu_mg_si[1]-4*sqrt(Sigma_mg_si[1,1]),
+         mu_mg_si[1]+4*sqrt(Sigma_mg_si[1,1]), len=n)
+y <- seq(mu_mg_si[2]-4*sqrt(Sigma_mg_si[2,2]), 
+         mu_mg_si[2]+4*sqrt(Sigma_mg_si[2,2]), len=n)
+xy <- expand.grid(x=x, y=y)
+
+q.samp <- cbind(xy, prob=dmvnorm(xy, mean = mu_mg_si, sigma = Sigma_mg_si))
+
+ggplot(q.samp, aes(x=y, y=x, z=prob)) + 
+  geom_point(data=Table1_log, aes(y=`12-Mg*`, x=`14-Si*`, z=0)) +
+  geom_contour(bins=5, col="red") +
+  ylab("12-Mg*") + xlab("14-Si*") + ggtitle("Bivariate Scatterplot of 12-Mg* and 14-Si*", "With Two-Dimensional Density Contours") +
+  coord_fixed(
+    ylim = c(mu_mg_si[1]-4*sqrt(Sigma_mg_si[1,1]), mu_mg_si[1]+4*sqrt(Sigma_mg_si[1,1])),
+    xlim = c(mu_mg_si[2]-4*sqrt(Sigma_mg_si[2,2]), mu_mg_si[2]+4*sqrt(Sigma_mg_si[2,2]))
+    ) +
+  theme(axis.text.x = element_text(angle = 45))
+```
+
+We can see from the bivariate scatter plot that their is a clear positive relationship between 12-Mg and 14-Si. As we can see with the upward-sloping denisty contour lines, the when the log-transformed concentration of Si increases, the log-transformed concentration of Mg also tends to increase.
+
+### Relationship between 22-Ti and 17-CI\*
+
+```{r}
+#| include: false
+mu <- colMeans(Table1_log[,-1])
+Sigma <- var(Table1_log[,-1])
+rho <- cor(Table1_log[,-1])
+
+#Means
+(mu_mg_si <- mu[c("22-Ti", "17-Cl*")])
+#Covariance Matrix
+(Sigma_mg_si <- Sigma[c("22-Ti", "17-Cl*"), c("22-Ti", "17-Cl*")])
+#Correlation Matrix
+(rho_mg_si <- rho[c("22-Ti", "17-Cl*"), c("22-Ti", "17-Cl*")])
+```
+
+```{r}
+#| echo: false
+#| warning: false
+#| fig-width: 6
+#| fig-height: 6
+#| fig-align: center
+#Plot of 
+n <- 100
+x <- seq(mu_mg_si[1]-4*sqrt(Sigma_mg_si[1,1]),
+         mu_mg_si[1]+4*sqrt(Sigma_mg_si[1,1]), len=n)
+y <- seq(mu_mg_si[2]-4*sqrt(Sigma_mg_si[2,2]), 
+         mu_mg_si[2]+4*sqrt(Sigma_mg_si[2,2]), len=n)
+xy <- expand.grid(x=x, y=y)
+
+q.samp <- cbind(xy, prob=dmvnorm(xy, mean = mu_mg_si, sigma = Sigma_mg_si))
+
+ggplot(q.samp, aes(x=y, y=x, z=prob)) + 
+  geom_point(data=Table1_log, aes(y=`22-Ti`, x=`17-Cl*`, z=0)) +
+  geom_contour(bins=5, col="red") +
+  ylab("22-Ti") + xlab("17-Cl*") + ggtitle("Bivariate Scatterplot of 22-Ti and 17-Cl*", "With Two-Dimensional Density Contours") +
+  coord_fixed(
+    ylim = c(mu_mg_si[1]-4*sqrt(Sigma_mg_si[1,1]), mu_mg_si[1]+4*sqrt(Sigma_mg_si[1,1])),
+    xlim = c(mu_mg_si[2]-4*sqrt(Sigma_mg_si[2,2]), mu_mg_si[2]+4*sqrt(Sigma_mg_si[2,2]))
+    ) +
+  theme(axis.text.x = element_text(angle = 45))
+```
+
+As we can see from the Bivariate Scatter plot of 22-Ti and 17-Cl, there is a negative association between the log-transformed concentrations of the two elements. the downward oreientation of the density contours suggest that samples with higher Cl concentrations generally have lower Ti concentrations. However, this relationship is relatively weaker then the relationship shown between 12-Mg and 14-Si as indicated by the dispersion of points and broader contour lines.
+
+##PCA
+
+We can now conduct a Principle component analysis of the data to find how many groups are in the data. The Covariance matrix was used instead of the correlation matrix to keep inline with the original studies PCA.
+
 ```{r}
 #| echo: false
 #PCA
+PCA_log <- prcomp(Table1_log[,-1], 
+                  center=TRUE, 
+                  scale=FALSE)
+plot(PCA_log, type="l")
+
+PCA_variance <- data.frame(
+  PC = paste0("PC", 1:length(PCA_log$sdev)),
+  Eigenvalue = round(PCA_log$sdev^2, 3),
+  `Proportion of Variance (%)` =
+    round(100 * PCA_log$sdev^2 / sum(PCA_log$sdev^2), 2),
+  `Cumulative Variance (%)` =
+    round(100 * cumsum(PCA_log$sdev^2 / sum(PCA_log$sdev^2)), 2)
+)
+
+knitr::kable(
+  PCA_variance,
+  caption = "Variance explained by each principal component"
+)
 ```
+
+The first three principal components explained 77.08% of the total variance, with PC1, PC2, and PC3 accounting for 34.02%, 25.00%, and 18.05%, respectively. These results are broadly consistent with the original study, which reported 34.88%, 24.95%, and 11.32% for the first three components (Sanchez del Rio et al, 2006). The first two components are particularly similar. However the third principle component in our analysis is noticeably larger then the percentage of variance in the original study.
 
 ## Can we reproduce Fig.2
 
