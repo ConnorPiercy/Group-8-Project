@@ -18,6 +18,7 @@ library(cowplot)
 library(MVN)
 library(ggcorrplot)
 library(mvtnorm)
+library(knitr)
 Table1_raw <- read_excel("../Data/Table1_raw.xlsx")
 
 Table1 <- read_excel("../Data/Table1_clean.xlsx")
@@ -34,9 +35,17 @@ The aim of this analysis is too find groups within the data and reproduce what w
 
 # Methodology
 
+## Data
+```{r}
+#| echo: false
+kable(Table1)
+```
+
+Data for this analysis contains 35 samples of different types of murals from across regions of southern mexico (Sanchez del Rio et al, 2006). This data can be found in Table 1. of Sanchez del Rio et al's paper from 2006. 
+
 ## Data Transformation
 
-The data was transformed in line with the original study to be able to address different issues with comparison and estimating of element concentrations. Different concentration ranges: The original data contain elemental concentrations reported either as percentages or as µg/g (micrograms per gram). Because these measurements have substantially different concentration ranges, a (\log\_{10}) transformation is applied to the concentrations. This follows the procedure used in the original paper, where the authors state that the logarithm of the concentrations was used to avoid large discrepancies in concentration range. Values below the detection limit: Some concentrations in Table 1 are reported in parentheses ( ). According to the original paper, these values are below the limit of detection (LOD). Since numerical estimates are still provided, these estimated concentrations are retained for the analysis and the parentheses are removed. Lastly we conducted a transformation of both NA and 0 values found in the data. Sanchez del Rio et al (2006) described that values that were given as 0's arent treated as 0's, and were instead concentrations that were below the detection limit, and as such were instead very small concentrations of elements. Moreover we cannot do a (\log\_{10}) transformation of the data if observations contain 0's. This leaves us to therefore transform these 0's into estimates to both do this transformation, and not remove concentrations that are there but very small. Therefore we run a function that runs through each column that is numeric, and then filters out any values that are less than or equal to zero, ignores NAs (na.rm = TRUE), finds the smallest remaining positive number, and divides it by two. Finally it checks every cell in that column. If a cell is either NA or exactly 0, it substitutes it with the replacement value.
+The data was transformed in line with the original study to be able to address different issues with comparison and estimating of element concentrations. Different concentration ranges: The original data contain elemental concentrations reported either as percentages or as µg/g (micro grams per gram). Because these measurements have substantially different concentration ranges, a $log_10$ transformation is applied to the concentrations. This follows the procedure used in the original paper, where the authors state that the logarithm of the concentrations was used to avoid large discrepancies in concentration range. Values below the detection limit: Some concentrations in Table 1 are reported in parentheses ( ). According to the original paper, these values are below the limit of detection (LOD). Since numerical estimates are still provided, these estimated concentrations are retained for the analysis and the parentheses are removed. Lastly we conducted a transformation of both NA and 0 values found in the data. Sanchez del Rio et al (2006) described that values that were given as 0's aren't treated as 0's, and were instead concentrations that were below the detection limit, and as such were instead very small concentrations of elements. Moreover we cannot do a $log_10$ transformation of the data if observations contain 0's. This leaves us to therefore transform these 0's into estimates to both do this transformation, and not remove concentrations that are there but very small. Therefore we run a function that runs through each column that is numeric, and then filters out any values that are less than or equal to zero, ignores NAs (na.rm = TRUE), finds the smallest remaining positive number, and divides it by two. Finally it checks every cell in that column. If a cell is either NA or exactly 0, it substitutes it with the replacement value.
 
 # Results
 
@@ -217,10 +226,12 @@ decp_boxplot <- ggplot(data = Table1_long_log, aes(x = Element_Group, y = Concen
         legend.position = "none")
 decp_boxplot
 ```
-<<<<<<< HEAD
-The log-scale box plots show that transformation reduces, but does not remove, the pronounced differences in spread among elements. The trace variables remain particularly heterogeneous, while several major matrix components are more concentrated.
+The log-scale box plots show that transformation reduces, but does not remove, the pronounced differences in spread among elements. The trace variables remain particularly heterogeneous, while several major matrix components are more concentrated. We can see that Chlorine has the lowest mean of the 17 elements Titanium has the largest median. A number of the elements have outliers including Manganese with 4, Chlorine with 3, Phosphorous, Calcium and Nickel with 2, and finally Sodium and Aluminium having 1. This can be expected as certain types of murals 
+
+Notable due to the transformation of the data, and the large amount of NA's found in the samples for concentrations of Phosphorous, it contains a very large inter quartile range with, as well as having its median, 1st quatile, a minimum value all being 1.93. 
+
 ## Are There Surprising Observations?
-=======
+
 
 The log-scale boxplots show that transformation reduces, but does not remove, the pronounced differences in spread among elements. The trace variables remain particularly heterogeneous, while several major matrix components are more concentrated.
 
@@ -462,7 +473,7 @@ ggplot(q.samp, aes(x=y, y=x, z=prob)) +
     ylim = c(mu_mg_si[1]-4*sqrt(Sigma_mg_si[1,1]), mu_mg_si[1]+4*sqrt(Sigma_mg_si[1,1])),
     xlim = c(mu_mg_si[2]-4*sqrt(Sigma_mg_si[2,2]), mu_mg_si[2]+4*sqrt(Sigma_mg_si[2,2]))
     ) +
-  theme(axis.text.x = element_text(angle = 45))
+  theme_minimal()
 ```
 
 We can see from the bivariate scatter plot that their is a clear positive relationship between 12-Mg and 14-Si. As we can see with the upward-sloping denisty contour lines, the when the log-transformed concentration of Si increases, the log-transformed concentration of Mg also tends to increase.
@@ -476,11 +487,11 @@ Sigma <- var(Table1_log[,-1])
 rho <- cor(Table1_log[,-1])
 
 #Means
-(mu_mg_si <- mu[c("22-Ti", "17-Cl*")])
+(mu_mg_si2 <- mu[c("22-Ti", "17-Cl*")])
 #Covariance Matrix
-(Sigma_mg_si <- Sigma[c("22-Ti", "17-Cl*"), c("22-Ti", "17-Cl*")])
+(Sigma_mg_si2 <- Sigma[c("22-Ti", "17-Cl*"), c("22-Ti", "17-Cl*")])
 #Correlation Matrix
-(rho_mg_si <- rho[c("22-Ti", "17-Cl*"), c("22-Ti", "17-Cl*")])
+(rho_mg_si2 <- rho[c("22-Ti", "17-Cl*"), c("22-Ti", "17-Cl*")])
 ```
 
 ```{r}
@@ -491,23 +502,23 @@ rho <- cor(Table1_log[,-1])
 #| fig-align: center
 #Plot of 
 n <- 100
-x <- seq(mu_mg_si[1]-4*sqrt(Sigma_mg_si[1,1]),
-         mu_mg_si[1]+4*sqrt(Sigma_mg_si[1,1]), len=n)
-y <- seq(mu_mg_si[2]-4*sqrt(Sigma_mg_si[2,2]), 
-         mu_mg_si[2]+4*sqrt(Sigma_mg_si[2,2]), len=n)
+x <- seq(mu_mg_si2[1]-4*sqrt(Sigma_mg_si2[1,1]),
+         mu_mg_si2[1]+4*sqrt(Sigma_mg_si2[1,1]), len=n)
+y <- seq(mu_mg_si2[2]-4*sqrt(Sigma_mg_si2[2,2]), 
+         mu_mg_si2[2]+4*sqrt(Sigma_mg_si2[2,2]), len=n)
 xy <- expand.grid(x=x, y=y)
 
-q.samp <- cbind(xy, prob=dmvnorm(xy, mean = mu_mg_si, sigma = Sigma_mg_si))
+q.samp <- cbind(xy, prob=dmvnorm(xy, mean = mu_mg_si2, sigma = Sigma_mg_si2))
 
 ggplot(q.samp, aes(x=y, y=x, z=prob)) + 
   geom_point(data=Table1_log, aes(y=`22-Ti`, x=`17-Cl*`, z=0)) +
   geom_contour(bins=5, col="red") +
   ylab("22-Ti") + xlab("17-Cl*") + ggtitle("Bivariate Scatterplot of 22-Ti and 17-Cl*", "With Two-Dimensional Density Contours") +
   coord_fixed(
-    ylim = c(mu_mg_si[1]-4*sqrt(Sigma_mg_si[1,1]), mu_mg_si[1]+4*sqrt(Sigma_mg_si[1,1])),
-    xlim = c(mu_mg_si[2]-4*sqrt(Sigma_mg_si[2,2]), mu_mg_si[2]+4*sqrt(Sigma_mg_si[2,2]))
+    ylim = c(mu_mg_si2[1]-4*sqrt(Sigma_mg_si2[1,1]), mu_mg_si2[1]+4*sqrt(Sigma_mg_si2[1,1])),
+    xlim = c(mu_mg_si2[2]-4*sqrt(Sigma_mg_si2[2,2]), mu_mg_si2[2]+4*sqrt(Sigma_mg_si2[2,2]))
     ) +
-  theme(axis.text.x = element_text(angle = 45))
+  theme_minimal()
 ```
 
 As we can see from the Bivariate Scatter plot of 22-Ti and 17-Cl, there is a negative association between the log-transformed concentrations of the two elements. the downward oreientation of the density contours suggest that samples with higher Cl concentrations generally have lower Ti concentrations. However, this relationship is relatively weaker than the relationship shown between 12-Mg and 14-Si as indicated by the dispersion of points and broader contour lines.
@@ -539,7 +550,7 @@ knitr::kable(
 )
 ```
 
-The first three principal components explained 77.08% of the total variance, with PC1, PC2, and PC3 accounting for 34.02%, 25.00%, and 18.05%, respectively. These results are broadly consistent with the original study, which reported 34.88%, 24.95%, and 11.32% for the first three components (Sanchez del Rio et al, 2006). The first two components are particularly similar. However the third principle component in our analysis is noticeably larger then the percentage of variance in the original study.
+The first three principal components explained 77.08% of the total variance, with PC1, PC2, and PC3 accounting for 34.02%, 25.00%, and 18.05%, respectively. These results are broadly consistent with the original study, which reported 34.88%, 24.95%, and 11.32% for the first three components, and 71.15% of total variance (Sanchez del Rio et al, 2006). The first two components are particularly similar. However the third principle component in our analysis is noticeably larger then the percentage of variance in the original study.
 
 ## Can we reproduce Fig.2
 
@@ -577,7 +588,8 @@ ggplot(pca_scores, aes(x = PC1, y = PC2, colour = Group, label = Sample)) +
   theme_bw()
 ```
 
-The PCA plot broadly reproduces Figure 2 from Sánchez del Río et al. (2006). The CEC samples (Santa Cecilia Acatitlán) form a tight, well-separated cluster, consistent with their distinct non-fresco preparation technique. The Prehispanic and Convent groups occupy partially overlapping regions of the PC1–PC2 plane, suggesting that, despite their temporal separation, both groups employed similar mural painting techniques.
+The PCA plot broadly reproduces Figure 2 from Sánchez del Río et al. (2006). The CEC samples (Santa Cecilia Acatitlán) form a tight, well-separated cluster, consistent with their distinct non-fresco preparation technique. The Prehispanic and Convent groups occupy partially overlapping regions of the PC1–PC2 plane, suggesting that, despite their temporal separation, both groups employed similar mural painting techniques. It is also worth noting that we can observe that despite being listed in the Mexican Franciscan convents group, both Cuauhtinchan samples cluster around the Prehispanic murals, suggesting its work is more closely related to this type of mural. This was also seen in the original papers figure, however there is more noticeable overlap with this figure compared to the original. 
+
 
 # Discussion
 
@@ -586,10 +598,10 @@ Answering the questions from the document and any other conclusions we have from
 1.  Can you find groups in these data?
 2.  Can you reproduce Fig. 2? Do you agree with the conclusions the authors draw about the “zones”?
 
-# References {style="text-align: center;"}
+# References {style="text-align: left;"}
 
-> Andonie, R., and I. Dzitac. 2010. “How to Write a Good Paper in Computer Science and How Will It Be Measured by ISI Web of Knowledge.” International Journal of Computers, Communications & Control V (4): 432–44. https://doi.org/10.15837/ijccc.2010.4.2493.
->
-> Frery, A. C., L. Gomez, and A. C. Medeiros. 2020. “A Badging System for Reproducibility and Replicability in Remote Sensing Research.” IEEE Journal of Selected Topics on Applied Earth Observations and Remote Sensing 13: 4988–95. https://doi.org/10.1109/JSTARS.2020.3019 418.
->
-> Sánchez del Río, M., Martinetto, P., Solís, C. & Reyes-Valerio, C. (2006), ‘PIXE analysis on Maya blue in Prehispanic and colonial mural paintings’, Nuclear Instruments and Methods in Physics Research Section B: Beam Interactions with Materials and Atoms 249(1–2), 628–632.
+> Andonie, R., and I. Dzitac. 2010. “How to Write a Good Paper in Computer Science and       How Will It Be Measured by ISI Web of Knowledge.” International Journal of Computers,     Communications & Control V (4): 432–44. https://doi.org/10.15837/ijccc.2010.4.2493.
+
+> Frery, A. C., L. Gomez, and A. C. Medeiros. 2020. “A Badging System for Reproducibility     and Replicability in Remote Sensing Research.” IEEE Journal of Selected Topics on        Applied Earth Observations and Remote Sensing 13: 4988–95.                               https://doi.org/10.1109/JSTARS.2020.3019 418.
+
+> Sánchez del Río, M., Martinetto, P., Solís, C. & Reyes-Valerio, C. (2006), ‘PIXE           analysis on Maya blue in Prehispanic and colonial mural paintings’, Nuclear              Instruments and Methods in Physics Research Section B: Beam Interactions with            Materials and Atoms 249(1–2), 628–632.

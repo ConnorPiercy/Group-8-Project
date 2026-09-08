@@ -1,0 +1,2943 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Awet, Connor, Lachlan, Pablo,">
+
+<title>Group 8 Project</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="Group_8_File_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Group_8_File_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="Group_8_File_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="Group_8_File_files/libs/quarto-html/popper.min.js"></script>
+<script src="Group_8_File_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Group_8_File_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Group_8_File_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Group_8_File_files/libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Group_8_File_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Group_8_File_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Group_8_File_files/libs/bootstrap/bootstrap-917079515d91bccb85b543faf8aa8bb6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#methodology" id="toc-methodology" class="nav-link" data-scroll-target="#methodology">Methodology</a>
+  <ul class="collapse">
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a></li>
+  <li><a href="#data-transformation" id="toc-data-transformation" class="nav-link" data-scroll-target="#data-transformation">Data Transformation</a></li>
+  </ul></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a>
+  <ul class="collapse">
+  <li><a href="#quantitative-descriptive-analysis" id="toc-quantitative-descriptive-analysis" class="nav-link" data-scroll-target="#quantitative-descriptive-analysis">Quantitative Descriptive Analysis</a></li>
+  <li><a href="#graphical-and-qualitative-analysis" id="toc-graphical-and-qualitative-analysis" class="nav-link" data-scroll-target="#graphical-and-qualitative-analysis">Graphical and Qualitative Analysis</a></li>
+  <li><a href="#are-there-surprising-observations" id="toc-are-there-surprising-observations" class="nav-link" data-scroll-target="#are-there-surprising-observations">Are There Surprising Observations?</a></li>
+  <li><a href="#can-you-assume-that-the-data-follows-a-multivariate-normal-distribution" id="toc-can-you-assume-that-the-data-follows-a-multivariate-normal-distribution" class="nav-link" data-scroll-target="#can-you-assume-that-the-data-follows-a-multivariate-normal-distribution">Can you assume that the data follows a multivariate normal distribution?</a></li>
+  <li><a href="#can-we-find-groups-in-this-data" id="toc-can-we-find-groups-in-this-data" class="nav-link" data-scroll-target="#can-we-find-groups-in-this-data">Can we find groups in this data</a>
+  <ul class="collapse">
+  <li><a href="#relationship-between-12-mg-and-14-si" id="toc-relationship-between-12-mg-and-14-si" class="nav-link" data-scroll-target="#relationship-between-12-mg-and-14-si">Relationship between 12-Mg* and 14-Si*</a></li>
+  <li><a href="#relationship-between-22-ti-and-17-ci" id="toc-relationship-between-22-ti-and-17-ci" class="nav-link" data-scroll-target="#relationship-between-22-ti-and-17-ci">Relationship between 22-Ti and 17-CI*</a></li>
+  </ul></li>
+  <li><a href="#pca" id="toc-pca" class="nav-link" data-scroll-target="#pca">PCA</a></li>
+  <li><a href="#can-we-reproduce-fig.2" id="toc-can-we-reproduce-fig.2" class="nav-link" data-scroll-target="#can-we-reproduce-fig.2">Can we reproduce Fig.2</a></li>
+  </ul></li>
+  <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion">Discussion</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Group 8 Project</h1>
+<p class="subtitle lead">PIXE analysis on Maya blue in Prehispanic and colonial mural paintings</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Awet, Connor, Lachlan, Pablo, </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>The original article, PIXE analysis on Maya blue in Prehispanic and colonial mural paintings, by Sanchez del Rio et al (2006), sampled, analysed and grouped using PCA on murals containing Maya Blue across different archaeological sites. Across the sites they collected 35 samples from murals and either the elements concentration percent or the ratio of micro gram to gram ratio of that element in the mural. From these murals they sampled 17 different chemical elements from sodium to lead. They found with their PCA that 70% of the total variance in the sample population can be described using only the first three principle components and was similar to what was observed in other art forms. The three zones found were CEC, Prehispanic, and convents. with the first clustering in a small group separate from the rest of the samples.</p>
+<p>The aim of this analysis is too find groups within the data and reproduce what was found in the original paper. The reason for this is to support the conclusions made by Sanchez del rio et al (2006) about the 3 zones found in the data during their analysis. By doing this we can reassert the claims made about the differences between the different types of murals and their distinct zones of style. This report will contain both a quantitative and qualitative analysis of the data, as well as PCA and cluster analysis to explore the possible groups in the data.</p>
+</section>
+<section id="methodology" class="level1">
+<h1>Methodology</h1>
+<section id="data" class="level2">
+<h2 class="anchored" data-anchor-id="data">Data</h2>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 7%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Elements</th>
+<th style="text-align: right;">11-Na*</th>
+<th style="text-align: right;">12-Mg*</th>
+<th style="text-align: right;">13-Al*</th>
+<th style="text-align: right;">14-Si*</th>
+<th style="text-align: right;">16-S*</th>
+<th style="text-align: right;">17-Cl*</th>
+<th style="text-align: right;">19-K*</th>
+<th style="text-align: right;">20-Ca*</th>
+<th style="text-align: right;">26-Fe*</th>
+<th style="text-align: right;">15-P</th>
+<th style="text-align: right;">22-Ti</th>
+<th style="text-align: right;">25-Mn</th>
+<th style="text-align: right;">28-Ni</th>
+<th style="text-align: right;">29-Cu</th>
+<th style="text-align: right;">30-Zn</th>
+<th style="text-align: right;">38-Sr</th>
+<th style="text-align: right;">82-Pb</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Jiu1_1</td>
+<td style="text-align: right;">0.29</td>
+<td style="text-align: right;">1.76</td>
+<td style="text-align: right;">1.66</td>
+<td style="text-align: right;">10.70</td>
+<td style="text-align: right;">5.23</td>
+<td style="text-align: right;">0.65</td>
+<td style="text-align: right;">0.76</td>
+<td style="text-align: right;">39.30</td>
+<td style="text-align: right;">0.62</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">620</td>
+<td style="text-align: right;">-120</td>
+<td style="text-align: right;">-15</td>
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">29</td>
+<td style="text-align: right;">440</td>
+<td style="text-align: right;">49</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Tot1_1</td>
+<td style="text-align: right;">0.84</td>
+<td style="text-align: right;">1.74</td>
+<td style="text-align: right;">1.85</td>
+<td style="text-align: right;">5.49</td>
+<td style="text-align: right;">2.17</td>
+<td style="text-align: right;">0.35</td>
+<td style="text-align: right;">1.64</td>
+<td style="text-align: right;">35.10</td>
+<td style="text-align: right;">0.61</td>
+<td style="text-align: right;">99600</td>
+<td style="text-align: right;">840</td>
+<td style="text-align: right;">-170</td>
+<td style="text-align: right;">-14</td>
+<td style="text-align: right;">27</td>
+<td style="text-align: right;">164</td>
+<td style="text-align: right;">420</td>
+<td style="text-align: right;">59</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Tot1_2</td>
+<td style="text-align: right;">0.20</td>
+<td style="text-align: right;">0.96</td>
+<td style="text-align: right;">1.03</td>
+<td style="text-align: right;">4.55</td>
+<td style="text-align: right;">12.90</td>
+<td style="text-align: right;">0.11</td>
+<td style="text-align: right;">0.12</td>
+<td style="text-align: right;">37.90</td>
+<td style="text-align: right;">0.39</td>
+<td style="text-align: right;">-1200</td>
+<td style="text-align: right;">810</td>
+<td style="text-align: right;">-130</td>
+<td style="text-align: right;">-11</td>
+<td style="text-align: right;">-10</td>
+<td style="text-align: right;">21</td>
+<td style="text-align: right;">1040</td>
+<td style="text-align: right;">65</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Tot1_3</td>
+<td style="text-align: right;">0.45</td>
+<td style="text-align: right;">1.62</td>
+<td style="text-align: right;">2.97</td>
+<td style="text-align: right;">11.60</td>
+<td style="text-align: right;">4.75</td>
+<td style="text-align: right;">0.38</td>
+<td style="text-align: right;">1.71</td>
+<td style="text-align: right;">26.40</td>
+<td style="text-align: right;">1.64</td>
+<td style="text-align: right;">51800</td>
+<td style="text-align: right;">5010</td>
+<td style="text-align: right;">360</td>
+<td style="text-align: right;">18</td>
+<td style="text-align: right;">35</td>
+<td style="text-align: right;">108</td>
+<td style="text-align: right;">460</td>
+<td style="text-align: right;">69</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Tez1_1</td>
+<td style="text-align: right;">0.29</td>
+<td style="text-align: right;">0.68</td>
+<td style="text-align: right;">1.26</td>
+<td style="text-align: right;">5.58</td>
+<td style="text-align: right;">9.89</td>
+<td style="text-align: right;">0.45</td>
+<td style="text-align: right;">0.10</td>
+<td style="text-align: right;">41.60</td>
+<td style="text-align: right;">0.38</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">540</td>
+<td style="text-align: right;">-270</td>
+<td style="text-align: right;">-3</td>
+<td style="text-align: right;">-8</td>
+<td style="text-align: right;">-12</td>
+<td style="text-align: right;">1430</td>
+<td style="text-align: right;">62</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Tez1_2</td>
+<td style="text-align: right;">0.32</td>
+<td style="text-align: right;">0.74</td>
+<td style="text-align: right;">1.47</td>
+<td style="text-align: right;">6.57</td>
+<td style="text-align: right;">8.67</td>
+<td style="text-align: right;">0.51</td>
+<td style="text-align: right;">0.15</td>
+<td style="text-align: right;">41.60</td>
+<td style="text-align: right;">0.55</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">660</td>
+<td style="text-align: right;">-310</td>
+<td style="text-align: right;">-6</td>
+<td style="text-align: right;">-9</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">1310</td>
+<td style="text-align: right;">152</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Tez2_1</td>
+<td style="text-align: right;">1.26</td>
+<td style="text-align: right;">2.79</td>
+<td style="text-align: right;">1.91</td>
+<td style="text-align: right;">7.00</td>
+<td style="text-align: right;">1.83</td>
+<td style="text-align: right;">1.32</td>
+<td style="text-align: right;">0.18</td>
+<td style="text-align: right;">48.80</td>
+<td style="text-align: right;">0.39</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">600</td>
+<td style="text-align: right;">-190</td>
+<td style="text-align: right;">-9</td>
+<td style="text-align: right;">19</td>
+<td style="text-align: right;">-12</td>
+<td style="text-align: right;">900</td>
+<td style="text-align: right;">49</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Tez2_2</td>
+<td style="text-align: right;">1.71</td>
+<td style="text-align: right;">2.90</td>
+<td style="text-align: right;">2.30</td>
+<td style="text-align: right;">9.77</td>
+<td style="text-align: right;">2.58</td>
+<td style="text-align: right;">1.36</td>
+<td style="text-align: right;">0.26</td>
+<td style="text-align: right;">42.00</td>
+<td style="text-align: right;">0.50</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">-520</td>
+<td style="text-align: right;">310</td>
+<td style="text-align: right;">-14</td>
+<td style="text-align: right;">31</td>
+<td style="text-align: right;">44</td>
+<td style="text-align: right;">1080</td>
+<td style="text-align: right;">49</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Cua1_1</td>
+<td style="text-align: right;">0.36</td>
+<td style="text-align: right;">1.57</td>
+<td style="text-align: right;">2.66</td>
+<td style="text-align: right;">8.32</td>
+<td style="text-align: right;">0.22</td>
+<td style="text-align: right;">-0.03</td>
+<td style="text-align: right;">0.14</td>
+<td style="text-align: right;">51.70</td>
+<td style="text-align: right;">0.57</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">810</td>
+<td style="text-align: right;">330</td>
+<td style="text-align: right;">25</td>
+<td style="text-align: right;">-14</td>
+<td style="text-align: right;">-14</td>
+<td style="text-align: right;">8580</td>
+<td style="text-align: right;">21</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Cua1_2</td>
+<td style="text-align: right;">0.36</td>
+<td style="text-align: right;">1.68</td>
+<td style="text-align: right;">2.71</td>
+<td style="text-align: right;">8.38</td>
+<td style="text-align: right;">0.18</td>
+<td style="text-align: right;">-0.02</td>
+<td style="text-align: right;">0.12</td>
+<td style="text-align: right;">51.50</td>
+<td style="text-align: right;">0.51</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">820</td>
+<td style="text-align: right;">240</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">-10</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">6550</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Ca1_1</td>
+<td style="text-align: right;">0.30</td>
+<td style="text-align: right;">3.17</td>
+<td style="text-align: right;">4.61</td>
+<td style="text-align: right;">17.60</td>
+<td style="text-align: right;">0.39</td>
+<td style="text-align: right;">0.06</td>
+<td style="text-align: right;">0.38</td>
+<td style="text-align: right;">31.80</td>
+<td style="text-align: right;">1.15</td>
+<td style="text-align: right;">-170</td>
+<td style="text-align: right;">2070</td>
+<td style="text-align: right;">330</td>
+<td style="text-align: right;">26</td>
+<td style="text-align: right;">22</td>
+<td style="text-align: right;">18</td>
+<td style="text-align: right;">560</td>
+<td style="text-align: right;">15</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ca1_2</td>
+<td style="text-align: right;">0.15</td>
+<td style="text-align: right;">3.40</td>
+<td style="text-align: right;">4.12</td>
+<td style="text-align: right;">16.00</td>
+<td style="text-align: right;">0.41</td>
+<td style="text-align: right;">0.05</td>
+<td style="text-align: right;">0.29</td>
+<td style="text-align: right;">34.60</td>
+<td style="text-align: right;">1.41</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">1980</td>
+<td style="text-align: right;">630</td>
+<td style="text-align: right;">32</td>
+<td style="text-align: right;">-6</td>
+<td style="text-align: right;">34</td>
+<td style="text-align: right;">430</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CA2_1</td>
+<td style="text-align: right;">0.51</td>
+<td style="text-align: right;">3.03</td>
+<td style="text-align: right;">4.52</td>
+<td style="text-align: right;">16.40</td>
+<td style="text-align: right;">0.90</td>
+<td style="text-align: right;">0.08</td>
+<td style="text-align: right;">0.34</td>
+<td style="text-align: right;">33.10</td>
+<td style="text-align: right;">0.99</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">1330</td>
+<td style="text-align: right;">600</td>
+<td style="text-align: right;">23</td>
+<td style="text-align: right;">-4</td>
+<td style="text-align: right;">69</td>
+<td style="text-align: right;">160</td>
+<td style="text-align: right;">9</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CA2_2</td>
+<td style="text-align: right;">0.64</td>
+<td style="text-align: right;">2.96</td>
+<td style="text-align: right;">5.80</td>
+<td style="text-align: right;">20.60</td>
+<td style="text-align: right;">0.66</td>
+<td style="text-align: right;">-0.07</td>
+<td style="text-align: right;">0.59</td>
+<td style="text-align: right;">24.20</td>
+<td style="text-align: right;">1.74</td>
+<td style="text-align: right;">-430</td>
+<td style="text-align: right;">2340</td>
+<td style="text-align: right;">550</td>
+<td style="text-align: right;">17</td>
+<td style="text-align: right;">-6</td>
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CA2_3</td>
+<td style="text-align: right;">-0.29</td>
+<td style="text-align: right;">3.19</td>
+<td style="text-align: right;">4.51</td>
+<td style="text-align: right;">16.30</td>
+<td style="text-align: right;">0.43</td>
+<td style="text-align: right;">-0.07</td>
+<td style="text-align: right;">0.32</td>
+<td style="text-align: right;">34.20</td>
+<td style="text-align: right;">0.75</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">2340</td>
+<td style="text-align: right;">-260</td>
+<td style="text-align: right;">-9</td>
+<td style="text-align: right;">-2</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">160</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CA2_4</td>
+<td style="text-align: right;">0.44</td>
+<td style="text-align: right;">3.22</td>
+<td style="text-align: right;">4.80</td>
+<td style="text-align: right;">17.10</td>
+<td style="text-align: right;">0.47</td>
+<td style="text-align: right;">-0.05</td>
+<td style="text-align: right;">0.39</td>
+<td style="text-align: right;">32.30</td>
+<td style="text-align: right;">0.76</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">2310</td>
+<td style="text-align: right;">-150</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">-5</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">210</td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CA3_1</td>
+<td style="text-align: right;">0.49</td>
+<td style="text-align: right;">1.39</td>
+<td style="text-align: right;">3.98</td>
+<td style="text-align: right;">11.60</td>
+<td style="text-align: right;">0.51</td>
+<td style="text-align: right;">0.09</td>
+<td style="text-align: right;">0.29</td>
+<td style="text-align: right;">43.50</td>
+<td style="text-align: right;">0.93</td>
+<td style="text-align: right;">-1300</td>
+<td style="text-align: right;">2140</td>
+<td style="text-align: right;">-360</td>
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">-4</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">160</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CA3_2</td>
+<td style="text-align: right;">0.70</td>
+<td style="text-align: right;">1.37</td>
+<td style="text-align: right;">3.62</td>
+<td style="text-align: right;">11.70</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">-0.07</td>
+<td style="text-align: right;">0.60</td>
+<td style="text-align: right;">42.20</td>
+<td style="text-align: right;">0.97</td>
+<td style="text-align: right;">-1700</td>
+<td style="text-align: right;">4560</td>
+<td style="text-align: right;">-320</td>
+<td style="text-align: right;">-12</td>
+<td style="text-align: right;">-10</td>
+<td style="text-align: right;">23</td>
+<td style="text-align: right;">270</td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Ca4_1</td>
+<td style="text-align: right;">0.29</td>
+<td style="text-align: right;">1.64</td>
+<td style="text-align: right;">2.74</td>
+<td style="text-align: right;">10.50</td>
+<td style="text-align: right;">0.84</td>
+<td style="text-align: right;">0.08</td>
+<td style="text-align: right;">0.31</td>
+<td style="text-align: right;">46.10</td>
+<td style="text-align: right;">0.79</td>
+<td style="text-align: right;">-940</td>
+<td style="text-align: right;">4580</td>
+<td style="text-align: right;">380</td>
+<td style="text-align: right;">22</td>
+<td style="text-align: right;">-7</td>
+<td style="text-align: right;">25</td>
+<td style="text-align: right;">1180</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ca4_2</td>
+<td style="text-align: right;">0.33</td>
+<td style="text-align: right;">1.46</td>
+<td style="text-align: right;">3.08</td>
+<td style="text-align: right;">11.20</td>
+<td style="text-align: right;">0.52</td>
+<td style="text-align: right;">0.07</td>
+<td style="text-align: right;">0.24</td>
+<td style="text-align: right;">45.50</td>
+<td style="text-align: right;">0.78</td>
+<td style="text-align: right;">-1260</td>
+<td style="text-align: right;">3300</td>
+<td style="text-align: right;">580</td>
+<td style="text-align: right;">18</td>
+<td style="text-align: right;">-11</td>
+<td style="text-align: right;">26</td>
+<td style="text-align: right;">850</td>
+<td style="text-align: right;">18</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Cec1_1</td>
+<td style="text-align: right;">0.23</td>
+<td style="text-align: right;">6.24</td>
+<td style="text-align: right;">3.69</td>
+<td style="text-align: right;">22.80</td>
+<td style="text-align: right;">1.32</td>
+<td style="text-align: right;">0.11</td>
+<td style="text-align: right;">0.71</td>
+<td style="text-align: right;">17.50</td>
+<td style="text-align: right;">2.27</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">2110</td>
+<td style="text-align: right;">9120</td>
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">-12</td>
+<td style="text-align: right;">60</td>
+<td style="text-align: right;">1170</td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Cec1_2</td>
+<td style="text-align: right;">0.11</td>
+<td style="text-align: right;">8.60</td>
+<td style="text-align: right;">2.81</td>
+<td style="text-align: right;">22.50</td>
+<td style="text-align: right;">0.18</td>
+<td style="text-align: right;">0.11</td>
+<td style="text-align: right;">0.58</td>
+<td style="text-align: right;">19.90</td>
+<td style="text-align: right;">1.54</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">1820</td>
+<td style="text-align: right;">4790</td>
+<td style="text-align: right;">23</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">48</td>
+<td style="text-align: right;">1260</td>
+<td style="text-align: right;">18</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Cec1_3</td>
+<td style="text-align: right;">0.56</td>
+<td style="text-align: right;">9.30</td>
+<td style="text-align: right;">5.29</td>
+<td style="text-align: right;">30.70</td>
+<td style="text-align: right;">0.19</td>
+<td style="text-align: right;">0.06</td>
+<td style="text-align: right;">1.05</td>
+<td style="text-align: right;">2.88</td>
+<td style="text-align: right;">1.32</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">1320</td>
+<td style="text-align: right;">1980</td>
+<td style="text-align: right;">21</td>
+<td style="text-align: right;">21</td>
+<td style="text-align: right;">87</td>
+<td style="text-align: right;">490</td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Cec1_4</td>
+<td style="text-align: right;">0.22</td>
+<td style="text-align: right;">8.40</td>
+<td style="text-align: right;">4.54</td>
+<td style="text-align: right;">29.60</td>
+<td style="text-align: right;">0.32</td>
+<td style="text-align: right;">0.06</td>
+<td style="text-align: right;">1.01</td>
+<td style="text-align: right;">6.07</td>
+<td style="text-align: right;">1.54</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">1870</td>
+<td style="text-align: right;">6730</td>
+<td style="text-align: right;">26</td>
+<td style="text-align: right;">21</td>
+<td style="text-align: right;">88</td>
+<td style="text-align: right;">810</td>
+<td style="text-align: right;">17</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Cec2_1</td>
+<td style="text-align: right;">0.20</td>
+<td style="text-align: right;">6.82</td>
+<td style="text-align: right;">3.50</td>
+<td style="text-align: right;">23.20</td>
+<td style="text-align: right;">1.08</td>
+<td style="text-align: right;">0.11</td>
+<td style="text-align: right;">0.71</td>
+<td style="text-align: right;">17.80</td>
+<td style="text-align: right;">1.67</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">1600</td>
+<td style="text-align: right;">8630</td>
+<td style="text-align: right;">29</td>
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">57</td>
+<td style="text-align: right;">1190</td>
+<td style="text-align: right;">13</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Cec2_2</td>
+<td style="text-align: right;">0.14</td>
+<td style="text-align: right;">8.51</td>
+<td style="text-align: right;">2.85</td>
+<td style="text-align: right;">23.30</td>
+<td style="text-align: right;">0.65</td>
+<td style="text-align: right;">0.10</td>
+<td style="text-align: right;">0.63</td>
+<td style="text-align: right;">16.60</td>
+<td style="text-align: right;">2.22</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">3880</td>
+<td style="text-align: right;">7170</td>
+<td style="text-align: right;">28</td>
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">53</td>
+<td style="text-align: right;">1300</td>
+<td style="text-align: right;">13</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TAM1_1</td>
+<td style="text-align: right;">-0.29</td>
+<td style="text-align: right;">2.25</td>
+<td style="text-align: right;">4.08</td>
+<td style="text-align: right;">12.80</td>
+<td style="text-align: right;">0.15</td>
+<td style="text-align: right;">-0.02</td>
+<td style="text-align: right;">0.26</td>
+<td style="text-align: right;">41.10</td>
+<td style="text-align: right;">1.49</td>
+<td style="text-align: right;">-850</td>
+<td style="text-align: right;">1370</td>
+<td style="text-align: right;">-250</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">-3</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">500</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TAM1_2</td>
+<td style="text-align: right;">-0.19</td>
+<td style="text-align: right;">1.35</td>
+<td style="text-align: right;">3.25</td>
+<td style="text-align: right;">10.50</td>
+<td style="text-align: right;">0.22</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.20</td>
+<td style="text-align: right;">47.30</td>
+<td style="text-align: right;">1.19</td>
+<td style="text-align: right;">-850</td>
+<td style="text-align: right;">1040</td>
+<td style="text-align: right;">-150</td>
+<td style="text-align: right;">-12</td>
+<td style="text-align: right;">-5</td>
+<td style="text-align: right;">-8</td>
+<td style="text-align: right;">300</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TAJ1_1</td>
+<td style="text-align: right;">1.49</td>
+<td style="text-align: right;">0.67</td>
+<td style="text-align: right;">7.43</td>
+<td style="text-align: right;">16.50</td>
+<td style="text-align: right;">-0.16</td>
+<td style="text-align: right;">-0.07</td>
+<td style="text-align: right;">0.43</td>
+<td style="text-align: right;">31.70</td>
+<td style="text-align: right;">1.38</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">1040</td>
+<td style="text-align: right;">-280</td>
+<td style="text-align: right;">22</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">740</td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TAJ1_2</td>
+<td style="text-align: right;">-0.20</td>
+<td style="text-align: right;">1.26</td>
+<td style="text-align: right;">2.48</td>
+<td style="text-align: right;">8.00</td>
+<td style="text-align: right;">0.10</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">-0.06</td>
+<td style="text-align: right;">53.10</td>
+<td style="text-align: right;">0.54</td>
+<td style="text-align: right;">-1530</td>
+<td style="text-align: right;">850</td>
+<td style="text-align: right;">-170</td>
+<td style="text-align: right;">-9</td>
+<td style="text-align: right;">-3</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">90</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TAJ1_3</td>
+<td style="text-align: right;">-0.19</td>
+<td style="text-align: right;">3.37</td>
+<td style="text-align: right;">4.90</td>
+<td style="text-align: right;">17.90</td>
+<td style="text-align: right;">-0.06</td>
+<td style="text-align: right;">-0.01</td>
+<td style="text-align: right;">0.27</td>
+<td style="text-align: right;">31.90</td>
+<td style="text-align: right;">0.76</td>
+<td style="text-align: right;">-590</td>
+<td style="text-align: right;">1470</td>
+<td style="text-align: right;">-140</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">-5</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">110</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TAJ1_4</td>
+<td style="text-align: right;">-0.43</td>
+<td style="text-align: right;">0.38</td>
+<td style="text-align: right;">2.10</td>
+<td style="text-align: right;">5.10</td>
+<td style="text-align: right;">-0.09</td>
+<td style="text-align: right;">0.22</td>
+<td style="text-align: right;">0.36</td>
+<td style="text-align: right;">57.80</td>
+<td style="text-align: right;">1.18</td>
+<td style="text-align: right;">-690</td>
+<td style="text-align: right;">1600</td>
+<td style="text-align: right;">-240</td>
+<td style="text-align: right;">-29</td>
+<td style="text-align: right;">-17</td>
+<td style="text-align: right;">21</td>
+<td style="text-align: right;">570</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TAC1_1</td>
+<td style="text-align: right;">0.56</td>
+<td style="text-align: right;">1.73</td>
+<td style="text-align: right;">4.90</td>
+<td style="text-align: right;">17.90</td>
+<td style="text-align: right;">0.36</td>
+<td style="text-align: right;">-0.02</td>
+<td style="text-align: right;">0.90</td>
+<td style="text-align: right;">27.20</td>
+<td style="text-align: right;">5.18</td>
+<td style="text-align: right;">-1000</td>
+<td style="text-align: right;">3920</td>
+<td style="text-align: right;">900</td>
+<td style="text-align: right;">154</td>
+<td style="text-align: right;">-12</td>
+<td style="text-align: right;">52</td>
+<td style="text-align: right;">270</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TAM1_1</td>
+<td style="text-align: right;">0.40</td>
+<td style="text-align: right;">0.98</td>
+<td style="text-align: right;">3.95</td>
+<td style="text-align: right;">10.20</td>
+<td style="text-align: right;">0.14</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.14</td>
+<td style="text-align: right;">47.40</td>
+<td style="text-align: right;">0.86</td>
+<td style="text-align: right;">-1320</td>
+<td style="text-align: right;">1310</td>
+<td style="text-align: right;">-250</td>
+<td style="text-align: right;">-11</td>
+<td style="text-align: right;">-4</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">320</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TAM1_2</td>
+<td style="text-align: right;">0.41</td>
+<td style="text-align: right;">0.89</td>
+<td style="text-align: right;">3.32</td>
+<td style="text-align: right;">8.76</td>
+<td style="text-align: right;">0.16</td>
+<td style="text-align: right;">-0.01</td>
+<td style="text-align: right;">0.14</td>
+<td style="text-align: right;">50.70</td>
+<td style="text-align: right;">0.61</td>
+<td style="text-align: right;">-1340</td>
+<td style="text-align: right;">1250</td>
+<td style="text-align: right;">-200</td>
+<td style="text-align: right;">-14</td>
+<td style="text-align: right;">-3</td>
+<td style="text-align: right;">-6</td>
+<td style="text-align: right;">340</td>
+<td style="text-align: right;">4</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Data for this analysis contains 35 samples of different types of murals from across regions of southern mexico (Sanchez del Rio et al, 2006). This data can be found in Table 1. of Sanchez del Rio et al’s paper from 2006.</p>
+</section>
+<section id="data-transformation" class="level2">
+<h2 class="anchored" data-anchor-id="data-transformation">Data Transformation</h2>
+<p>The data was transformed in line with the original study to be able to address different issues with comparison and estimating of element concentrations. Different concentration ranges: The original data contain elemental concentrations reported either as percentages or as µg/g (micro grams per gram). Because these measurements have substantially different concentration ranges, a <span class="math inline">\(log_10\)</span> transformation is applied to the concentrations. This follows the procedure used in the original paper, where the authors state that the logarithm of the concentrations was used to avoid large discrepancies in concentration range. Values below the detection limit: Some concentrations in Table 1 are reported in parentheses ( ). According to the original paper, these values are below the limit of detection (LOD). Since numerical estimates are still provided, these estimated concentrations are retained for the analysis and the parentheses are removed. Lastly we conducted a transformation of both NA and 0 values found in the data. Sanchez del Rio et al (2006) described that values that were given as 0’s aren’t treated as 0’s, and were instead concentrations that were below the detection limit, and as such were instead very small concentrations of elements. Moreover we cannot do a <span class="math inline">\(log_10\)</span> transformation of the data if observations contain 0’s. This leaves us to therefore transform these 0’s into estimates to both do this transformation, and not remove concentrations that are there but very small. Therefore we run a function that runs through each column that is numeric, and then filters out any values that are less than or equal to zero, ignores NAs (na.rm = TRUE), finds the smallest remaining positive number, and divides it by two. Finally it checks every cell in that column. If a cell is either NA or exactly 0, it substitutes it with the replacement value.</p>
+</section>
+</section>
+<section id="results" class="level1">
+<h1>Results</h1>
+<!-- -->
+<section id="quantitative-descriptive-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="quantitative-descriptive-analysis">Quantitative Descriptive Analysis</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div id="xdzpykwpba" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#xdzpykwpba table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#xdzpykwpba thead, #xdzpykwpba tbody, #xdzpykwpba tfoot, #xdzpykwpba tr, #xdzpykwpba td, #xdzpykwpba th {
+  border-style: none;
+}
+
+#xdzpykwpba p {
+  margin: 0;
+  padding: 0;
+}
+
+#xdzpykwpba .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 12px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#xdzpykwpba .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#xdzpykwpba .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#xdzpykwpba .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#xdzpykwpba .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#xdzpykwpba .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#xdzpykwpba .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#xdzpykwpba .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#xdzpykwpba .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#xdzpykwpba .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#xdzpykwpba .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#xdzpykwpba .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#xdzpykwpba .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#xdzpykwpba .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#xdzpykwpba .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#xdzpykwpba .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#xdzpykwpba .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#xdzpykwpba .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#xdzpykwpba .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#xdzpykwpba .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#xdzpykwpba .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#xdzpykwpba .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#xdzpykwpba .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#xdzpykwpba .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#xdzpykwpba .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#xdzpykwpba .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#xdzpykwpba .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#xdzpykwpba .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#xdzpykwpba .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#xdzpykwpba .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#xdzpykwpba .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#xdzpykwpba .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#xdzpykwpba .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#xdzpykwpba .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#xdzpykwpba .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#xdzpykwpba .gt_left {
+  text-align: left;
+}
+
+#xdzpykwpba .gt_center {
+  text-align: center;
+}
+
+#xdzpykwpba .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#xdzpykwpba .gt_font_normal {
+  font-weight: normal;
+}
+
+#xdzpykwpba .gt_font_bold {
+  font-weight: bold;
+}
+
+#xdzpykwpba .gt_font_italic {
+  font-style: italic;
+}
+
+#xdzpykwpba .gt_super {
+  font-size: 65%;
+}
+
+#xdzpykwpba .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#xdzpykwpba .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#xdzpykwpba .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#xdzpykwpba .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#xdzpykwpba .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#xdzpykwpba .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#xdzpykwpba .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#xdzpykwpba .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#xdzpykwpba div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-bootstrap="false">
+<thead>
+<tr class="gt_heading header">
+<td colspan="9" class="gt_heading gt_title gt_font_normal">Descriptive Statistics of Elemental Concentrations</td>
+</tr>
+<tr class="gt_heading even">
+<td colspan="9" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border">Non-Transformed</td>
+</tr>
+<tr class="gt_col_headings header">
+<th id="Elements" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Element</th>
+<th id="M" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Mean</th>
+<th id="SD" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Standard D.</th>
+<th id="Median" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Median</th>
+<th id="Min" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Minimum</th>
+<th id="Q1" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">1st Quartile</th>
+<th id="IQR" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Inter-Q Range</th>
+<th id="Q3" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">3rd Quartile</th>
+<th id="Max" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Maximum</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_left" headers="Elements">11-Na*</td>
+<td class="gt_row gt_right" headers="M">0.45</td>
+<td class="gt_row gt_right" headers="SD">0.37</td>
+<td class="gt_row gt_right" headers="Median">0.33</td>
+<td class="gt_row gt_right" headers="Min">0.11</td>
+<td class="gt_row gt_right" headers="Q1">0.22</td>
+<td class="gt_row gt_right" headers="IQR">0.28</td>
+<td class="gt_row gt_right" headers="Q3">0.50</td>
+<td class="gt_row gt_right" headers="Max">1.71</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Elements">12-Mg*</td>
+<td class="gt_row gt_right" headers="M">2.91</td>
+<td class="gt_row gt_right" headers="SD">2.53</td>
+<td class="gt_row gt_right" headers="Median">1.74</td>
+<td class="gt_row gt_right" headers="Min">0.38</td>
+<td class="gt_row gt_right" headers="Q1">1.36</td>
+<td class="gt_row gt_right" headers="IQR">1.84</td>
+<td class="gt_row gt_right" headers="Q3">3.20</td>
+<td class="gt_row gt_right" headers="Max">9.30</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Elements">13-Al*</td>
+<td class="gt_row gt_right" headers="M">3.45</td>
+<td class="gt_row gt_right" headers="SD">1.40</td>
+<td class="gt_row gt_right" headers="Median">3.32</td>
+<td class="gt_row gt_right" headers="Min">1.03</td>
+<td class="gt_row gt_right" headers="Q1">2.57</td>
+<td class="gt_row gt_right" headers="IQR">1.94</td>
+<td class="gt_row gt_right" headers="Q3">4.52</td>
+<td class="gt_row gt_right" headers="Max">7.43</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Elements">14-Si*</td>
+<td class="gt_row gt_right" headers="M">13.91</td>
+<td class="gt_row gt_right" headers="SD">6.86</td>
+<td class="gt_row gt_right" headers="Median">11.60</td>
+<td class="gt_row gt_right" headers="Min">4.55</td>
+<td class="gt_row gt_right" headers="Q1">8.57</td>
+<td class="gt_row gt_right" headers="IQR">9.18</td>
+<td class="gt_row gt_right" headers="Q3">17.75</td>
+<td class="gt_row gt_right" headers="Max">30.70</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Elements">16-S*</td>
+<td class="gt_row gt_right" headers="M">1.71</td>
+<td class="gt_row gt_right" headers="SD">3.02</td>
+<td class="gt_row gt_right" headers="Median">0.47</td>
+<td class="gt_row gt_right" headers="Min">0.06</td>
+<td class="gt_row gt_right" headers="Q1">0.18</td>
+<td class="gt_row gt_right" headers="IQR">1.02</td>
+<td class="gt_row gt_right" headers="Q3">1.20</td>
+<td class="gt_row gt_right" headers="Max">12.90</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Elements">17-Cl*</td>
+<td class="gt_row gt_right" headers="M">0.19</td>
+<td class="gt_row gt_right" headers="SD">0.33</td>
+<td class="gt_row gt_right" headers="Median">0.07</td>
+<td class="gt_row gt_right" headers="Min">0.01</td>
+<td class="gt_row gt_right" headers="Q1">0.04</td>
+<td class="gt_row gt_right" headers="IQR">0.07</td>
+<td class="gt_row gt_right" headers="Q3">0.11</td>
+<td class="gt_row gt_right" headers="Max">1.36</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Elements">19-K*</td>
+<td class="gt_row gt_right" headers="M">0.47</td>
+<td class="gt_row gt_right" headers="SD">0.40</td>
+<td class="gt_row gt_right" headers="Median">0.32</td>
+<td class="gt_row gt_right" headers="Min">0.06</td>
+<td class="gt_row gt_right" headers="Q1">0.19</td>
+<td class="gt_row gt_right" headers="IQR">0.42</td>
+<td class="gt_row gt_right" headers="Q3">0.62</td>
+<td class="gt_row gt_right" headers="Max">1.71</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Elements">20-Ca*</td>
+<td class="gt_row gt_right" headers="M">35.78</td>
+<td class="gt_row gt_right" headers="SD">13.29</td>
+<td class="gt_row gt_right" headers="Median">37.90</td>
+<td class="gt_row gt_right" headers="Min">2.88</td>
+<td class="gt_row gt_right" headers="Q1">29.45</td>
+<td class="gt_row gt_right" headers="IQR">16.35</td>
+<td class="gt_row gt_right" headers="Q3">45.80</td>
+<td class="gt_row gt_right" headers="Max">57.80</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Elements">26-Fe*</td>
+<td class="gt_row gt_right" headers="M">1.15</td>
+<td class="gt_row gt_right" headers="SD">0.87</td>
+<td class="gt_row gt_right" headers="Median">0.93</td>
+<td class="gt_row gt_right" headers="Min">0.38</td>
+<td class="gt_row gt_right" headers="Q1">0.61</td>
+<td class="gt_row gt_right" headers="IQR">0.84</td>
+<td class="gt_row gt_right" headers="Q3">1.45</td>
+<td class="gt_row gt_right" headers="Max">5.18</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Elements">15-P</td>
+<td class="gt_row gt_right" headers="M">4,802.86</td>
+<td class="gt_row gt_right" headers="SD">18,640.58</td>
+<td class="gt_row gt_right" headers="Median">85.00</td>
+<td class="gt_row gt_right" headers="Min">85.00</td>
+<td class="gt_row gt_right" headers="Q1">85.00</td>
+<td class="gt_row gt_right" headers="IQR">1015.00</td>
+<td class="gt_row gt_right" headers="Q3">1100.00</td>
+<td class="gt_row gt_right" headers="Max">99,600.00</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Elements">22-Ti</td>
+<td class="gt_row gt_right" headers="M">1,846.57</td>
+<td class="gt_row gt_right" headers="SD">1,241.87</td>
+<td class="gt_row gt_right" headers="Median">1,470.00</td>
+<td class="gt_row gt_right" headers="Min">520.00</td>
+<td class="gt_row gt_right" headers="Q1">845.00</td>
+<td class="gt_row gt_right" headers="IQR">1380.00</td>
+<td class="gt_row gt_right" headers="Q3">2225.00</td>
+<td class="gt_row gt_right" headers="Max">5,010.00</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Elements">25-Mn</td>
+<td class="gt_row gt_right" headers="M">1,359.71</td>
+<td class="gt_row gt_right" headers="SD">2,545.58</td>
+<td class="gt_row gt_right" headers="Median">310.00</td>
+<td class="gt_row gt_right" headers="Min">120.00</td>
+<td class="gt_row gt_right" headers="Q1">220.00</td>
+<td class="gt_row gt_right" headers="IQR">370.00</td>
+<td class="gt_row gt_right" headers="Q3">590.00</td>
+<td class="gt_row gt_right" headers="Max">9,120.00</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Elements">28-Ni</td>
+<td class="gt_row gt_right" headers="M">21.69</td>
+<td class="gt_row gt_right" headers="SD">24.18</td>
+<td class="gt_row gt_right" headers="Median">17.00</td>
+<td class="gt_row gt_right" headers="Min">3.00</td>
+<td class="gt_row gt_right" headers="Q1">12.00</td>
+<td class="gt_row gt_right" headers="IQR">12.00</td>
+<td class="gt_row gt_right" headers="Q3">24.00</td>
+<td class="gt_row gt_right" headers="Max">154.00</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Elements">29-Cu</td>
+<td class="gt_row gt_right" headers="M">12.37</td>
+<td class="gt_row gt_right" headers="SD">9.71</td>
+<td class="gt_row gt_right" headers="Median">10.00</td>
+<td class="gt_row gt_right" headers="Min">1.00</td>
+<td class="gt_row gt_right" headers="Q1">5.00</td>
+<td class="gt_row gt_right" headers="IQR">11.50</td>
+<td class="gt_row gt_right" headers="Q3">16.50</td>
+<td class="gt_row gt_right" headers="Max">40.00</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Elements">30-Zn</td>
+<td class="gt_row gt_right" headers="M">34.77</td>
+<td class="gt_row gt_right" headers="SD">34.45</td>
+<td class="gt_row gt_right" headers="Median">21.00</td>
+<td class="gt_row gt_right" headers="Min">6.00</td>
+<td class="gt_row gt_right" headers="Q1">13.00</td>
+<td class="gt_row gt_right" headers="IQR">37.00</td>
+<td class="gt_row gt_right" headers="Q3">50.00</td>
+<td class="gt_row gt_right" headers="Max">164.00</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Elements">38-Sr</td>
+<td class="gt_row gt_right" headers="M">1,021.43</td>
+<td class="gt_row gt_right" headers="SD">1,703.83</td>
+<td class="gt_row gt_right" headers="Median">500.00</td>
+<td class="gt_row gt_right" headers="Min">90.00</td>
+<td class="gt_row gt_right" headers="Q1">285.00</td>
+<td class="gt_row gt_right" headers="IQR">840.00</td>
+<td class="gt_row gt_right" headers="Q3">1125.00</td>
+<td class="gt_row gt_right" headers="Max">8,580.00</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Elements">82-Pb</td>
+<td class="gt_row gt_right" headers="M">21.69</td>
+<td class="gt_row gt_right" headers="SD">31.00</td>
+<td class="gt_row gt_right" headers="Median">9.00</td>
+<td class="gt_row gt_right" headers="Min">1.00</td>
+<td class="gt_row gt_right" headers="Q1">4.00</td>
+<td class="gt_row gt_right" headers="IQR">15.50</td>
+<td class="gt_row gt_right" headers="Q3">19.50</td>
+<td class="gt_row gt_right" headers="Max">152.00</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>The dataset is highly heterogeneous. Calcium is a dominant major element in most samples, while several trace elements span orders of magnitude. This is exactly why the authors analysed logarithms of concentration. Two especially large phosphorus values occur for Totimehuacan: 99,600 <span class="math inline">\(\mu\)</span>g/g in <code>Tot1_1</code> and 51,800 <span class="math inline">\(\mu\)</span>g/g in <code>Tot1_3</code>. These values are retained because they are printed in Table 1; the source does not provide enough evidence to assign a specific contamination or measurement-error cause to them.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="pbgvgqjozx" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#pbgvgqjozx table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#pbgvgqjozx thead, #pbgvgqjozx tbody, #pbgvgqjozx tfoot, #pbgvgqjozx tr, #pbgvgqjozx td, #pbgvgqjozx th {
+  border-style: none;
+}
+
+#pbgvgqjozx p {
+  margin: 0;
+  padding: 0;
+}
+
+#pbgvgqjozx .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 12px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#pbgvgqjozx .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#pbgvgqjozx .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#pbgvgqjozx .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#pbgvgqjozx .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#pbgvgqjozx .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#pbgvgqjozx .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#pbgvgqjozx .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#pbgvgqjozx .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#pbgvgqjozx .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#pbgvgqjozx .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#pbgvgqjozx .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#pbgvgqjozx .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#pbgvgqjozx .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#pbgvgqjozx .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#pbgvgqjozx .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#pbgvgqjozx .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#pbgvgqjozx .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#pbgvgqjozx .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#pbgvgqjozx .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#pbgvgqjozx .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#pbgvgqjozx .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#pbgvgqjozx .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#pbgvgqjozx .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#pbgvgqjozx .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#pbgvgqjozx .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#pbgvgqjozx .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#pbgvgqjozx .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#pbgvgqjozx .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#pbgvgqjozx .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#pbgvgqjozx .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#pbgvgqjozx .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#pbgvgqjozx .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#pbgvgqjozx .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#pbgvgqjozx .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#pbgvgqjozx .gt_left {
+  text-align: left;
+}
+
+#pbgvgqjozx .gt_center {
+  text-align: center;
+}
+
+#pbgvgqjozx .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#pbgvgqjozx .gt_font_normal {
+  font-weight: normal;
+}
+
+#pbgvgqjozx .gt_font_bold {
+  font-weight: bold;
+}
+
+#pbgvgqjozx .gt_font_italic {
+  font-style: italic;
+}
+
+#pbgvgqjozx .gt_super {
+  font-size: 65%;
+}
+
+#pbgvgqjozx .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#pbgvgqjozx .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#pbgvgqjozx .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#pbgvgqjozx .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#pbgvgqjozx .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#pbgvgqjozx .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#pbgvgqjozx .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#pbgvgqjozx .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#pbgvgqjozx div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-bootstrap="false">
+<thead>
+<tr class="gt_heading header">
+<td colspan="9" class="gt_heading gt_title gt_font_normal">Descriptive Statistics of Elemental Concentrations</td>
+</tr>
+<tr class="gt_heading even">
+<td colspan="9" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border">Log10 Transformation</td>
+</tr>
+<tr class="gt_col_headings header">
+<th id="Elements" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Element</th>
+<th id="M" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Mean</th>
+<th id="SD" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Standard D.</th>
+<th id="Median" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Median</th>
+<th id="Min" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Minimum</th>
+<th id="Q1" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">1st Quartile</th>
+<th id="IQR" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Inter-Q Range</th>
+<th id="Q3" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">3rd Quartile</th>
+<th id="Max" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Maximum</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_left" headers="Elements">11-Na*</td>
+<td class="gt_row gt_right" headers="M">−0.44</td>
+<td class="gt_row gt_right" headers="SD">0.28</td>
+<td class="gt_row gt_right" headers="Median">−0.48</td>
+<td class="gt_row gt_right" headers="Min">−0.96</td>
+<td class="gt_row gt_right" headers="Q1">-0.65</td>
+<td class="gt_row gt_right" headers="IQR">0.35</td>
+<td class="gt_row gt_right" headers="Q3">-0.30</td>
+<td class="gt_row gt_right" headers="Max">0.23</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Elements">12-Mg*</td>
+<td class="gt_row gt_right" headers="M">0.33</td>
+<td class="gt_row gt_right" headers="SD">0.35</td>
+<td class="gt_row gt_right" headers="Median">0.24</td>
+<td class="gt_row gt_right" headers="Min">−0.42</td>
+<td class="gt_row gt_right" headers="Q1">0.13</td>
+<td class="gt_row gt_right" headers="IQR">0.37</td>
+<td class="gt_row gt_right" headers="Q3">0.51</td>
+<td class="gt_row gt_right" headers="Max">0.97</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Elements">13-Al*</td>
+<td class="gt_row gt_right" headers="M">0.50</td>
+<td class="gt_row gt_right" headers="SD">0.19</td>
+<td class="gt_row gt_right" headers="Median">0.52</td>
+<td class="gt_row gt_right" headers="Min">0.01</td>
+<td class="gt_row gt_right" headers="Q1">0.41</td>
+<td class="gt_row gt_right" headers="IQR">0.24</td>
+<td class="gt_row gt_right" headers="Q3">0.65</td>
+<td class="gt_row gt_right" headers="Max">0.87</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Elements">14-Si*</td>
+<td class="gt_row gt_right" headers="M">1.09</td>
+<td class="gt_row gt_right" headers="SD">0.22</td>
+<td class="gt_row gt_right" headers="Median">1.06</td>
+<td class="gt_row gt_right" headers="Min">0.66</td>
+<td class="gt_row gt_right" headers="Q1">0.93</td>
+<td class="gt_row gt_right" headers="IQR">0.32</td>
+<td class="gt_row gt_right" headers="Q3">1.25</td>
+<td class="gt_row gt_right" headers="Max">1.49</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Elements">16-S*</td>
+<td class="gt_row gt_right" headers="M">−0.23</td>
+<td class="gt_row gt_right" headers="SD">0.61</td>
+<td class="gt_row gt_right" headers="Median">−0.33</td>
+<td class="gt_row gt_right" headers="Min">−1.22</td>
+<td class="gt_row gt_right" headers="Q1">-0.73</td>
+<td class="gt_row gt_right" headers="IQR">0.81</td>
+<td class="gt_row gt_right" headers="Q3">0.08</td>
+<td class="gt_row gt_right" headers="Max">1.11</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Elements">17-Cl*</td>
+<td class="gt_row gt_right" headers="M">−1.14</td>
+<td class="gt_row gt_right" headers="SD">0.63</td>
+<td class="gt_row gt_right" headers="Median">−1.15</td>
+<td class="gt_row gt_right" headers="Min">−2.30</td>
+<td class="gt_row gt_right" headers="Q1">-1.41</td>
+<td class="gt_row gt_right" headers="IQR">0.45</td>
+<td class="gt_row gt_right" headers="Q3">-0.96</td>
+<td class="gt_row gt_right" headers="Max">0.13</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Elements">19-K*</td>
+<td class="gt_row gt_right" headers="M">−0.47</td>
+<td class="gt_row gt_right" headers="SD">0.35</td>
+<td class="gt_row gt_right" headers="Median">−0.49</td>
+<td class="gt_row gt_right" headers="Min">−1.22</td>
+<td class="gt_row gt_right" headers="Q1">-0.72</td>
+<td class="gt_row gt_right" headers="IQR">0.51</td>
+<td class="gt_row gt_right" headers="Q3">-0.21</td>
+<td class="gt_row gt_right" headers="Max">0.23</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Elements">20-Ca*</td>
+<td class="gt_row gt_right" headers="M">1.50</td>
+<td class="gt_row gt_right" headers="SD">0.26</td>
+<td class="gt_row gt_right" headers="Median">1.58</td>
+<td class="gt_row gt_right" headers="Min">0.46</td>
+<td class="gt_row gt_right" headers="Q1">1.47</td>
+<td class="gt_row gt_right" headers="IQR">0.19</td>
+<td class="gt_row gt_right" headers="Q3">1.66</td>
+<td class="gt_row gt_right" headers="Max">1.76</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Elements">26-Fe*</td>
+<td class="gt_row gt_right" headers="M">−0.02</td>
+<td class="gt_row gt_right" headers="SD">0.25</td>
+<td class="gt_row gt_right" headers="Median">−0.03</td>
+<td class="gt_row gt_right" headers="Min">−0.42</td>
+<td class="gt_row gt_right" headers="Q1">-0.21</td>
+<td class="gt_row gt_right" headers="IQR">0.38</td>
+<td class="gt_row gt_right" headers="Q3">0.16</td>
+<td class="gt_row gt_right" headers="Max">0.71</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Elements">15-P</td>
+<td class="gt_row gt_right" headers="M">2.53</td>
+<td class="gt_row gt_right" headers="SD">0.78</td>
+<td class="gt_row gt_right" headers="Median">1.93</td>
+<td class="gt_row gt_right" headers="Min">1.93</td>
+<td class="gt_row gt_right" headers="Q1">1.93</td>
+<td class="gt_row gt_right" headers="IQR">1.11</td>
+<td class="gt_row gt_right" headers="Q3">3.04</td>
+<td class="gt_row gt_right" headers="Max">5.00</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Elements">22-Ti</td>
+<td class="gt_row gt_right" headers="M">3.18</td>
+<td class="gt_row gt_right" headers="SD">0.28</td>
+<td class="gt_row gt_right" headers="Median">3.17</td>
+<td class="gt_row gt_right" headers="Min">2.72</td>
+<td class="gt_row gt_right" headers="Q1">2.93</td>
+<td class="gt_row gt_right" headers="IQR">0.42</td>
+<td class="gt_row gt_right" headers="Q3">3.35</td>
+<td class="gt_row gt_right" headers="Max">3.70</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Elements">25-Mn</td>
+<td class="gt_row gt_right" headers="M">2.67</td>
+<td class="gt_row gt_right" headers="SD">0.55</td>
+<td class="gt_row gt_right" headers="Median">2.49</td>
+<td class="gt_row gt_right" headers="Min">2.08</td>
+<td class="gt_row gt_right" headers="Q1">2.34</td>
+<td class="gt_row gt_right" headers="IQR">0.43</td>
+<td class="gt_row gt_right" headers="Q3">2.77</td>
+<td class="gt_row gt_right" headers="Max">3.96</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Elements">28-Ni</td>
+<td class="gt_row gt_right" headers="M">1.23</td>
+<td class="gt_row gt_right" headers="SD">0.27</td>
+<td class="gt_row gt_right" headers="Median">1.23</td>
+<td class="gt_row gt_right" headers="Min">0.48</td>
+<td class="gt_row gt_right" headers="Q1">1.08</td>
+<td class="gt_row gt_right" headers="IQR">0.30</td>
+<td class="gt_row gt_right" headers="Q3">1.38</td>
+<td class="gt_row gt_right" headers="Max">2.19</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Elements">29-Cu</td>
+<td class="gt_row gt_right" headers="M">0.95</td>
+<td class="gt_row gt_right" headers="SD">0.38</td>
+<td class="gt_row gt_right" headers="Median">1.00</td>
+<td class="gt_row gt_right" headers="Min">0.00</td>
+<td class="gt_row gt_right" headers="Q1">0.70</td>
+<td class="gt_row gt_right" headers="IQR">0.52</td>
+<td class="gt_row gt_right" headers="Q3">1.22</td>
+<td class="gt_row gt_right" headers="Max">1.60</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Elements">30-Zn</td>
+<td class="gt_row gt_right" headers="M">1.38</td>
+<td class="gt_row gt_right" headers="SD">0.37</td>
+<td class="gt_row gt_right" headers="Median">1.32</td>
+<td class="gt_row gt_right" headers="Min">0.78</td>
+<td class="gt_row gt_right" headers="Q1">1.11</td>
+<td class="gt_row gt_right" headers="IQR">0.59</td>
+<td class="gt_row gt_right" headers="Q3">1.70</td>
+<td class="gt_row gt_right" headers="Max">2.21</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Elements">38-Sr</td>
+<td class="gt_row gt_right" headers="M">2.74</td>
+<td class="gt_row gt_right" headers="SD">0.45</td>
+<td class="gt_row gt_right" headers="Median">2.70</td>
+<td class="gt_row gt_right" headers="Min">1.95</td>
+<td class="gt_row gt_right" headers="Q1">2.45</td>
+<td class="gt_row gt_right" headers="IQR">0.60</td>
+<td class="gt_row gt_right" headers="Q3">3.05</td>
+<td class="gt_row gt_right" headers="Max">3.93</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Elements">82-Pb</td>
+<td class="gt_row gt_right" headers="M">0.96</td>
+<td class="gt_row gt_right" headers="SD">0.61</td>
+<td class="gt_row gt_right" headers="Median">0.95</td>
+<td class="gt_row gt_right" headers="Min">0.00</td>
+<td class="gt_row gt_right" headers="Q1">0.60</td>
+<td class="gt_row gt_right" headers="IQR">0.69</td>
+<td class="gt_row gt_right" headers="Q3">1.29</td>
+<td class="gt_row gt_right" headers="Max">2.18</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="graphical-and-qualitative-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="graphical-and-qualitative-analysis">Graphical and Qualitative Analysis</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Group_8_File_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The log-scale box plots show that transformation reduces, but does not remove, the pronounced differences in spread among elements. The trace variables remain particularly heterogeneous, while several major matrix components are more concentrated. We can see that Chlorine has the lowest mean of the 17 elements Titanium has the largest median. A number of the elements have outliers including Manganese with 4, Chlorine with 3, Phosphorous, Calcium and Nickel with 2, and finally Sodium and Aluminium having 1. This can be expected as certain types of murals</p>
+<p>Notable due to the transformation of the data, and the large amount of NA’s found in the samples for concentrations of Phosphorous, it contains a very large inter quartile range with, as well as having its median, 1st quatile, a minimum value all being 1.93.</p>
+</section>
+<section id="are-there-surprising-observations" class="level2">
+<h2 class="anchored" data-anchor-id="are-there-surprising-observations">Are There Surprising Observations?</h2>
+<p>The log-scale boxplots show that transformation reduces, but does not remove, the pronounced differences in spread among elements. The trace variables remain particularly heterogeneous, while several major matrix components are more concentrated.</p>
+<p>The calcium plot provides a stronger archaeological interpretation than a purely generic distribution plot. <span class="citation" data-cites="sanchez2006pixe">@sanchez2006pixe</span> report that most mural samples have Ca concentrations around 30–50%, close to the 40% Ca content of calcite, supporting use of the fresco technique. The CEC samples are the conspicuous exception, with substantially lower Ca, consistent with the authors’ conclusion that these murals were not prepared by the same fresco process. ## Are There Surprising Observations? &gt;&gt;&gt;&gt;&gt;&gt;&gt; b72da5f1264e5ed246fdc83780cb2d86b1db887c</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Group_8_File_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  typical  somewhat Suprising      very 
+       30         4         1         0 </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Sample       dM  surprise
+1 TAJ1_4 29.34327 Suprising
+2 Tot1_1 26.66402  somewhat
+3 TAJ1_1 26.47125  somewhat
+4 Jiu1_1 25.79784  somewhat
+5 Cec1_3 24.90653  somewhat</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Group_8_File_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="can-you-assume-that-the-data-follows-a-multivariate-normal-distribution" class="level2">
+<h2 class="anchored" data-anchor-id="can-you-assume-that-the-data-follows-a-multivariate-normal-distribution">Can you assume that the data follows a multivariate normal distribution?</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Group_8_File_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             Test Statistic p.value     Method          MVN
+1 Mardia Skewness  1095.997   0.003 asymptotic ✗ Not normal
+2 Mardia Kurtosis    -0.434   0.664 asymptotic     ✓ Normal</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>               Test Variable Statistic p.value    Normality
+1  Anderson-Darling   11-Na*     0.416   0.315     ✓ Normal
+2  Anderson-Darling   12-Mg*     0.503   0.192     ✓ Normal
+3  Anderson-Darling   13-Al*     0.438   0.278     ✓ Normal
+4  Anderson-Darling   14-Si*     0.318   0.523     ✓ Normal
+5  Anderson-Darling    16-S*     0.587   0.119     ✓ Normal
+6  Anderson-Darling   17-Cl*     0.673   0.072     ✓ Normal
+7  Anderson-Darling    19-K*     0.214   0.837     ✓ Normal
+8  Anderson-Darling   20-Ca*     2.670  &lt;0.001 ✗ Not normal
+9  Anderson-Darling   26-Fe*     0.317   0.524     ✓ Normal
+10 Anderson-Darling     15-P     3.143  &lt;0.001 ✗ Not normal
+11 Anderson-Darling    22-Ti     0.328   0.506     ✓ Normal
+12 Anderson-Darling    25-Mn     2.809  &lt;0.001 ✗ Not normal
+13 Anderson-Darling    28-Ni     0.812   0.032 ✗ Not normal
+14 Anderson-Darling    29-Cu     0.233   0.783     ✓ Normal
+15 Anderson-Darling    30-Zn     0.690   0.065     ✓ Normal
+16 Anderson-Darling    38-Sr     0.450   0.261     ✓ Normal
+17 Anderson-Darling    82-Pb     0.412   0.323     ✓ Normal</code></pre>
+</div>
+</div>
+</section>
+<section id="can-we-find-groups-in-this-data" class="level2">
+<h2 class="anchored" data-anchor-id="can-we-find-groups-in-this-data">Can we find groups in this data</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Group_8_File_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>[need to explain correlogram here]</p>
+<p>From the correlogram we can pick two examples of the relationships between elements existing in the data</p>
+<section id="relationship-between-12-mg-and-14-si" class="level3">
+<h3 class="anchored" data-anchor-id="relationship-between-12-mg-and-14-si">Relationship between 12-Mg* and 14-Si*</h3>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Group_8_File_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We can see from the bivariate scatter plot that their is a clear positive relationship between 12-Mg and 14-Si. As we can see with the upward-sloping denisty contour lines, the when the log-transformed concentration of Si increases, the log-transformed concentration of Mg also tends to increase.</p>
+</section>
+<section id="relationship-between-22-ti-and-17-ci" class="level3">
+<h3 class="anchored" data-anchor-id="relationship-between-22-ti-and-17-ci">Relationship between 22-Ti and 17-CI*</h3>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Group_8_File_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>As we can see from the Bivariate Scatter plot of 22-Ti and 17-Cl, there is a negative association between the log-transformed concentrations of the two elements. the downward oreientation of the density contours suggest that samples with higher Cl concentrations generally have lower Ti concentrations. However, this relationship is relatively weaker than the relationship shown between 12-Mg and 14-Si as indicated by the dispersion of points and broader contour lines.</p>
+</section>
+</section>
+<section id="pca" class="level2">
+<h2 class="anchored" data-anchor-id="pca">PCA</h2>
+<p>We can now conduct a Principle component analysis of the data to find how many groups are in the data. The Covariance matrix was used instead of the correlation matrix to keep inline with the original studies PCA.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Group_8_File_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Variance explained by each principal component</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">PC</th>
+<th style="text-align: right;">Eigenvalue</th>
+<th style="text-align: right;">Proportion.of.Variance….</th>
+<th style="text-align: right;">Cumulative.Variance….</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">PC1</td>
+<td style="text-align: right;">1.101</td>
+<td style="text-align: right;">34.02</td>
+<td style="text-align: right;">34.02</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">PC2</td>
+<td style="text-align: right;">0.809</td>
+<td style="text-align: right;">25.00</td>
+<td style="text-align: right;">59.03</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">PC3</td>
+<td style="text-align: right;">0.584</td>
+<td style="text-align: right;">18.05</td>
+<td style="text-align: right;">77.08</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">PC4</td>
+<td style="text-align: right;">0.199</td>
+<td style="text-align: right;">6.16</td>
+<td style="text-align: right;">83.23</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">PC5</td>
+<td style="text-align: right;">0.155</td>
+<td style="text-align: right;">4.78</td>
+<td style="text-align: right;">88.01</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">PC6</td>
+<td style="text-align: right;">0.105</td>
+<td style="text-align: right;">3.26</td>
+<td style="text-align: right;">91.27</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">PC7</td>
+<td style="text-align: right;">0.074</td>
+<td style="text-align: right;">2.29</td>
+<td style="text-align: right;">93.56</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">PC8</td>
+<td style="text-align: right;">0.054</td>
+<td style="text-align: right;">1.68</td>
+<td style="text-align: right;">95.25</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">PC9</td>
+<td style="text-align: right;">0.046</td>
+<td style="text-align: right;">1.41</td>
+<td style="text-align: right;">96.65</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">PC10</td>
+<td style="text-align: right;">0.032</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">97.65</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">PC11</td>
+<td style="text-align: right;">0.023</td>
+<td style="text-align: right;">0.72</td>
+<td style="text-align: right;">98.38</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">PC12</td>
+<td style="text-align: right;">0.022</td>
+<td style="text-align: right;">0.68</td>
+<td style="text-align: right;">99.05</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">PC13</td>
+<td style="text-align: right;">0.015</td>
+<td style="text-align: right;">0.46</td>
+<td style="text-align: right;">99.51</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">PC14</td>
+<td style="text-align: right;">0.008</td>
+<td style="text-align: right;">0.25</td>
+<td style="text-align: right;">99.76</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">PC15</td>
+<td style="text-align: right;">0.005</td>
+<td style="text-align: right;">0.14</td>
+<td style="text-align: right;">99.90</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">PC16</td>
+<td style="text-align: right;">0.003</td>
+<td style="text-align: right;">0.08</td>
+<td style="text-align: right;">99.98</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">PC17</td>
+<td style="text-align: right;">0.001</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">100.00</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The first three principal components explained 77.08% of the total variance, with PC1, PC2, and PC3 accounting for 34.02%, 25.00%, and 18.05%, respectively. These results are broadly consistent with the original study, which reported 34.88%, 24.95%, and 11.32% for the first three components, and 71.15% of total variance (Sanchez del Rio et al, 2006). The first two components are particularly similar. However the third principle component in our analysis is noticeably larger then the percentage of variance in the original study.</p>
+</section>
+<section id="can-we-reproduce-fig.2" class="level2">
+<h2 class="anchored" data-anchor-id="can-we-reproduce-fig.2">Can we reproduce Fig.2</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Group_8_File_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The PCA plot broadly reproduces Figure 2 from Sánchez del Río et al.&nbsp;(2006). The CEC samples (Santa Cecilia Acatitlán) form a tight, well-separated cluster, consistent with their distinct non-fresco preparation technique. The Prehispanic and Convent groups occupy partially overlapping regions of the PC1–PC2 plane, suggesting that, despite their temporal separation, both groups employed similar mural painting techniques. It is also worth noting that we can observe that despite being listed in the Mexican Franciscan convents group, both Cuauhtinchan samples cluster around the Prehispanic murals, suggesting its work is more closely related to this type of mural. This was also seen in the original papers figure, however there is more noticeable overlap with this figure compared to the original.</p>
+</section>
+</section>
+<section id="discussion" class="level1">
+<h1>Discussion</h1>
+<p>Answering the questions from the document and any other conclusions we have from the analysis</p>
+<ol type="1">
+<li>Can you find groups in these data?</li>
+<li>Can you reproduce Fig. 2? Do you agree with the conclusions the authors draw about the “zones”?</li>
+</ol>
+</section>
+<section id="references" class="level1" style="text-align: left;">
+<h1 style="text-align: left;">References</h1>
+<blockquote class="blockquote">
+<p>Andonie, R., and I. Dzitac. 2010. “How to Write a Good Paper in Computer Science and How Will It Be Measured by ISI Web of Knowledge.” International Journal of Computers, Communications &amp; Control V (4): 432–44. https://doi.org/10.15837/ijccc.2010.4.2493.</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>Frery, A. C., L. Gomez, and A. C. Medeiros. 2020. “A Badging System for Reproducibility and Replicability in Remote Sensing Research.” IEEE Journal of Selected Topics on Applied Earth Observations and Remote Sensing 13: 4988–95. https://doi.org/10.1109/JSTARS.2020.3019 418.</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>Sánchez del Río, M., Martinetto, P., Solís, C. &amp; Reyes-Valerio, C. (2006), ‘PIXE analysis on Maya blue in Prehispanic and colonial mural paintings’, Nuclear Instruments and Methods in Physics Research Section B: Beam Interactions with Materials and Atoms 249(1–2), 628–632.</p>
+</blockquote>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
