@@ -216,9 +216,7 @@ decp_boxplot <- ggplot(data = Table1_long_log, aes(x = Element_Group, y = Concen
         legend.position = "none")
 decp_boxplot
 ```
-The log-scale boxplots show that transformation reduces, but does not remove, the pronounced differences in spread among elements. The trace variables remain particularly heterogeneous, while several major matrix components are more concentrated.
-
-The calcium plot provides a stronger archaeological interpretation than a purely generic distribution plot. @sanchez2006pixe report that most mural samples have Ca concentrations around 30--50%, close to the 40% Ca content of calcite, supporting use of the fresco technique. The CEC samples are the conspicuous exception, with substantially lower Ca, consistent with the authors' conclusion that these murals were not prepared by the same fresco process.
+The log-scale box plots show that transformation reduces, but does not remove, the pronounced differences in spread among elements. The trace variables remain particularly heterogeneous, while several major matrix components are more concentrated.
 ## Are There Surprising Observations?
 
 ```{r}
