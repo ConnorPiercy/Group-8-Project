@@ -143,9 +143,10 @@ output_desc_pix <- desc_pixe %>%
     table.font.size = 12
   )
 output_desc_pix
-gtsave(output_desc_pix, "output_desc_pix.png")
 ```
+
 The dataset is highly heterogeneous. Calcium is a dominant major element in most samples, while several trace elements span orders of magnitude. This is exactly why the authors analysed logarithms of concentration. Two especially large phosphorus values occur for Totimehuacan: 99,600 $\mu$g/g in `Tot1_1` and 51,800 $\mu$g/g in `Tot1_3`. These values are retained because they are printed in Table 1; the source does not provide enough evidence to assign a specific contamination or measurement-error cause to them.
+
 ```{r}
 #| echo: false
 # Log Descriptives Table
@@ -216,8 +217,15 @@ decp_boxplot <- ggplot(data = Table1_long_log, aes(x = Element_Group, y = Concen
         legend.position = "none")
 decp_boxplot
 ```
+<<<<<<< HEAD
 The log-scale box plots show that transformation reduces, but does not remove, the pronounced differences in spread among elements. The trace variables remain particularly heterogeneous, while several major matrix components are more concentrated.
 ## Are There Surprising Observations?
+=======
+
+The log-scale boxplots show that transformation reduces, but does not remove, the pronounced differences in spread among elements. The trace variables remain particularly heterogeneous, while several major matrix components are more concentrated.
+
+The calcium plot provides a stronger archaeological interpretation than a purely generic distribution plot. @sanchez2006pixe report that most mural samples have Ca concentrations around 30--50%, close to the 40% Ca content of calcite, supporting use of the fresco technique. The CEC samples are the conspicuous exception, with substantially lower Ca, consistent with the authors' conclusion that these murals were not prepared by the same fresco process. \## Are There Surprising Observations?
+>>>>>>> b72da5f1264e5ed246fdc83780cb2d86b1db887c
 
 ```{r}
 #| echo: false
@@ -502,9 +510,9 @@ ggplot(q.samp, aes(x=y, y=x, z=prob)) +
   theme(axis.text.x = element_text(angle = 45))
 ```
 
-As we can see from the Bivariate Scatter plot of 22-Ti and 17-Cl, there is a negative association between the log-transformed concentrations of the two elements. the downward oreientation of the density contours suggest that samples with higher Cl concentrations generally have lower Ti concentrations. However, this relationship is relatively weaker then the relationship shown between 12-Mg and 14-Si as indicated by the dispersion of points and broader contour lines.
+As we can see from the Bivariate Scatter plot of 22-Ti and 17-Cl, there is a negative association between the log-transformed concentrations of the two elements. the downward oreientation of the density contours suggest that samples with higher Cl concentrations generally have lower Ti concentrations. However, this relationship is relatively weaker than the relationship shown between 12-Mg and 14-Si as indicated by the dispersion of points and broader contour lines.
 
-##PCA
+## PCA
 
 We can now conduct a Principle component analysis of the data to find how many groups are in the data. The Covariance matrix was used instead of the correlation matrix to keep inline with the original studies PCA.
 
@@ -537,8 +545,39 @@ The first three principal components explained 77.08% of the total variance, wit
 
 ```{r}
 #| echo: false
-#Cluster Analysis
+#| message: false
+#| warning: false
+# Reproduce Figure 2: PC2 vs PC1 coloured by historical group
+
+pca_scores <- as.data.frame(PCA_log$x[, 1:2])
+pca_scores$Sample <- Table1_log[[1]]
+
+pca_scores$Group <- case_when(
+  grepl("^[Cc]ec", pca_scores$Sample)               ~ "CEC",
+  grepl("^(CA|Ca|TAM|TAJ|TAC)", pca_scores$Sample)  ~ "Prehispanic",
+  grepl("^(Jiu|Tot|Tez|Cua)", pca_scores$Sample)    ~ "Convents",
+  TRUE                                               ~ "Other"
+)
+
+ggplot(pca_scores, aes(x = PC1, y = PC2, colour = Group, label = Sample)) +
+  geom_point(size = 2.5) +
+  geom_text(size = 2.2, vjust = -0.7, hjust = 0.5) +
+  scale_colour_manual(values = c(
+    "CEC"        = "#E41A1C",
+    "Prehispanic" = "#377EB8",
+    "Convents"   = "#4DAF4A"
+  )) +
+  labs(
+    title   = "Reproduction of Figure 2",
+    subtitle = "PC2 vs PC1 coloured by historical group",
+    x = "PC 1",
+    y = "PC 2",
+    colour = "Group"
+  ) +
+  theme_bw()
 ```
+
+The PCA plot broadly reproduces Figure 2 from Sánchez del Río et al. (2006). The CEC samples (Santa Cecilia Acatitlán) form a tight, well-separated cluster, consistent with their distinct non-fresco preparation technique. The Prehispanic and Convent groups occupy partially overlapping regions of the PC1–PC2 plane, suggesting that, despite their temporal separation, both groups employed similar mural painting techniques.
 
 # Discussion
 
