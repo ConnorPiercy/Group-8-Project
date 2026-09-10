@@ -18,6 +18,7 @@ library(cowplot)
 library(MVN)
 library(ggcorrplot)
 library(mvtnorm)
+library(knitr)
 Table1_raw <- read_excel("../Data/Table1_raw.xlsx")
 
 Table1 <- read_excel("../Data/Table1_clean.xlsx")
@@ -34,12 +35,22 @@ The aim of the present analysis is to investigate whether similar group structur
 
 # Methodology
 
+## Data
+```{r}
+#| echo: false
+kable(Table1)
+```
+
+Data for this analysis contains 35 samples of different types of murals from across regions of southern mexico (Sanchez del Rio et al, 2006). This data can be found in Table 1. of Sanchez del Rio et al's paper from 2006. 
+
 ## Data Transformation
 The elemental concentration data were preprocessed before the multivariate analysis. The elements are measured on very different scales, with some reported as percentages and others as micrograms per gram (µg/g). Following Sánchez del Río et al. (2006), a base-10 logarithmic transformation was applied to reduce these large differences in scale and make the elemental concentrations easier to compare.
+
 
 Some concentrations were reported in parentheses, indicating values below the limit of detection (LOD). These observations were retained because numerical estimates were still available. Values recorded as zero could not be directly log-transformed because \(\log_{10}(0)\) is undefined. Therefore, for each element, zero values were replaced by half of the smallest positive concentration observed for that element before applying the log transformation.
 
 The resulting log-transformed concentrations were then used for the multivariate analyses, including correlation analysis, Mahalanobis-distance diagnostics, principal component analysis (PCA), and clustering.
+
 
 # Results
 
@@ -147,7 +158,13 @@ output_desc_pix <- desc_pixe %>%
   )
 output_desc_pix
 ```
+
 The descriptive statistics show large differences in concentration across the elements. Calcium (Ca) occurs at relatively high concentrations in many samples, while several trace elements have much lower concentrations. Phosphorus (P) has particularly large values in some Totimehuacan samples. For example, P is 99,600 micrograms per gram in (Tot1_1) and 51,800 micrograms per gram in (Tot1_3). These values were kept because they appear in the original data, and there is not enough evidence to treat them as measurement errors. The large differences in concentration between elements also support the use of a log transformation before the multivariate analysis.
+
+
+The dataset is highly heterogeneous. Calcium is a dominant major element in most samples, while several trace elements span orders of magnitude. This is exactly why the authors analysed logarithms of concentration. Two especially large phosphorus values occur for Totimehuacan: 99,600 $\mu$g/g in `Tot1_1` and 51,800 $\mu$g/g in `Tot1_3`. These values are retained because they are printed in Table 1; the source does not provide enough evidence to assign a specific contamination or measurement-error cause to them.
+
+
 ```{r}
 #| echo: false
 # Log Descriptives Table
@@ -224,6 +241,18 @@ The log-scale boxplots show clear differences in the distributions of the elemen
 The calcium plot provides a stronger archaeological interpretation than a purely generic distribution plot. @sanchez2006pixe report that most mural samples have Ca concentrations around 30--50%, close to the 40% Ca content of calcite, supporting use of the fresco technique. The CEC samples are the conspicuous exception, with substantially lower Ca, consistent with the authors' conclusion that these murals were not prepared by the same fresco process.
 
 ## Are There Surprising Observations?
+=======
+The log-scale box plots show that transformation reduces, but does not remove, the pronounced differences in spread among elements. The trace variables remain particularly heterogeneous, while several major matrix components are more concentrated. We can see that Chlorine has the lowest mean of the 17 elements Titanium has the largest median. A number of the elements have outliers including Manganese with 4, Chlorine with 3, Phosphorous, Calcium and Nickel with 2, and finally Sodium and Aluminium having 1. This can be expected as certain types of murals 
+
+Notable due to the transformation of the data, and the large amount of NA's found in the samples for concentrations of Phosphorous, it contains a very large inter quartile range with, as well as having its median, 1st quatile, a minimum value all being 1.93. 
+
+## Are There Surprising Observations?
+
+
+The log-scale boxplots show that transformation reduces, but does not remove, the pronounced differences in spread among elements. The trace variables remain particularly heterogeneous, while several major matrix components are more concentrated.
+
+The calcium plot provides a stronger archaeological interpretation than a purely generic distribution plot. @sanchez2006pixe report that most mural samples have Ca concentrations around 30--50%, close to the 40% Ca content of calcite, supporting use of the fresco technique. The CEC samples are the conspicuous exception, with substantially lower Ca, consistent with the authors' conclusion that these murals were not prepared by the same fresco process.
+
 
 ```{r}
 #| echo: false
@@ -462,7 +491,7 @@ ggplot(q.samp, aes(x=y, y=x, z=prob)) +
     ylim = c(mu_mg_si[1]-4*sqrt(Sigma_mg_si[1,1]), mu_mg_si[1]+4*sqrt(Sigma_mg_si[1,1])),
     xlim = c(mu_mg_si[2]-4*sqrt(Sigma_mg_si[2,2]), mu_mg_si[2]+4*sqrt(Sigma_mg_si[2,2]))
     ) +
-  theme(axis.text.x = element_text(angle = 45))
+  theme_minimal()
 ```
 
 The bivariate scatterplot shows a clear positive association between the log-transformed concentrations of Mg and Si. The upward-sloping density contours support this pattern: samples with higher Si concentrations generally also have higher Mg concentrations. The relatively concentrated contours suggest that this relationship is fairly strong compared with some of the other element pairs.
@@ -476,11 +505,11 @@ Sigma <- var(Table1_log[,-1])
 rho <- cor(Table1_log[,-1])
 
 #Means
-(mu_mg_si <- mu[c("22-Ti", "17-Cl*")])
+(mu_mg_si2 <- mu[c("22-Ti", "17-Cl*")])
 #Covariance Matrix
-(Sigma_mg_si <- Sigma[c("22-Ti", "17-Cl*"), c("22-Ti", "17-Cl*")])
+(Sigma_mg_si2 <- Sigma[c("22-Ti", "17-Cl*"), c("22-Ti", "17-Cl*")])
 #Correlation Matrix
-(rho_mg_si <- rho[c("22-Ti", "17-Cl*"), c("22-Ti", "17-Cl*")])
+(rho_mg_si2 <- rho[c("22-Ti", "17-Cl*"), c("22-Ti", "17-Cl*")])
 ```
 
 ```{r}
@@ -491,26 +520,26 @@ rho <- cor(Table1_log[,-1])
 #| fig-align: center
 #Plot of 
 n <- 100
-x <- seq(mu_mg_si[1]-4*sqrt(Sigma_mg_si[1,1]),
-         mu_mg_si[1]+4*sqrt(Sigma_mg_si[1,1]), len=n)
-y <- seq(mu_mg_si[2]-4*sqrt(Sigma_mg_si[2,2]), 
-         mu_mg_si[2]+4*sqrt(Sigma_mg_si[2,2]), len=n)
+x <- seq(mu_mg_si2[1]-4*sqrt(Sigma_mg_si2[1,1]),
+         mu_mg_si2[1]+4*sqrt(Sigma_mg_si2[1,1]), len=n)
+y <- seq(mu_mg_si2[2]-4*sqrt(Sigma_mg_si2[2,2]), 
+         mu_mg_si2[2]+4*sqrt(Sigma_mg_si2[2,2]), len=n)
 xy <- expand.grid(x=x, y=y)
 
-q.samp <- cbind(xy, prob=dmvnorm(xy, mean = mu_mg_si, sigma = Sigma_mg_si))
+q.samp <- cbind(xy, prob=dmvnorm(xy, mean = mu_mg_si2, sigma = Sigma_mg_si2))
 
 ggplot(q.samp, aes(x=y, y=x, z=prob)) + 
   geom_point(data=Table1_log, aes(y=`22-Ti`, x=`17-Cl*`, z=0)) +
   geom_contour(bins=5, col="red") +
   ylab("22-Ti") + xlab("17-Cl*") + ggtitle("Bivariate Scatterplot of 22-Ti and 17-Cl*", "With Two-Dimensional Density Contours") +
   coord_fixed(
-    ylim = c(mu_mg_si[1]-4*sqrt(Sigma_mg_si[1,1]), mu_mg_si[1]+4*sqrt(Sigma_mg_si[1,1])),
-    xlim = c(mu_mg_si[2]-4*sqrt(Sigma_mg_si[2,2]), mu_mg_si[2]+4*sqrt(Sigma_mg_si[2,2]))
+    ylim = c(mu_mg_si2[1]-4*sqrt(Sigma_mg_si2[1,1]), mu_mg_si2[1]+4*sqrt(Sigma_mg_si2[1,1])),
+    xlim = c(mu_mg_si2[2]-4*sqrt(Sigma_mg_si2[2,2]), mu_mg_si2[2]+4*sqrt(Sigma_mg_si2[2,2]))
     ) +
-  theme(axis.text.x = element_text(angle = 45))
+  theme_minimal()
 ```
 
-As we can see from the Bivariate Scatter plot of 22-Ti and 17-Cl, there is a negative association between the log-transformed concentrations of the two elements. the downward oreientation of the density contours suggest that samples with higher Cl concentrations generally have lower Ti concentrations. However, this relationship is relatively weaker then the relationship shown between 12-Mg and 14-Si as indicated by the dispersion of points and broader contour lines.
+As we can see from the Bivariate Scatter plot of 22-Ti and 17-Cl, there is a negative association between the log-transformed concentrations of the two elements. the downward oreientation of the density contours suggest that samples with higher Cl concentrations generally have lower Ti concentrations. However, this relationship is relatively weaker than the relationship shown between 12-Mg and 14-Si as indicated by the dispersion of points and broader contour lines.
 
 ## PCA
 
@@ -539,14 +568,46 @@ knitr::kable(
 )
 ```
 
-The first three principal components explained 77.08% of the total variance, with PC1, PC2, and PC3 accounting for 34.02%, 25.00%, and 18.05%, respectively. These results are broadly consistent with the original study, which reported 34.88%, 24.95%, and 11.32% for the first three components (Sanchez del Rio et al, 2006). The proportions of theb  variance by the first components are particularly similar to those reported in the in the orginal study. However the third principle component in our analysis is noticeably larger then the percentage of variance in the original study.
+The first three principal components explained 77.08% of the total variance, with PC1, PC2, and PC3 accounting for 34.02%, 25.00%, and 18.05%, respectively. These results are broadly consistent with the original study, which reported 34.88%, 24.95%, and 11.32% for the first three components, and 71.15% of total variance (Sanchez del Rio et al, 2006). The first two components are particularly similar. However the third principle component in our analysis is noticeably larger then the percentage of variance in the original study.
 
 ## Can we reproduce Fig.2
 
 ```{r}
 #| echo: false
-#Cluster Analysis
+#| message: false
+#| warning: false
+# Reproduce Figure 2: PC2 vs PC1 coloured by historical group
+
+pca_scores <- as.data.frame(PCA_log$x[, 1:2])
+pca_scores$Sample <- Table1_log[[1]]
+
+pca_scores$Group <- case_when(
+  grepl("^[Cc]ec", pca_scores$Sample)               ~ "CEC",
+  grepl("^(CA|Ca|TAM|TAJ|TAC)", pca_scores$Sample)  ~ "Prehispanic",
+  grepl("^(Jiu|Tot|Tez|Cua)", pca_scores$Sample)    ~ "Convents",
+  TRUE                                               ~ "Other"
+)
+
+ggplot(pca_scores, aes(x = PC1, y = PC2, colour = Group, label = Sample)) +
+  geom_point(size = 2.5) +
+  geom_text(size = 2.2, vjust = -0.7, hjust = 0.5) +
+  scale_colour_manual(values = c(
+    "CEC"        = "#E41A1C",
+    "Prehispanic" = "#377EB8",
+    "Convents"   = "#4DAF4A"
+  )) +
+  labs(
+    title   = "Reproduction of Figure 2",
+    subtitle = "PC2 vs PC1 coloured by historical group",
+    x = "PC 1",
+    y = "PC 2",
+    colour = "Group"
+  ) +
+  theme_bw()
 ```
+
+The PCA plot broadly reproduces Figure 2 from Sánchez del Río et al. (2006). The CEC samples (Santa Cecilia Acatitlán) form a tight, well-separated cluster, consistent with their distinct non-fresco preparation technique. The Prehispanic and Convent groups occupy partially overlapping regions of the PC1–PC2 plane, suggesting that, despite their temporal separation, both groups employed similar mural painting techniques. It is also worth noting that we can observe that despite being listed in the Mexican Franciscan convents group, both Cuauhtinchan samples cluster around the Prehispanic murals, suggesting its work is more closely related to this type of mural. This was also seen in the original papers figure, however there is more noticeable overlap with this figure compared to the original. 
+
 
 # Discussion
 
@@ -555,10 +616,10 @@ Answering the questions from the document and any other conclusions we have from
 1.  Can you find groups in these data?
 2.  Can you reproduce Fig. 2? Do you agree with the conclusions the authors draw about the “zones”?
 
-# References {style="text-align: center;"}
+# References {style="text-align: left;"}
 
-> Andonie, R., and I. Dzitac. 2010. “How to Write a Good Paper in Computer Science and How Will It Be Measured by ISI Web of Knowledge.” International Journal of Computers, Communications & Control V (4): 432–44. https://doi.org/10.15837/ijccc.2010.4.2493.
->
-> Frery, A. C., L. Gomez, and A. C. Medeiros. 2020. “A Badging System for Reproducibility and Replicability in Remote Sensing Research.” IEEE Journal of Selected Topics on Applied Earth Observations and Remote Sensing 13: 4988–95. https://doi.org/10.1109/JSTARS.2020.3019 418.
->
-> Sánchez del Río, M., Martinetto, P., Solís, C. & Reyes-Valerio, C. (2006), ‘PIXE analysis on Maya blue in Prehispanic and colonial mural paintings’, Nuclear Instruments and Methods in Physics Research Section B: Beam Interactions with Materials and Atoms 249(1–2), 628–632.
+> Andonie, R., and I. Dzitac. 2010. “How to Write a Good Paper in Computer Science and       How Will It Be Measured by ISI Web of Knowledge.” International Journal of Computers,     Communications & Control V (4): 432–44. https://doi.org/10.15837/ijccc.2010.4.2493.
+
+> Frery, A. C., L. Gomez, and A. C. Medeiros. 2020. “A Badging System for Reproducibility     and Replicability in Remote Sensing Research.” IEEE Journal of Selected Topics on        Applied Earth Observations and Remote Sensing 13: 4988–95.                               https://doi.org/10.1109/JSTARS.2020.3019 418.
+
+> Sánchez del Río, M., Martinetto, P., Solís, C. & Reyes-Valerio, C. (2006), ‘PIXE           analysis on Maya blue in Prehispanic and colonial mural paintings’, Nuclear              Instruments and Methods in Physics Research Section B: Beam Interactions with            Materials and Atoms 249(1–2), 628–632.
