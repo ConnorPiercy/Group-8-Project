@@ -44,10 +44,7 @@ kable(Table1)
 Data for this analysis contains 35 samples of different types of murals from across regions of southern mexico (Sanchez del Rio et al, 2006). This data can be found in Table 1. of Sanchez del Rio et al's paper from 2006. 
 
 ## Data Transformation
-The elemental concentration data were preprocessed before the multivariate analysis. The elements are measured on very different scales, with some reported as percentages and others as micrograms per gram (µg/g). Following Sánchez del Río et al. (2006), a base-10 logarithmic transformation was applied to reduce these large differences in scale and make the elemental concentrations easier to compare.
-
-
-Some concentrations were reported in parentheses, indicating values below the limit of detection (LOD). These observations were retained because numerical estimates were still available. Values recorded as zero could not be directly log-transformed because \(\log_{10}(0)\) is undefined. Therefore, for each element, zero values were replaced by half of the smallest positive concentration observed for that element before applying the log transformation.
+The elemental concentration data were preprocessed before the multivariate analysis. The elements are measured on very different scales, with some reported as percentages and others as micrograms per gram (µg/g). Following Sánchez del Río et al. (2006), a base-10 logarithmic transformation was applied to reduce these large differences in scale and make the elemental concentrations easier to compare.Values below the detection limit: Some concentrations in Table 1 are reported in parentheses ( ). According to the original paper, these values are below the limit of detection (LOD). Since numerical estimates are still provided, these estimated concentrations are retained for the analysis and the parentheses are removed. Lastly we conducted a transformation of both NA and 0 values found in the data. Sanchez del Rio et al (2006) described that values that were given as 0's arent treated as 0's, and were instead concentrations that were below the detection limit, and as such were instead very small concentrations of elements. Moreover we cannot do a (\log\_{10}) transformation of the data if observations contain 0's. This leaves us to therefore transform these 0's into estimates to both do this transformation, and not remove concentrations that are there but very small. Therefore we run a function that runs through each column that is numeric, and then filters out any values that are less than or equal to zero, ignores NAs (na.rm = TRUE), finds the smallest remaining positive number, and divides it by two. Finally it checks every cell in that column. If a cell is either NA or exactly 0, it substitutes it with the replacement value.
 
 The resulting log-transformed concentrations were then used for the multivariate analyses, including correlation analysis, Mahalanobis-distance diagnostics, principal component analysis (PCA), and clustering.
 
@@ -161,10 +158,6 @@ output_desc_pix
 
 The descriptive statistics show large differences in concentration across the elements. Calcium (Ca) occurs at relatively high concentrations in many samples, while several trace elements have much lower concentrations. Phosphorus (P) has particularly large values in some Totimehuacan samples. For example, P is 99,600 micrograms per gram in (Tot1_1) and 51,800 micrograms per gram in (Tot1_3). These values were kept because they appear in the original data, and there is not enough evidence to treat them as measurement errors. The large differences in concentration between elements also support the use of a log transformation before the multivariate analysis.
 
-
-The dataset is highly heterogeneous. Calcium is a dominant major element in most samples, while several trace elements span orders of magnitude. This is exactly why the authors analysed logarithms of concentration. Two especially large phosphorus values occur for Totimehuacan: 99,600 $\mu$g/g in `Tot1_1` and 51,800 $\mu$g/g in `Tot1_3`. These values are retained because they are printed in Table 1; the source does not provide enough evidence to assign a specific contamination or measurement-error cause to them.
-
-
 ```{r}
 #| echo: false
 # Log Descriptives Table
@@ -236,23 +229,8 @@ decp_boxplot <- ggplot(data = Table1_long_log, aes(x = Element_Group, y = Concen
         legend.position = "none")
 decp_boxplot
 ```
-The log-scale boxplots show clear differences in the distributions of the elemental concentrations. The log transformation reduces the large differences in scale seen in the raw data, although some elements still show greater variability than others. Several potential outlying observations are also visible, suggesting that some mural samples have unusual elemental compositions. These observations are examined further using multivariate outlier diagnostics.
-
-The calcium plot provides a stronger archaeological interpretation than a purely generic distribution plot. @sanchez2006pixe report that most mural samples have Ca concentrations around 30--50%, close to the 40% Ca content of calcite, supporting use of the fresco technique. The CEC samples are the conspicuous exception, with substantially lower Ca, consistent with the authors' conclusion that these murals were not prepared by the same fresco process.
-
+The log-scale box plots show that transformation reduces, but does not remove, the pronounced differences in spread among elements. The trace variables remain particularly heterogeneous, while several major matrix components are more concentrated. We can see that Chlorine has the lowest mean of the 17 elements Titanium has the largest median. A number of the elements have outliers including Manganese with 4, Chlorine with 3, Phosphorous, Calcium and Nickel with 2, and finally Sodium and Aluminium having 1. This can be expected as certain types of murals Notable due to the transformation of the data, and the large amount of NA's found in the samples for concentrations of Phosphorous, it contains a very large inter quartile range with, as well as having its median, 1st quatile, a minimum value all being 1.93. 
 ## Are There Surprising Observations?
-=======
-The log-scale box plots show that transformation reduces, but does not remove, the pronounced differences in spread among elements. The trace variables remain particularly heterogeneous, while several major matrix components are more concentrated. We can see that Chlorine has the lowest mean of the 17 elements Titanium has the largest median. A number of the elements have outliers including Manganese with 4, Chlorine with 3, Phosphorous, Calcium and Nickel with 2, and finally Sodium and Aluminium having 1. This can be expected as certain types of murals 
-
-Notable due to the transformation of the data, and the large amount of NA's found in the samples for concentrations of Phosphorous, it contains a very large inter quartile range with, as well as having its median, 1st quatile, a minimum value all being 1.93. 
-
-## Are There Surprising Observations?
-
-
-The log-scale boxplots show that transformation reduces, but does not remove, the pronounced differences in spread among elements. The trace variables remain particularly heterogeneous, while several major matrix components are more concentrated.
-
-The calcium plot provides a stronger archaeological interpretation than a purely generic distribution plot. @sanchez2006pixe report that most mural samples have Ca concentrations around 30--50%, close to the 40% Ca content of calcite, supporting use of the fresco technique. The CEC samples are the conspicuous exception, with substantially lower Ca, consistent with the authors' conclusion that these murals were not prepared by the same fresco process.
-
 
 ```{r}
 #| echo: false
