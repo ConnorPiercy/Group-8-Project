@@ -28,15 +28,18 @@ Table1$`29-Cu` <- as.numeric(Table1$`29-Cu`)
 
 # Introduction
 
-The original article, PIXE analysis on Maya blue in Prehispanic and colonial mural paintings, by Sanchez del Rio et al (2006), sampled, analysed and grouped using PCA on murals containing Maya Blue across different archaeological sites. Across the sites they collected 35 samples from murals and either the elements concentration percent or the ratio of micro gram to gram ratio of that element in the mural. From these murals they sampled 17 different chemical elements from sodium to lead. They found with their PCA that 70% of the total variance in the sample population can be described using only the first three principle components and was similar to what was observed in other art forms. The three zones found were CEC, Prehispanic, and convents. with the first clustering in a small group separate from the rest of the samples.
+The original study by Sánchez del Río et al. (2006) investigated Maya Blue pigments in Prehispanic and colonial mural paintings from different archaeological sites. The study analysed 35 mural samples using PIXE (Particle-Induced X-ray Emission) to measure the concentrations of 17 chemical elements, ranging from sodium (Na) to lead (Pb). Principal component analysis (PCA) was then used to investigate patterns in the elemental composition of the samples. The authors reported that approximately 70% of the total variation could be explained by the first three principal components and identified structure associated with three archaeological groups: CEC, Prehispanic, and convent samples.
 
-The aim of this analysis is too find groups within the data and reproduce what was found in the original paper. The reason for this is to support the conclusions made by Sanchez del rio et al (2006) about the 3 zones found in the data during their analysis. By doing this we can reassert the claims made about the differences between the different types of murals and their distinct zones of style. This report will contain both a quantitative and qualitative analysis of the data, as well as PCA and cluster analysis to explore the possible groups in the data.
+The aim of the present analysis is to investigate whether similar group structure can be identified in the available data and to assess the reproducibility of the main findings reported by Sánchez del Río et al. (2006). We use descriptive and graphical analyses, multivariate diagnostics, PCA, and cluster analysis to examine variation among the mural samples and evaluate whether the patterns reported in the original study can be reproduced. Particular attention is given to the PCA structure and the archaeological interpretation of the resulting groups.
 
 # Methodology
 
 ## Data Transformation
+The elemental concentration data were preprocessed before the multivariate analysis. The elements are measured on very different scales, with some reported as percentages and others as micrograms per gram (µg/g). Following Sánchez del Río et al. (2006), a base-10 logarithmic transformation was applied to reduce these large differences in scale and make the elemental concentrations easier to compare.
 
-The data was transformed in line with the original study to be able to address different issues with comparison and estimating of element concentrations. Different concentration ranges: The original data contain elemental concentrations reported either as percentages or as µg/g (micrograms per gram). Because these measurements have substantially different concentration ranges, a (\log\_{10}) transformation is applied to the concentrations. This follows the procedure used in the original paper, where the authors state that the logarithm of the concentrations was used to avoid large discrepancies in concentration range. Values below the detection limit: Some concentrations in Table 1 are reported in parentheses ( ). According to the original paper, these values are below the limit of detection (LOD). Since numerical estimates are still provided, these estimated concentrations are retained for the analysis and the parentheses are removed. Lastly we conducted a transformation of both NA and 0 values found in the data. Sanchez del Rio et al (2006) described that values that were given as 0's arent treated as 0's, and were instead concentrations that were below the detection limit, and as such were instead very small concentrations of elements. Moreover we cannot do a (\log\_{10}) transformation of the data if observations contain 0's. This leaves us to therefore transform these 0's into estimates to both do this transformation, and not remove concentrations that are there but very small. Therefore we run a function that runs through each column that is numeric, and then filters out any values that are less than or equal to zero, ignores NAs (na.rm = TRUE), finds the smallest remaining positive number, and divides it by two. Finally it checks every cell in that column. If a cell is either NA or exactly 0, it substitutes it with the replacement value.
+Some concentrations were reported in parentheses, indicating values below the limit of detection (LOD). These observations were retained because numerical estimates were still available. Values recorded as zero could not be directly log-transformed because \(\log_{10}(0)\) is undefined. Therefore, for each element, zero values were replaced by half of the smallest positive concentration observed for that element before applying the log transformation.
+
+The resulting log-transformed concentrations were then used for the multivariate analyses, including correlation analysis, Mahalanobis-distance diagnostics, principal component analysis (PCA), and clustering.
 
 # Results
 
@@ -144,7 +147,7 @@ output_desc_pix <- desc_pixe %>%
   )
 output_desc_pix
 ```
-The dataset is highly heterogeneous. Calcium is a dominant major element in most samples, while several trace elements span orders of magnitude. This is exactly why the authors analysed logarithms of concentration. Two especially large phosphorus values occur for Totimehuacan: 99,600 $\mu$g/g in `Tot1_1` and 51,800 $\mu$g/g in `Tot1_3`. These values are retained because they are printed in Table 1; the source does not provide enough evidence to assign a specific contamination or measurement-error cause to them.
+The descriptive statistics show large differences in concentration across the elements. Calcium (Ca) occurs at relatively high concentrations in many samples, while several trace elements have much lower concentrations. Phosphorus (P) has particularly large values in some Totimehuacan samples. For example, P is 99,600 micrograms per gram in (Tot1_1) and 51,800 micrograms per gram in (Tot1_3). These values were kept because they appear in the original data, and there is not enough evidence to treat them as measurement errors. The large differences in concentration between elements also support the use of a log transformation before the multivariate analysis.
 ```{r}
 #| echo: false
 # Log Descriptives Table
@@ -200,6 +203,7 @@ output_desc_pix_log <- desc_pixe_log %>%
   )
 output_desc_pix_log
 ```
+After the log transformation, the elemental concentrations are on more comparable scales, reducing the influence of the very large raw values. Differences between elements are still present, but no single variable dominates simply because of its measurement scale. This makes the transformed data more suitable for the multivariate analyses that follow.
 
 ## Graphical and Qualitative Analysis
 
@@ -215,9 +219,10 @@ decp_boxplot <- ggplot(data = Table1_long_log, aes(x = Element_Group, y = Concen
         legend.position = "none")
 decp_boxplot
 ```
-The log-scale boxplots show that transformation reduces, but does not remove, the pronounced differences in spread among elements. The trace variables remain particularly heterogeneous, while several major matrix components are more concentrated.
+The log-scale boxplots show clear differences in the distributions of the elemental concentrations. The log transformation reduces the large differences in scale seen in the raw data, although some elements still show greater variability than others. Several potential outlying observations are also visible, suggesting that some mural samples have unusual elemental compositions. These observations are examined further using multivariate outlier diagnostics.
 
 The calcium plot provides a stronger archaeological interpretation than a purely generic distribution plot. @sanchez2006pixe report that most mural samples have Ca concentrations around 30--50%, close to the 40% Ca content of calcite, supporting use of the fresco technique. The CEC samples are the conspicuous exception, with substantially lower Ca, consistent with the authors' conclusion that these murals were not prepared by the same fresco process.
+
 ## Are There Surprising Observations?
 
 ```{r}
@@ -263,6 +268,7 @@ dm_plot
 table(Table1_elements_log$suprise)
 dm_results
 ```
+The squared Mahalanobis distances were used to identify samples with unusual combinations of elemental concentrations. Most observations have relatively smaller Mahalanobis distance, while a smaller number have larger distance and may be considered potentially unusual. The 90%, 95%, and 99% chi-square cut-offs provide increasing levels of evidence for identifying unusual multivariate observations. These samples are retained in the analysis because an unusual observation is not necessarily an error; it may represent genuine differences in mural composition.
 
 ```{r}
 #| echo: false
@@ -354,6 +360,7 @@ final_pairs <- cowplot::plot_grid(
 #Takes about 15 seconds to load.
 final_pairs
 ```
+The pairs plot shows the relationships among the 17 log-transformed elements. Most samples are classified as typical or somewhat surprising based on their Mahalanobis distances, while only a few are classified as more unusual. The direction and strength of the relationships vary between pairs of elements. These patterns help identify potentially unusual samples and highlight element pairs that are useful for further investigation.
 
 ## Can you assume that the data follows a multivariate normal distribution?
 
@@ -396,7 +403,7 @@ mvn_result <- mvn(
 mvn_result$multivariate_normality
 mvn_result$univariate_normality
 ```
-
+The multivariate normality assumption is not fully satisfied. Mardia's skewness test is significant (p = 0.003), providing evidence against multivariate normality, although Mardia's kurtosis test is not significant (p = 0.664). The multivariate Q-Q plot is approximately linear through much of the central region but shows some departures from the reference line. Therefore, results that rely on multivariate normality, particularly the chi-square interpretation of Mahalanobis distances, should be interpreted with caution.
 ## Can we find groups in this data
 
 ```{r}
@@ -410,9 +417,9 @@ ggcorrplot(cor(Table1_log[,-1]),
            type = "lower")
 ```
 
-\[need to explain correlogram here\]
+The correlogram shows the direction and strength of the relationships among the log-transformed elemental concentrations. Red circles represent positive correlations and blue circles represent negative correlations, while larger and darker circles indicate stronger relationships. Several element pairs show clear associations, suggesting that some elemental concentrations tend to vary together across the mural samples.
 
-From the correlogram we can pick two examples of the relationships between elements existing in the data
+To examine these patterns more closely, two contrasting relationships from the correlogram are considered below.
 
 ### Relationship between 12-Mg\* and 14-Si\*
 
@@ -458,7 +465,7 @@ ggplot(q.samp, aes(x=y, y=x, z=prob)) +
   theme(axis.text.x = element_text(angle = 45))
 ```
 
-We can see from the bivariate scatter plot that their is a clear positive relationship between 12-Mg and 14-Si. As we can see with the upward-sloping denisty contour lines, the when the log-transformed concentration of Si increases, the log-transformed concentration of Mg also tends to increase.
+The bivariate scatterplot shows a clear positive association between the log-transformed concentrations of Mg and Si. The upward-sloping density contours support this pattern: samples with higher Si concentrations generally also have higher Mg concentrations. The relatively concentrated contours suggest that this relationship is fairly strong compared with some of the other element pairs.
 
 ### Relationship between 22-Ti and 17-CI\*
 
@@ -505,7 +512,7 @@ ggplot(q.samp, aes(x=y, y=x, z=prob)) +
 
 As we can see from the Bivariate Scatter plot of 22-Ti and 17-Cl, there is a negative association between the log-transformed concentrations of the two elements. the downward oreientation of the density contours suggest that samples with higher Cl concentrations generally have lower Ti concentrations. However, this relationship is relatively weaker then the relationship shown between 12-Mg and 14-Si as indicated by the dispersion of points and broader contour lines.
 
-##PCA
+## PCA
 
 We can now conduct a Principle component analysis of the data to find how many groups are in the data. The Covariance matrix was used instead of the correlation matrix to keep inline with the original studies PCA.
 
@@ -532,7 +539,7 @@ knitr::kable(
 )
 ```
 
-The first three principal components explained 77.08% of the total variance, with PC1, PC2, and PC3 accounting for 34.02%, 25.00%, and 18.05%, respectively. These results are broadly consistent with the original study, which reported 34.88%, 24.95%, and 11.32% for the first three components (Sanchez del Rio et al, 2006). The first two components are particularly similar. However the third principle component in our analysis is noticeably larger then the percentage of variance in the original study.
+The first three principal components explained 77.08% of the total variance, with PC1, PC2, and PC3 accounting for 34.02%, 25.00%, and 18.05%, respectively. These results are broadly consistent with the original study, which reported 34.88%, 24.95%, and 11.32% for the first three components (Sanchez del Rio et al, 2006). The proportions of theb  variance by the first components are particularly similar to those reported in the in the orginal study. However the third principle component in our analysis is noticeably larger then the percentage of variance in the original study.
 
 ## Can we reproduce Fig.2
 
