@@ -569,6 +569,22 @@ pca_scores$Group <- case_when(
 ggplot(pca_scores, aes(x = PC2, y = PC1, colour = Group, label = Sample)) +
   geom_point(size = 2.5) +
   geom_text(size = 2.2, vjust = -0.7, hjust = 0.5) +
+  geom_segment(
+    x = -1.1, y = 1.9,
+    xend = -0.65, yend = -2,
+    inherit.aes = FALSE,
+    colour = "black",
+    linetype = "dashed",
+    linewidth = 0.7
+  ) +
+  geom_segment(
+    x = -1.1, y = 0.8,
+    xend = 2.2, yend = -0.1,
+    inherit.aes = FALSE,
+    colour = "black",
+    linetype = "dashed",
+    linewidth = 0.7
+  ) +
   scale_colour_manual(values = c(
     "CEC"        = "#E41A1C",
     "Prehispanic" = "#377EB8",
