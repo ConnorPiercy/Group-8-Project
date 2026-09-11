@@ -19,6 +19,7 @@ library(MVN)
 library(ggcorrplot)
 library(mvtnorm)
 library(knitr)
+library(ggbiplot)
 Table1_raw <- read_excel("../Data/Table1_raw.xlsx")
 
 Table1 <- read_excel("../Data/Table1_clean.xlsx")
@@ -562,11 +563,10 @@ pca_scores$Sample <- Table1_log[[1]]
 pca_scores$Group <- case_when(
   grepl("^[Cc]ec", pca_scores$Sample)               ~ "CEC",
   grepl("^(CA|Ca|TAM|TAJ|TAC)", pca_scores$Sample)  ~ "Prehispanic",
-  grepl("^(Jiu|Tot|Tez|Cua)", pca_scores$Sample)    ~ "Convents",
-  TRUE                                               ~ "Other"
+  grepl("^(Jiu|Tot|Tez|Cua)", pca_scores$Sample)    ~ "Convents"
 )
 
-ggplot(pca_scores, aes(x = PC1, y = PC2, colour = Group, label = Sample)) +
+ggplot(pca_scores, aes(x = PC2, y = PC1, colour = Group, label = Sample)) +
   geom_point(size = 2.5) +
   geom_text(size = 2.2, vjust = -0.7, hjust = 0.5) +
   scale_colour_manual(values = c(
@@ -577,15 +577,30 @@ ggplot(pca_scores, aes(x = PC1, y = PC2, colour = Group, label = Sample)) +
   labs(
     title   = "Reproduction of Figure 2",
     subtitle = "PC2 vs PC1 coloured by historical group",
-    x = "PC 1",
-    y = "PC 2",
+    x = "PC 2",
+    y = "PC 1",
     colour = "Group"
   ) +
   theme_bw()
 ```
-
 The PCA plot broadly reproduces Figure 2 from Sánchez del Río et al. (2006). The CEC samples (Santa Cecilia Acatitlán) form a tight, well-separated cluster, consistent with their distinct non-fresco preparation technique. The Prehispanic and Convent groups occupy partially overlapping regions of the PC1–PC2 plane, suggesting that, despite their temporal separation, both groups employed similar mural painting techniques. It is also worth noting that we can observe that despite being listed in the Mexican Franciscan convents group, both Cuauhtinchan samples cluster around the Prehispanic murals, suggesting its work is more closely related to this type of mural. This was also seen in the original papers figure, however there is more noticeable overlap with this figure compared to the original. 
 
+```{r}
+#| echo: false
+#| warning: false
+#| fig-width: 7
+#| fig-height: 7
+#| fig-align: center
+ggbiplot::ggbiplot(PCA_log, obs.scale = 1, var.scale = 1,
+                   groups = pca_scores$Group,
+                   ellipse = TRUE,
+                   labels = pca_scores$Sample) +
+  labs(
+    title   = "PCA Biplot",
+    x = "PC1",
+    y = "PC2")+
+  theme_minimal()
+```
 
 # Discussion
 
