@@ -93,8 +93,7 @@ window.Quarto = {
   <li><a href="#quantitative-descriptive-analysis" id="toc-quantitative-descriptive-analysis" class="nav-link" data-scroll-target="#quantitative-descriptive-analysis">Quantitative Descriptive Analysis</a></li>
   <li><a href="#graphical-and-qualitative-analysis" id="toc-graphical-and-qualitative-analysis" class="nav-link" data-scroll-target="#graphical-and-qualitative-analysis">Graphical and Qualitative Analysis</a></li>
   <li><a href="#are-there-surprising-observations" id="toc-are-there-surprising-observations" class="nav-link" data-scroll-target="#are-there-surprising-observations">Are There Surprising Observations?</a></li>
-  <li><a href="#can-you-assume-that-the-data-follows-a-multivariate-normal-distribution" id="toc-can-you-assume-that-the-data-follows-a-multivariate-normal-distribution" class="nav-link" data-scroll-target="#can-you-assume-that-the-data-follows-a-multivariate-normal-distribution">Can you assume that the data follows a multivariate normal distribution?</a></li>
-  <li><a href="#can-we-find-groups-in-this-data" id="toc-can-we-find-groups-in-this-data" class="nav-link" data-scroll-target="#can-we-find-groups-in-this-data">Can we find groups in this data</a>
+  <li><a href="#can-you-assume-that-the-data-follows-a-multivariate-normal-distribution" id="toc-can-you-assume-that-the-data-follows-a-multivariate-normal-distribution" class="nav-link" data-scroll-target="#can-you-assume-that-the-data-follows-a-multivariate-normal-distribution">Can you assume that the data follows a multivariate normal distribution?</a>
   <ul class="collapse">
   <li><a href="#relationship-between-12-mg-and-14-si" id="toc-relationship-between-12-mg-and-14-si" class="nav-link" data-scroll-target="#relationship-between-12-mg-and-14-si">Relationship between 12-Mg* and 14-Si*</a></li>
   <li><a href="#relationship-between-22-ti-and-17-ci" id="toc-relationship-between-22-ti-and-17-ci" class="nav-link" data-scroll-target="#relationship-between-22-ti-and-17-ci">Relationship between 22-Ti and 17-CI*</a></li>
@@ -137,8 +136,8 @@ window.Quarto = {
 
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
-<p>The original article, PIXE analysis on Maya blue in Prehispanic and colonial mural paintings, by Sanchez del Rio et al (2006), sampled, analysed and grouped using PCA on murals containing Maya Blue across different archaeological sites. Across the sites they collected 35 samples from murals and either the elements concentration percent or the ratio of micro gram to gram ratio of that element in the mural. From these murals they sampled 17 different chemical elements from sodium to lead. They found with their PCA that 70% of the total variance in the sample population can be described using only the first three principle components and was similar to what was observed in other art forms. The three zones found were CEC, Prehispanic, and convents. with the first clustering in a small group separate from the rest of the samples.</p>
-<p>The aim of this analysis is too find groups within the data and reproduce what was found in the original paper. The reason for this is to support the conclusions made by Sanchez del rio et al (2006) about the 3 zones found in the data during their analysis. By doing this we can reassert the claims made about the differences between the different types of murals and their distinct zones of style. This report will contain both a quantitative and qualitative analysis of the data, as well as PCA and cluster analysis to explore the possible groups in the data.</p>
+<p>The original study by Sánchez del Río et al.&nbsp;(2006) investigated Maya Blue pigments in Prehispanic and colonial mural paintings from different archaeological sites. The study analysed 35 mural samples using PIXE (Particle-Induced X-ray Emission) to measure the concentrations of 17 chemical elements, ranging from sodium (Na) to lead (Pb). Principal component analysis (PCA) was then used to investigate patterns in the elemental composition of the samples. The authors reported that approximately 70% of the total variation could be explained by the first three principal components and identified structure associated with three archaeological groups: CEC, Prehispanic, and convent samples.</p>
+<p>The aim of the present analysis is to investigate whether similar group structure can be identified in the available data and to assess the reproducibility of the main findings reported by Sánchez del Río et al.&nbsp;(2006). We use descriptive and graphical analyses, multivariate diagnostics, PCA, and cluster analysis to examine variation among the mural samples and evaluate whether the patterns reported in the original study can be reproduced. Particular attention is given to the PCA structure and the archaeological interpretation of the resulting groups.</p>
 </section>
 <section id="methodology" class="level1">
 <h1>Methodology</h1>
@@ -898,7 +897,11 @@ window.Quarto = {
 </section>
 <section id="data-transformation" class="level2">
 <h2 class="anchored" data-anchor-id="data-transformation">Data Transformation</h2>
-<p>The data was transformed in line with the original study to be able to address different issues with comparison and estimating of element concentrations. Different concentration ranges: The original data contain elemental concentrations reported either as percentages or as µg/g (micro grams per gram). Because these measurements have substantially different concentration ranges, a <span class="math inline">\(log_10\)</span> transformation is applied to the concentrations. This follows the procedure used in the original paper, where the authors state that the logarithm of the concentrations was used to avoid large discrepancies in concentration range. Values below the detection limit: Some concentrations in Table 1 are reported in parentheses ( ). According to the original paper, these values are below the limit of detection (LOD). Since numerical estimates are still provided, these estimated concentrations are retained for the analysis and the parentheses are removed. Lastly we conducted a transformation of both NA and 0 values found in the data. Sanchez del Rio et al (2006) described that values that were given as 0’s aren’t treated as 0’s, and were instead concentrations that were below the detection limit, and as such were instead very small concentrations of elements. Moreover we cannot do a <span class="math inline">\(log_10\)</span> transformation of the data if observations contain 0’s. This leaves us to therefore transform these 0’s into estimates to both do this transformation, and not remove concentrations that are there but very small. Therefore we run a function that runs through each column that is numeric, and then filters out any values that are less than or equal to zero, ignores NAs (na.rm = TRUE), finds the smallest remaining positive number, and divides it by two. Finally it checks every cell in that column. If a cell is either NA or exactly 0, it substitutes it with the replacement value.</p>
+<p>The elemental concentration data were preprocessed before the multivariate analysis. The elements are measured on vastly different scales, with some reported as percentages and others as micrograms per gram (µg/g). Following Sánchez del Río et al.&nbsp;(2006), a base-10 logarithmic transformation was applied to reduce these large differences in scale and make the elemental concentrations easier to compare. Some concentrations in Table 1 are reported in parentheses ( ), which represent values below the limit of detection (LOD). Since numerical estimates are still provided, these estimated concentrations are retained for the analysis, and the parentheses are removed. Lastly, we conducted a transformation of both NA and 0 values found in the data. Sanchez del Rio et al.&nbsp;(2006) described that values that were given as 0’s aren’t treated as 0’s and were instead concentrations that were below the detection limit and, as such, were instead very small concentrations of elements. Moreover, we cannot do a (_{10}) transformation of the data if observations contain 0’s. We can therefore transform these 0’s into estimates that can be used with the log10 transformation and retain these small concentrations. Therefore, we run a function that runs through each numerical column, filters out values that are less than or equal to zero, ignores NAs (na.rm = TRUE), finds the smallest remaining positive number, and divides it by two. Finally, it checks every cell in that column. If a cell is either NA or exactly 0, it substitutes it with the replacement value.</p>
+<p>Following the data transformation, several multivariate statistical methods were used to investigate the elemental composition of the mural samples. A quantitative exploratory analysis was first done to compare the original and log transformed concentrations of each element with each other. A qualitative exploratory analysis was then conducted to compare the log transformed concentrations graphically with notched box plots.</p>
+<p>Potentially unusual multivariate observations were investigated using squared Mahalanobis distances. These distances measure how far each observation lies from the multivariate centre of the data while accounting for the covariance between the elemental concentrations. The distances were compared with the 90%, 95%, and 99% quantiles of a chi-squared distribution with 17 degrees of freedom to identify increasingly unusual observations.</p>
+<p>Multivariate normality was assessed graphically using a multivariate Q-Q plot of the ordered squared Mahalanobis distances against theoretical chi-squared quantiles. Mardia’s multivariate skewness and kurtosis tests were also used to formally assess departures from multivariate normality.</p>
+<p>Principal component analysis (PCA) was then performed on the covariance matrix of the log-transformed elemental concentrations. The covariance matrix was used to remain consistent with the methodology of Sánchez del Río et al.&nbsp;(2006). The scree plot and cumulative proportion of variance explained were used to assess the number of principal components required to adequately represent the variation in the data. The first two principal component scores were subsequently plotted and compared with Figure 2 of the original study to determine whether similar archaeological group structure could be reproduced.</p>
 </section>
 </section>
 <section id="results" class="level1">
@@ -908,23 +911,23 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="quantitative-descriptive-analysis">Quantitative Descriptive Analysis</h2>
 <div class="cell">
 <div class="cell-output-display">
-<div id="xdzpykwpba" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#xdzpykwpba table {
+<div id="ueiegznsem" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#ueiegznsem table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#xdzpykwpba thead, #xdzpykwpba tbody, #xdzpykwpba tfoot, #xdzpykwpba tr, #xdzpykwpba td, #xdzpykwpba th {
+#ueiegznsem thead, #ueiegznsem tbody, #ueiegznsem tfoot, #ueiegznsem tr, #ueiegznsem td, #ueiegznsem th {
   border-style: none;
 }
 
-#xdzpykwpba p {
+#ueiegznsem p {
   margin: 0;
   padding: 0;
 }
 
-#xdzpykwpba .gt_table {
+#ueiegznsem .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -950,12 +953,12 @@ window.Quarto = {
   border-left-color: #D3D3D3;
 }
 
-#xdzpykwpba .gt_caption {
+#ueiegznsem .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#xdzpykwpba .gt_title {
+#ueiegznsem .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -967,7 +970,7 @@ window.Quarto = {
   border-bottom-width: 0;
 }
 
-#xdzpykwpba .gt_subtitle {
+#ueiegznsem .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -979,7 +982,7 @@ window.Quarto = {
   border-top-width: 0;
 }
 
-#xdzpykwpba .gt_heading {
+#ueiegznsem .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -991,13 +994,13 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#xdzpykwpba .gt_bottom_border {
+#ueiegznsem .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#xdzpykwpba .gt_col_headings {
+#ueiegznsem .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1012,7 +1015,7 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#xdzpykwpba .gt_col_heading {
+#ueiegznsem .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1032,7 +1035,7 @@ window.Quarto = {
   overflow-x: hidden;
 }
 
-#xdzpykwpba .gt_column_spanner_outer {
+#ueiegznsem .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1044,15 +1047,15 @@ window.Quarto = {
   padding-right: 4px;
 }
 
-#xdzpykwpba .gt_column_spanner_outer:first-child {
+#ueiegznsem .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#xdzpykwpba .gt_column_spanner_outer:last-child {
+#ueiegznsem .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#xdzpykwpba .gt_column_spanner {
+#ueiegznsem .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1064,11 +1067,11 @@ window.Quarto = {
   width: 100%;
 }
 
-#xdzpykwpba .gt_spanner_row {
+#ueiegznsem .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#xdzpykwpba .gt_group_heading {
+#ueiegznsem .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1094,7 +1097,7 @@ window.Quarto = {
   text-align: left;
 }
 
-#xdzpykwpba .gt_empty_group_heading {
+#ueiegznsem .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1109,15 +1112,15 @@ window.Quarto = {
   vertical-align: middle;
 }
 
-#xdzpykwpba .gt_from_md > :first-child {
+#ueiegznsem .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#xdzpykwpba .gt_from_md > :last-child {
+#ueiegznsem .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#xdzpykwpba .gt_row {
+#ueiegznsem .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1136,7 +1139,7 @@ window.Quarto = {
   overflow-x: hidden;
 }
 
-#xdzpykwpba .gt_stub {
+#ueiegznsem .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1149,7 +1152,7 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#xdzpykwpba .gt_stub_row_group {
+#ueiegznsem .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1163,15 +1166,15 @@ window.Quarto = {
   vertical-align: top;
 }
 
-#xdzpykwpba .gt_row_group_first td {
+#ueiegznsem .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#xdzpykwpba .gt_row_group_first th {
+#ueiegznsem .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#xdzpykwpba .gt_summary_row {
+#ueiegznsem .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1181,16 +1184,16 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#xdzpykwpba .gt_first_summary_row {
+#ueiegznsem .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#xdzpykwpba .gt_first_summary_row.thick {
+#ueiegznsem .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#xdzpykwpba .gt_last_summary_row {
+#ueiegznsem .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1200,7 +1203,7 @@ window.Quarto = {
   border-bottom-color: #D3D3D3;
 }
 
-#xdzpykwpba .gt_grand_summary_row {
+#ueiegznsem .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1210,7 +1213,7 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#xdzpykwpba .gt_first_grand_summary_row {
+#ueiegznsem .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1220,7 +1223,7 @@ window.Quarto = {
   border-top-color: #D3D3D3;
 }
 
-#xdzpykwpba .gt_last_grand_summary_row_top {
+#ueiegznsem .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1230,11 +1233,11 @@ window.Quarto = {
   border-bottom-color: #D3D3D3;
 }
 
-#xdzpykwpba .gt_striped {
+#ueiegznsem .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#xdzpykwpba .gt_table_body {
+#ueiegznsem .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1243,7 +1246,7 @@ window.Quarto = {
   border-bottom-color: #D3D3D3;
 }
 
-#xdzpykwpba .gt_footnotes {
+#ueiegznsem .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1257,7 +1260,7 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#xdzpykwpba .gt_footnote {
+#ueiegznsem .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1266,7 +1269,7 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#xdzpykwpba .gt_sourcenotes {
+#ueiegznsem .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1280,7 +1283,7 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#xdzpykwpba .gt_sourcenote {
+#ueiegznsem .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1288,72 +1291,72 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#xdzpykwpba .gt_left {
+#ueiegznsem .gt_left {
   text-align: left;
 }
 
-#xdzpykwpba .gt_center {
+#ueiegznsem .gt_center {
   text-align: center;
 }
 
-#xdzpykwpba .gt_right {
+#ueiegznsem .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#xdzpykwpba .gt_font_normal {
+#ueiegznsem .gt_font_normal {
   font-weight: normal;
 }
 
-#xdzpykwpba .gt_font_bold {
+#ueiegznsem .gt_font_bold {
   font-weight: bold;
 }
 
-#xdzpykwpba .gt_font_italic {
+#ueiegznsem .gt_font_italic {
   font-style: italic;
 }
 
-#xdzpykwpba .gt_super {
+#ueiegznsem .gt_super {
   font-size: 65%;
 }
 
-#xdzpykwpba .gt_footnote_marks {
+#ueiegznsem .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#xdzpykwpba .gt_asterisk {
+#ueiegznsem .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#xdzpykwpba .gt_indent_1 {
+#ueiegznsem .gt_indent_1 {
   text-indent: 5px;
 }
 
-#xdzpykwpba .gt_indent_2 {
+#ueiegznsem .gt_indent_2 {
   text-indent: 10px;
 }
 
-#xdzpykwpba .gt_indent_3 {
+#ueiegznsem .gt_indent_3 {
   text-indent: 15px;
 }
 
-#xdzpykwpba .gt_indent_4 {
+#ueiegznsem .gt_indent_4 {
   text-indent: 20px;
 }
 
-#xdzpykwpba .gt_indent_5 {
+#ueiegznsem .gt_indent_5 {
   text-indent: 25px;
 }
 
-#xdzpykwpba .katex-display {
+#ueiegznsem .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#xdzpykwpba div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#ueiegznsem div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1572,26 +1575,26 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p>The dataset is highly heterogeneous. Calcium is a dominant major element in most samples, while several trace elements span orders of magnitude. This is exactly why the authors analysed logarithms of concentration. Two especially large phosphorus values occur for Totimehuacan: 99,600 <span class="math inline">\(\mu\)</span>g/g in <code>Tot1_1</code> and 51,800 <span class="math inline">\(\mu\)</span>g/g in <code>Tot1_3</code>. These values are retained because they are printed in Table 1; the source does not provide enough evidence to assign a specific contamination or measurement-error cause to them.</p>
+<p>There are significant variations in concentration among the elements, according to the descriptive statistics. Many samples include very high quantities of calcium (Ca), although the concentrations of numerous trace elements are substantially lower. Some samples from Totimehuacan have exceptionally high levels of phosphorus (P). For instance, P is 51,800 micrograms per gram in (Tot1_3) and 99,600 micrograms per gram in (Tot1_1). Since there is insufficient evidence to regard these values as measurement errors, they were retained because they were present in the original data. We can see in the percentage concentrated elements that silicon (Si) is contains the highest concentration median at 11.60%, as well as the largest maximum of 30.7%. This extremely large compared to other concentration medians ranging from 0.07% to 3.32%. From the ratio concentrated elements phosphorus has the largest maximum at 99,600 but has a median, minimum, and 1st quartile of 85. This can be attributed to the data transformation due to the largest amount of NA’s in is concentrations. Other Large concentrations come from Titanianum (Ti), Magnesium (Mn), and Strontium (Sr). The significant variations in concentration between items support the adoption of a log transformation before the multivariate analysis.</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="pbgvgqjozx" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#pbgvgqjozx table {
+<div id="pheemejuyh" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#pheemejuyh table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#pbgvgqjozx thead, #pbgvgqjozx tbody, #pbgvgqjozx tfoot, #pbgvgqjozx tr, #pbgvgqjozx td, #pbgvgqjozx th {
+#pheemejuyh thead, #pheemejuyh tbody, #pheemejuyh tfoot, #pheemejuyh tr, #pheemejuyh td, #pheemejuyh th {
   border-style: none;
 }
 
-#pbgvgqjozx p {
+#pheemejuyh p {
   margin: 0;
   padding: 0;
 }
 
-#pbgvgqjozx .gt_table {
+#pheemejuyh .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1617,12 +1620,12 @@ window.Quarto = {
   border-left-color: #D3D3D3;
 }
 
-#pbgvgqjozx .gt_caption {
+#pheemejuyh .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#pbgvgqjozx .gt_title {
+#pheemejuyh .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1634,7 +1637,7 @@ window.Quarto = {
   border-bottom-width: 0;
 }
 
-#pbgvgqjozx .gt_subtitle {
+#pheemejuyh .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1646,7 +1649,7 @@ window.Quarto = {
   border-top-width: 0;
 }
 
-#pbgvgqjozx .gt_heading {
+#pheemejuyh .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1658,13 +1661,13 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#pbgvgqjozx .gt_bottom_border {
+#pheemejuyh .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#pbgvgqjozx .gt_col_headings {
+#pheemejuyh .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1679,7 +1682,7 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#pbgvgqjozx .gt_col_heading {
+#pheemejuyh .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1699,7 +1702,7 @@ window.Quarto = {
   overflow-x: hidden;
 }
 
-#pbgvgqjozx .gt_column_spanner_outer {
+#pheemejuyh .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1711,15 +1714,15 @@ window.Quarto = {
   padding-right: 4px;
 }
 
-#pbgvgqjozx .gt_column_spanner_outer:first-child {
+#pheemejuyh .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#pbgvgqjozx .gt_column_spanner_outer:last-child {
+#pheemejuyh .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#pbgvgqjozx .gt_column_spanner {
+#pheemejuyh .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1731,11 +1734,11 @@ window.Quarto = {
   width: 100%;
 }
 
-#pbgvgqjozx .gt_spanner_row {
+#pheemejuyh .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#pbgvgqjozx .gt_group_heading {
+#pheemejuyh .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1761,7 +1764,7 @@ window.Quarto = {
   text-align: left;
 }
 
-#pbgvgqjozx .gt_empty_group_heading {
+#pheemejuyh .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1776,15 +1779,15 @@ window.Quarto = {
   vertical-align: middle;
 }
 
-#pbgvgqjozx .gt_from_md > :first-child {
+#pheemejuyh .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#pbgvgqjozx .gt_from_md > :last-child {
+#pheemejuyh .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#pbgvgqjozx .gt_row {
+#pheemejuyh .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1803,7 +1806,7 @@ window.Quarto = {
   overflow-x: hidden;
 }
 
-#pbgvgqjozx .gt_stub {
+#pheemejuyh .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1816,7 +1819,7 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#pbgvgqjozx .gt_stub_row_group {
+#pheemejuyh .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1830,15 +1833,15 @@ window.Quarto = {
   vertical-align: top;
 }
 
-#pbgvgqjozx .gt_row_group_first td {
+#pheemejuyh .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#pbgvgqjozx .gt_row_group_first th {
+#pheemejuyh .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#pbgvgqjozx .gt_summary_row {
+#pheemejuyh .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1848,16 +1851,16 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#pbgvgqjozx .gt_first_summary_row {
+#pheemejuyh .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#pbgvgqjozx .gt_first_summary_row.thick {
+#pheemejuyh .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#pbgvgqjozx .gt_last_summary_row {
+#pheemejuyh .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1867,7 +1870,7 @@ window.Quarto = {
   border-bottom-color: #D3D3D3;
 }
 
-#pbgvgqjozx .gt_grand_summary_row {
+#pheemejuyh .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1877,7 +1880,7 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#pbgvgqjozx .gt_first_grand_summary_row {
+#pheemejuyh .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1887,7 +1890,7 @@ window.Quarto = {
   border-top-color: #D3D3D3;
 }
 
-#pbgvgqjozx .gt_last_grand_summary_row_top {
+#pheemejuyh .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1897,11 +1900,11 @@ window.Quarto = {
   border-bottom-color: #D3D3D3;
 }
 
-#pbgvgqjozx .gt_striped {
+#pheemejuyh .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#pbgvgqjozx .gt_table_body {
+#pheemejuyh .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1910,7 +1913,7 @@ window.Quarto = {
   border-bottom-color: #D3D3D3;
 }
 
-#pbgvgqjozx .gt_footnotes {
+#pheemejuyh .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1924,7 +1927,7 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#pbgvgqjozx .gt_footnote {
+#pheemejuyh .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1933,7 +1936,7 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#pbgvgqjozx .gt_sourcenotes {
+#pheemejuyh .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1947,7 +1950,7 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#pbgvgqjozx .gt_sourcenote {
+#pheemejuyh .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1955,72 +1958,72 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#pbgvgqjozx .gt_left {
+#pheemejuyh .gt_left {
   text-align: left;
 }
 
-#pbgvgqjozx .gt_center {
+#pheemejuyh .gt_center {
   text-align: center;
 }
 
-#pbgvgqjozx .gt_right {
+#pheemejuyh .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#pbgvgqjozx .gt_font_normal {
+#pheemejuyh .gt_font_normal {
   font-weight: normal;
 }
 
-#pbgvgqjozx .gt_font_bold {
+#pheemejuyh .gt_font_bold {
   font-weight: bold;
 }
 
-#pbgvgqjozx .gt_font_italic {
+#pheemejuyh .gt_font_italic {
   font-style: italic;
 }
 
-#pbgvgqjozx .gt_super {
+#pheemejuyh .gt_super {
   font-size: 65%;
 }
 
-#pbgvgqjozx .gt_footnote_marks {
+#pheemejuyh .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#pbgvgqjozx .gt_asterisk {
+#pheemejuyh .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#pbgvgqjozx .gt_indent_1 {
+#pheemejuyh .gt_indent_1 {
   text-indent: 5px;
 }
 
-#pbgvgqjozx .gt_indent_2 {
+#pheemejuyh .gt_indent_2 {
   text-indent: 10px;
 }
 
-#pbgvgqjozx .gt_indent_3 {
+#pheemejuyh .gt_indent_3 {
   text-indent: 15px;
 }
 
-#pbgvgqjozx .gt_indent_4 {
+#pheemejuyh .gt_indent_4 {
   text-indent: 20px;
 }
 
-#pbgvgqjozx .gt_indent_5 {
+#pheemejuyh .gt_indent_5 {
   text-indent: 25px;
 }
 
-#pbgvgqjozx .katex-display {
+#pheemejuyh .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#pbgvgqjozx div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#pheemejuyh div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -2239,6 +2242,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
+<p>After the log transformation, the elemental concentrations are on more comparable scales, reducing the influence of the very large raw values. Differences between elements are still present, but no single variable dominates simply because of its measurement scale. This makes the transformed data more suitable for the multivariate analyses that follow. We can see that Si and P both still have the largest maximums of there respective concentrations, but we can now see that that P observation is much larger. Moreover we can see that the concentrations of all ratio elements are much larger then the elements measured originally in percentages in terms of there maximum value. We can also see this difference in respective medians, with percentage elements ranging from -1.22 to 0.66 compared to ratio of 0.00 to 2.72.</p>
 </section>
 <section id="graphical-and-qualitative-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="graphical-and-qualitative-analysis">Graphical and Qualitative Analysis</h2>
@@ -2251,13 +2255,10 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p>The log-scale box plots show that transformation reduces, but does not remove, the pronounced differences in spread among elements. The trace variables remain particularly heterogeneous, while several major matrix components are more concentrated. We can see that Chlorine has the lowest mean of the 17 elements Titanium has the largest median. A number of the elements have outliers including Manganese with 4, Chlorine with 3, Phosphorous, Calcium and Nickel with 2, and finally Sodium and Aluminium having 1. This can be expected as certain types of murals</p>
-<p>Notable due to the transformation of the data, and the large amount of NA’s found in the samples for concentrations of Phosphorous, it contains a very large inter quartile range with, as well as having its median, 1st quatile, a minimum value all being 1.93.</p>
+<p>The log-scale box plots show that transformation reduces, but does not remove, the pronounced differences in spread among elements. The trace variables remain particularly heterogeneous, while several major matrix components are more concentrated. We can see that Chlorine has the lowest mean of the 17 elements Titanium has the largest median. A number of the elements have outliers including Manganese with 4, Chlorine with 3, Phosphorous, Calcium and Nickel with 2, and finally Sodium and Aluminium having 1. This can be expected as certain types of murals Notable due to the transformation of the data, and the large amount of NA’s found in the samples for concentrations of Phosphorous, it contains a very large inter quartile range with, as well as having its median, 1st quatile, a minimum value all being 1.93.</p>
 </section>
 <section id="are-there-surprising-observations" class="level2">
 <h2 class="anchored" data-anchor-id="are-there-surprising-observations">Are There Surprising Observations?</h2>
-<p>The log-scale boxplots show that transformation reduces, but does not remove, the pronounced differences in spread among elements. The trace variables remain particularly heterogeneous, while several major matrix components are more concentrated.</p>
-<p>The calcium plot provides a stronger archaeological interpretation than a purely generic distribution plot. <span class="citation" data-cites="sanchez2006pixe">@sanchez2006pixe</span> report that most mural samples have Ca concentrations around 30–50%, close to the 40% Ca content of calcite, supporting use of the fresco technique. The CEC samples are the conspicuous exception, with substantially lower Ca, consistent with the authors’ conclusion that these murals were not prepared by the same fresco process. ## Are There Surprising Observations? &gt;&gt;&gt;&gt;&gt;&gt;&gt; b72da5f1264e5ed246fdc83780cb2d86b1db887c</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -2265,6 +2266,12 @@ window.Quarto = {
 <p><img src="Group_8_File_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Upper.Quantiles   Values
+1   90th Quantile 24.76904
+2   95th Quantile 27.58711
+3   99th Quantile 33.40866</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -2280,6 +2287,7 @@ window.Quarto = {
 5 Cec1_3 24.90653  somewhat</code></pre>
 </div>
 </div>
+<p>The squared Mahalanobis distances were used to identify samples with unusual combinations of elemental concentrations. Most observations have relatively smaller Mahalanobis distance, while a smaller number have larger distance and may be considered potentially unusual. The 90%, 95%, and 99% chi-square cut-offs provide increasing levels of evidence for identifying unusual multivariate observations. These samples are retained in the analysis because an unusual observation is not necessarily an error; it may represent genuine differences in mural composition. From the output we can see that 1 observation is very surprising , 4 are somewhat surprising , while the remaining 30 are typical distances. From the output, TAJ1_4 was identified as a surprising multivariate observation, with a squared Mahalanobis distance of approximately 29.34327. This exceeds the 95th percentile of the <span class="math inline">\(\chi^2_{17}\)</span> distribution (27.59), but remains below the 99th percentile (33.41). This indicates that TAJ1_4 has an surprising combination of elemental concentrations relative to the overall multivariate distribution.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -2289,6 +2297,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
+<p>The pairs plot shows substantial dependence between several of the elemental concentrations. Specifically, Mg and Si display a strong positive association, as shown by the narrow, upward-oriented density contours, while other pairs, such as Ca and K, show evidence of a negative association. Several trace-element relationships exhibit less regular density contours, suggesting more complex bivariate distributions. The marginal density plots also show asymmetry and irregularity for several elements, providing graphical evidence against multivariate normality. Observations classified as somewhat surprising or surprising by their squared Mahalanobis distances tend to lie away from the main concentration of observations across several pairwise combinations. However, the surprising observation is not consistently extreme for any single element, indicating that its large Mahalanobis distance is primarily associated with an unusual multivariate combination of elemental concentrations rather than a single extreme measurement.</p>
 </section>
 <section id="can-you-assume-that-the-data-follows-a-multivariate-normal-distribution" class="level2">
 <h2 class="anchored" data-anchor-id="can-you-assume-that-the-data-follows-a-multivariate-normal-distribution">Can you assume that the data follows a multivariate normal distribution?</h2>
@@ -2326,9 +2335,7 @@ window.Quarto = {
 17 Anderson-Darling    82-Pb     0.412   0.323     ✓ Normal</code></pre>
 </div>
 </div>
-</section>
-<section id="can-we-find-groups-in-this-data" class="level2">
-<h2 class="anchored" data-anchor-id="can-we-find-groups-in-this-data">Can we find groups in this data</h2>
+<p>The multivariate normality assumption is not fully satisfied. Mardia’s skewness test is significant with p-value = 0.003, providing evidence against multivariate normality, although Mardia’s kurtosis test is not significant with p-value = 0.664. Through individual Anderson-Darling normality tests we find that Calcium, phosphorus, Magnesium, and Nickel (Ni) are not normally distributed, which subsequently has effected the multivariate normality of the data. The multivariate Q-Q plot is approximately linear through much of the central region but shows some departures from the reference line. Therefore, results that rely on multivariate normality, specifically the chi-square interpretation of Mahalanobis distances, should be interpreted with caution. From this we can therefore conclude that the data does not follow a multivariate normal distribution ## Can we find groups in this data</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -2338,8 +2345,8 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p>[need to explain correlogram here]</p>
-<p>From the correlogram we can pick two examples of the relationships between elements existing in the data</p>
+<p>The correlogram shows the direction and strength of the relationships among the log-transformed elemental concentrations. Red circles represent positive correlations and blue circles represent negative correlations, while larger and darker circles indicate stronger relationships. Several element pairs show clear associations, suggesting that some elemental concentrations tend to vary together across the mural samples. Elements Mn, Mg, Si, Fe, Ni, Al, Ti, K, and Zn are all positively correlated with each other, meaning as one increases the other increase. Moreover Na, Ca, P, S, and Pb are all negatively or uncorrelated with those same elements, meaning when those elements increase, Na, Ca, P, S, and Pb tend to decrease or remain unchanged, such as between Pb and both Mg and Mn.</p>
+<p>To examine these patterns more closely, two contrasting relationships from the correlogram are considered below.</p>
 <section id="relationship-between-12-mg-and-14-si" class="level3">
 <h3 class="anchored" data-anchor-id="relationship-between-12-mg-and-14-si">Relationship between 12-Mg* and 14-Si*</h3>
 <div class="cell" data-layout-align="center">
@@ -2351,7 +2358,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p>We can see from the bivariate scatter plot that their is a clear positive relationship between 12-Mg and 14-Si. As we can see with the upward-sloping denisty contour lines, the when the log-transformed concentration of Si increases, the log-transformed concentration of Mg also tends to increase.</p>
+<p>The bivariate scatterplot shows a clear positive association between the log-transformed concentrations of Mg and Si. The upward-sloping density contours support this pattern: samples with higher Si concentrations generally also have higher Mg concentrations. The relatively concentrated contours suggest that this relationship is fairly strong compared with some of the other element pairs.</p>
 </section>
 <section id="relationship-between-22-ti-and-17-ci" class="level3">
 <h3 class="anchored" data-anchor-id="relationship-between-22-ti-and-17-ci">Relationship between 22-Ti and 17-CI*</h3>
@@ -2496,7 +2503,18 @@ window.Quarto = {
 </table>
 </div>
 </div>
-<p>The first three principal components explained 77.08% of the total variance, with PC1, PC2, and PC3 accounting for 34.02%, 25.00%, and 18.05%, respectively. These results are broadly consistent with the original study, which reported 34.88%, 24.95%, and 11.32% for the first three components, and 71.15% of total variance (Sanchez del Rio et al, 2006). The first two components are particularly similar. However the third principle component in our analysis is noticeably larger then the percentage of variance in the original study.</p>
+<p>The first three principal components explained 77.08% of the total variance, with PC1, PC2, and PC3 accounting for 34.02%, 25.00%, and 18.05%, respectively. These results are broadly consistent with the original study, which reported 34.88%, 24.95%, and 11.32% for the first three components, and 71.15% of total variance (Sanchez del Rio et al, 2006). The first two components are particularly similar. However the third principle component in our analysis is noticeably larger then the percentage of variance in the original study. We can now plot PC1 versus PC2 to look at the clustering of the 35 mural samples to find clear support for or against the original study.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Group_8_File_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The clearest pattern is the separation of the CEC samples from the other two groups. The CEC observations form a very tight cluster at strongly negative PC2 values, suggesting that their elemental compositions are relatively similar to one another but distinct from the other samples. The Convent samples generally lie toward positive PC1, particularly the Tot and Tez samples, while the Prehispanic samples are concentrated mainly toward negative PC1. However, there is some overlap between the Convent and Prehispanic groups near the centre of the plot, particularly for samples such as Cua1_2. Therefore, the PCA indicates group structure, but not complete separation.</p>
+<p>The arrows help explain this pattern. Elements whose arrows point in similar directions are positively associated in the first two PCs, while arrows pointing in opposite directions indicate contrasting contributions. In particular, S, Cl and Pb point strongly toward positive PC1, in approximately the direction of many of the Convent samples. This suggests that these elements contribute to the separation of the Convent samples from many of the Prehispanic samples. P, on the other hand, has a strong positive PC2 loading and therefore contributes more strongly to vertical separation. Mn points strongly in the negative PC2 direction.</p>
 </section>
 <section id="can-we-reproduce-fig.2" class="level2">
 <h2 class="anchored" data-anchor-id="can-we-reproduce-fig.2">Can we reproduce Fig.2</h2>
@@ -2504,7 +2522,7 @@ window.Quarto = {
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Group_8_File_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="Group_8_File_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
