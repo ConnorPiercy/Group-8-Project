@@ -425,7 +425,7 @@ mvn_result$multivariate_normality
 mvn_result$univariate_normality
 ```
 The multivariate normality assumption is not fully satisfied. Mardia's skewness test is significant with p-value = 0.003, providing evidence against multivariate normality, although Mardia's kurtosis test is not significant with p-value = 0.664. Through individual Anderson-Darling normality tests we find that Calcium, phosphorus, Magnesium, and Nickel (Ni) are not normally distributed, which subsequently has effected the multivariate normality of the data. The multivariate Q-Q plot is approximately linear through much of the central region but shows some departures from the reference line. Therefore, results that rely on multivariate normality, specifically the chi-square interpretation of Mahalanobis distances, should be interpreted with caution. From this we can therefore conclude that the data does not follow a multivariate normal distribution
-## Can we find groups in this data
+## Can we find groups in this data?
 
 ```{r}
 #| echo: false
@@ -476,7 +476,7 @@ xy <- expand.grid(x=x, y=y)
 
 q.samp <- cbind(xy, prob=dmvnorm(xy, mean = mu_mg_si, sigma = Sigma_mg_si))
 
-ggplot(q.samp, aes(x=y, y=x, z=prob)) + 
+Bi_mg_si <- ggplot(q.samp, aes(x=y, y=x, z=prob)) + 
   geom_point(data=Table1_log, aes(y=`12-Mg*`, x=`14-Si*`, z=0)) +
   geom_contour(bins=5, col="red") +
   ylab("12-Mg*") + xlab("14-Si*") + ggtitle("Bivariate Scatterplot of 12-Mg* and 14-Si*", "With Two-Dimensional Density Contours") +
@@ -485,6 +485,7 @@ ggplot(q.samp, aes(x=y, y=x, z=prob)) +
     xlim = c(mu_mg_si[2]-4*sqrt(Sigma_mg_si[2,2]), mu_mg_si[2]+4*sqrt(Sigma_mg_si[2,2]))
     ) +
   theme_minimal()
+Bi_mg_si
 ```
 
 The bivariate scatterplot shows a clear positive association between the log-transformed concentrations of Mg and Si. The upward-sloping density contours support this pattern: samples with higher Si concentrations generally also have higher Mg concentrations. The relatively concentrated contours suggest that this relationship is fairly strong compared with some of the other element pairs.
@@ -555,10 +556,11 @@ PCA_variance <- data.frame(
     round(100 * cumsum(PCA_log$sdev^2 / sum(PCA_log$sdev^2)), 2)
 )
 
-knitr::kable(
+PCA_table <- knitr::kable(
   PCA_variance,
   caption = "Variance explained by each principal component"
 )
+PCA_table
 ```
 
 The first three principal components explained 77.08% of the total variance, with PC1, PC2, and PC3 accounting for 34.02%, 25.00%, and 18.05%, respectively. These results are broadly consistent with the original study, which reported 34.88%, 24.95%, and 11.32% for the first three components, and 71.15% of total variance (Sanchez del Rio et al, 2006). The first two components are particularly similar. However the third principle component in our analysis is noticeably larger then the percentage of variance in the original study. We can now plot PC1 versus PC2 to look at the clustering of the 35 mural samples to find clear support for or against the original study. 
