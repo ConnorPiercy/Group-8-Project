@@ -54,5 +54,13 @@ plot(PCA_log, type="l")
 ```
 
 ## Discussion
+The analysis of elemental concentrations within Maya blue samples provides evidence of structure, although the groups are not completely distinct. Taking a log transformation of the data helped to account for large differences in concentration levels between the elements, which is consistent with the approach used in the original study. However, the data cannot be assumed to follow a multivariate normal distribution, as it fails Mardia’s skewness test, despite the kurtosis result showing consistency with normality. Several of the individual elements also showed evidence of non-normality; these elements were calcium, phosphorus, manganese and nickel. This should be taken into consideration when interpreting the multivariate results.
+
+The data also showed some surprising observations. TAJ1_4 had the biggest Mahalanobis distance and was classified as surprising, while Tot1_1, TAJ1_1, Jiu1_1 and Cec1_3 were all classified as somewhat surprising. The clustering analysis provides evidence of some meaningful groups in the data, with the CEC samples forming a distinct group. This is consistent with the authors’ observation of these samples containing unusually low calcium concentrations and likely not being produced with the fresco technique. The samples also show a less clear distinction between predominantly Prehispanic and Colonial samples, as these two groups have substantial overlap rather than being completely separated.
+
+We agree with the authors’ conclusions about the zones in Figure 2. The original PCA differentiated samples into broad Prehispanic and Colonial patterns and identified CEC as a distinct cluster. They also concluded that the data did not form well-defined groups. We were able to reproduce a similar graph, providing evidence of these findings. Elemental composition provides information about the historical period and the technique used, but the overlap between samples means that the groups cannot be treated as completely separated categories. The authors’ hypothesise that the overlap may be due to similarities in the painting techniques between the Prehispanic and Colonial periods.
+
+## Conclusion
+Overall, the results show some structure in the Maya blue samples, but the groups are not completely distinct. The CEC samples are clearly separated, while the Prehispanic and Colonial samples overlap. Figure 2 supports the authors’ conclusion that the zones represent broad patterns rather than clearly defined groups.
 
 ## References
