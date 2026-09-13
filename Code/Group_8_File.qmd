@@ -220,7 +220,7 @@ output_desc_pix_log <- desc_pixe_log %>%
 output_desc_pix_log
 ```
 
-After the log transformation, the elemental concentrations are on more comparable scales, reducing the influence of the very large raw values. Differences between elements are still present, but no single variable dominates simply because of its measurement scale. This makes the transformed data more suitable for the multivariate analyses that follow. We can see that Si and P both still have the largest maximums of there respective concentrations, but we can now see that that P observation is much larger. Moreover we can see that the concentrations of all ratio elements are much larger then the elements measured originally in percentages in terms of there maximum value. We can also see this difference in respective medians, with percentage elements ranging from -1.22 to 0.66 compared to ratio of 0.00 to 2.72.
+After the log transformation, the elemental concentrations are on more comparable scales, reducing the influence of the very large raw values. Differences between elements are still present, but no single variable dominates simply because of its measurement scale. This makes the transformed data more suitable for the multivariate analyses that follow. We can see that Si and P both still have the largest maximums of there respective concentrations, but we can now see that that P observation is much larger. Moreover we can see that the concentrations of all ratio elements are much larger then the elements measured originally in percentages in terms of there maximum value. We can also see this difference in respective medians, with percentage elements ranging from -2.30 to 0.66 compared to ratio of 0.00 to 2.72.
 
 ## Graphical and Qualitative Analysis
 
@@ -648,10 +648,11 @@ We agree with the authors’ conclusions about the zones in Figure 2. The origin
 
 # Conclusion
 Overall, the results show some structure in the Maya blue samples, but the groups are not completely distinct. The CEC samples are clearly separated, while the Prehispanic and Colonial samples overlap. Figure 2 supports the authors’ conclusion that the zones represent broad patterns rather than clearly defined groups. 
+
 # References {style="text-align: left;"}
 
-> Andonie, R., and I. Dzitac. 2010. “How to Write a Good Paper in Computer Science and       How Will It Be Measured by ISI Web of Knowledge.” International Journal of Computers,     Communications & Control V (4): 432–44. https://doi.org/10.15837/ijccc.2010.4.2493.
+> Andonie, R., and I. Dzitac. 2010. “How to Write a Good Paper in Computer Science and How Will It Be Measured by ISI Web of Knowledge.” International Journal of Computers, Communications & Control V (4): 432–44. https://doi.org/10.15837/ijccc.2010.4.2493.
 
-> Frery, A. C., L. Gomez, and A. C. Medeiros. 2020. “A Badging System for Reproducibility     and Replicability in Remote Sensing Research.” IEEE Journal of Selected Topics on        Applied Earth Observations and Remote Sensing 13: 4988–95.                               https://doi.org/10.1109/JSTARS.2020.3019 418.
+> Frery, A. C., L. Gomez, and A. C. Medeiros. 2020. “A Badging System for Reproducibility and Replicability in Remote Sensing Research.” IEEE Journal of Selected Topics on Applied Earth Observations and Remote Sensing 13: 4988–95. https://doi.org/10.1109/JSTARS.2020.3019 418.
 
-> Sánchez del Río, M., Martinetto, P., Solís, C. & Reyes-Valerio, C. (2006), ‘PIXE           analysis on Maya blue in Prehispanic and colonial mural paintings’, Nuclear              Instruments and Methods in Physics Research Section B: Beam Interactions with            Materials and Atoms 249(1–2), 628–632.
+> Sánchez del Río, M., Martinetto, P., Solís, C. & Reyes-Valerio, C. (2006), ‘PIXE analysis on Maya blue in Prehispanic and colonial mural paintings’, Nuclear Instruments and Methods in Physics Research Section B: Beam Interactions with Materials and Atoms 249(1–2), 628–632.
