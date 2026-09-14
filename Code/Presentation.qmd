@@ -9,6 +9,11 @@ format: beamer
 #| include: false
 source("Presentation_Data.R")
 ```
+## Introduction
+
+
+## Background
+
 
 ## Questions to Answer
 
@@ -23,14 +28,22 @@ There are 4 main questions that we set out to answer during this project
 4.  Can we recreate figure 2 from the original study?
 
 ## Figure 2. from the original Paper
-![](../Figures/ReproducedFig2.png){width=50%}
+![](../Figures/Original_plot.png){width=50%}
 
-We were able to reproduce a similar version of Figure 2 from the original study. The reproduced analysis shows broad Prehispanic and Colonial patterns, while the CEC samples form a more distinct group. However, the substantial overlap between samples indicates that the groups are not completely separated, which is consistent with the authors’ conclusions.
+## Method
+
 
 ## Data Transformation
+
+
+## Descriptive Statistics
 ![](../Figures/output_desc_pix_log.png){width=70%}
+## Qualitative Analysis 
+![](../Figures/Boxplot.png){width=70%}
 
 ## Are There Surprising Observations?
+![](../Figures/DM^2_Plot.png){width=70%}
+## Closer Look at Suprising Observations
 
 ```{r}
 #| echo: false
@@ -40,32 +53,25 @@ knitr::kable(dm_results)
 The largest Mahalanobis distances identify samples with unusual combinations of elemental concentrations. TAJ1_4 is the most extreme observation, suggesting that its overall elemental profile differs most strongly from the centre of the dataset.
 
 ## Pairs Plot of Mahalanobis Distances and Contour Densities.
-```{r}
-#| echo: false
-#| fig-width: 6.5
-#| fig-height: 3.0
-pairs
-```
- The pairs plot compares the elemental variables two at a time. Highlighted observations indicate samples with unusual multivariate behaviour, while the contour lines show where observations are more densely concentrated. This helps identify possible outliers and relationships among the saved
- elemental concentrations.
+![](../Figures/Pairsplot_of_DM^2.png){width=70%}
+The pairs plot compares the elemental variables two at a time. Highlighted observations indicate samples with unusual multivariate behavior, while the contour lines show where observations are more densely concentrated. This helps identify possible outliers and relationships among the saved elemental concentrations.
 
 ## Can we assume that the data follows a multivariate normal distribution?
+![](../Figures/QQ-plot.png){width=70%}
 
-No. The data cannot be assumed to follow a multivariate normal distribution because it fails Mardia’s skewness test, although the kurtosis result is consistent with normality. Several individual elements also show evidence of non-normality, including calcium, phosphorus, manganese and nickel. Therefore, the multivariate results should be interpreted with caution.
+- The data cannot be assumed to follow a multivariate normal distribution because it fails Mardia’s skewness test, although the kurtosis result is consistent with normality. 
+
+## Correlogram
 
 ## Can we find groups in this data?
 ![](../Figures/ReproducedFig2.png){width=55%}
 
 The analysis provides evidence of some meaningful grouping, particularly the CEC samples, which form a distinct group. However, the Prehispanic and Colonial samples overlap substantially and are not completely separated. Therefore, there is some structure in the data, but the groups are not all clearly distinct.
 
-## Discussion
-
-<<<<<<< HEAD
-=======
-## Discussion Continued
+## Discussion 
 The data also showed some surprising observations. TAJ1_4 had the biggest Mahalanobis distance and was classified as surprising, while Tot1_1, TAJ1_1, Jiu1_1 and Cec1_3 were all classified as somewhat surprising. The clustering analysis provides evidence of some meaningful groups in the data, with the CEC samples forming a distinct group. This is consistent with the authors’ observation of these samples containing unusually low calcium concentrations and likely not being produced with the fresco technique. The samples also show a less clear distinction between predominantly Prehispanic and Colonial samples, as these two groups have substantial overlap rather than being completely separated.
 
-## Discussion Continued 2
+## Discussion 
 We agree with the authors’ conclusions about the zones in Figure 2. The original PCA differentiated samples into broad Prehispanic and Colonial patterns and identified CEC as a distinct cluster. They also concluded that the data did not form well-defined groups. We were able to reproduce a similar graph, providing evidence of these findings. Elemental composition provides information about the historical period and the technique used, but the overlap between samples means that the groups cannot be treated as completely separated categories. The authors’ hypothesise that the overlap may be due to similarities in the painting techniques between the Prehispanic and Colonial periods.
 >>>>>>> a1c584255125922457c509e040dc8967366b443b
 
