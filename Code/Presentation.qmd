@@ -71,6 +71,7 @@ The pairs plot compares the elemental variables two at a time. Highlighted obser
 
 
 ## Correlogram
+![]("../Figures/Correlogram.png"){width=55%}
 
 
 ## Can we find groups in this data?
