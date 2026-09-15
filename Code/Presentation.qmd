@@ -14,6 +14,22 @@ source("Presentation_Data.R")
 
 ## Background
 
+:::: {.columns}
+
+::: {.column width="55%"}
+- **Maya Blue**: a distinctive blue-green pigment used in Prehispanic and colonial murals across southern Mexico
+- **PIXE** (Particle-Induced X-ray Emission): measures elemental concentrations non-destructively
+- **Dataset**: 35 mural samples, 17 elements (Na–Pb), from three archaeological groups:
+  - *CEC* — Santa Cecilia Acatitlán (post-classic, non-fresco)
+  - *Prehispanic* — Cacaxtla, Tajín, Tamuin
+  - *Convents* — Mexican Franciscan colonial sites
+:::
+
+::: {.column width="45%"}
+![]("../Figures/MayaBluePainting.png"){width=100% fig-align="center"}
+:::
+
+::::
 
 ## Questions to Answer
 
@@ -71,7 +87,11 @@ The pairs plot compares the elemental variables two at a time. Highlighted obser
 
 
 ## Correlogram
-![]("../Figures/Correlogram.png"){width=55%}
+![]("../Figures/Correlogram.png"){width=55% fig-align="center"}
+
+- Red = positive correlation, blue = negative; larger circles indicate stronger relationships
+- Mn, Mg, Si, Fe, Ni, Al, Ti, K, and Zn are mutually positively correlated
+- Na, Ca, P, S, and Pb are negatively or uncorrelated with that group
 
 
 ## Can we find groups in this data?
