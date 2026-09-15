@@ -75,15 +75,32 @@ knitr::kable(dm_results)
 The largest Mahalanobis distances identify samples with unusual combinations of elemental concentrations. TAJ1_4 is the most extreme observation, suggesting that its overall elemental profile differs most strongly from the centre of the dataset.
 
 
-## Pairs Plot of Mahalanobis Distances and Contour Densities.
-![]("../Figures/Pairsplot_of_DM2.png"){width=70%}
-The pairs plot compares the elemental variables two at a time. Highlighted observations indicate samples with unusual multivariate behavior, while the contour lines show where observations are more densely concentrated. This helps identify possible outliers and relationships among the saved elemental concentrations.
+## Pairs Plot of Mahalanobis Distances and Contour Densities
+
+:::: {.columns}
+
+::: {.column width="60%"}
+![]("../Figures/Pairsplot_of_DM2.png"){width=100% fig-align="center"}
+:::
+
+::: {.column width="40%"}
+- Each panel compares two elements pairwise
+- Contours show where observations are most concentrated
+- Highlighted points flag unusual multivariate behaviour
+- Outliers are rarely extreme in a single element — their unusualness is multivariate
+:::
+
+::::
+
+
 
 
 ## Can we assume that the data follows a multivariate normal distribution?
-![]("../Figures/QQ-plot.png"){width=70%}
 
-- The data cannot be assumed to follow a multivariate normal distribution because it fails Mardia’s skewness test, although the kurtosis result is consistent with normality. 
+![]("../Figures/QQ-plot.png"){width=60% fig-align="center"}
+
+- Fails Mardia’s skewness test (p = 0.003) — **not multivariate normal**
+- Kurtosis result is consistent with normality
 
 
 ## Correlogram
@@ -95,10 +112,20 @@ The pairs plot compares the elemental variables two at a time. Highlighted obser
 
 
 ## Can we find groups in this data?
-![]("../Figures/ReproducedFig2.png"){width=55%}
 
+:::: {.columns}
 
-The analysis provides evidence of some meaningful grouping, particularly the CEC samples, which form a distinct group. However, the Prehispanic and Colonial samples overlap substantially and are not completely separated. Therefore, there is some structure in the data, but the groups are not all clearly distinct.
+::: {.column width="55%"}
+![]("../Figures/ReproducedFig2.png"){width=100% fig-align="center"}
+:::
+
+::: {.column width="45%"}
+- **CEC** forms a tight, well-separated cluster
+- **Prehispanic** and **Convents** overlap substantially
+- Some structure exists, but groups are not fully distinct
+:::
+
+::::
 
 
 ## Discussion 
