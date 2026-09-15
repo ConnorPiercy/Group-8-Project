@@ -1,7 +1,7 @@
 ---
 title: "Group 8 Project"
 subtitle: "PIXE Analysis on Maya Blue in Prehispanic and Colonial Mural Paintings"
-author: "Awet, Connor, Lachlan, Pablo,"
+author: "Awet, Connor, Lachlan, Pablo"
 format: 
   html:
     toc: true
@@ -37,14 +37,16 @@ The aim of the present analysis is to investigate whether similar group structur
 # Methodology
 
 ## Data
+
 ```{r}
 #| echo: false
 kable(Table1)
 ```
 
-Data for this analysis contains 35 samples of different types of murals from across regions of southern mexico (Sanchez del Rio et al, 2006). This data can be found in Table 1. of Sanchez del Rio et al's paper from 2006. 
+Data for this analysis contains 35 samples of different types of murals from across regions of southern mexico (Sanchez del Rio et al, 2006). This data can be found in Table 1. of Sanchez del Rio et al's paper from 2006.
 
 ## Data Transformation
+
 The elemental concentration data were preprocessed before the multivariate analysis. The elements are measured on vastly different scales, with some reported as percentages and others as micrograms per gram (µg/g). Following Sánchez del Río et al. (2006), a base-10 logarithmic transformation was applied to reduce these large differences in scale and make the elemental concentrations easier to compare. Some concentrations in Table 1 are reported in parentheses ( ), which represent values below the limit of detection (LOD). Since numerical estimates are still provided, these estimated concentrations are retained for the analysis, and the parentheses are removed. Lastly, we conducted a transformation of both NA and 0 values found in the data. Sanchez del Rio et al. (2006) described that values that were given as 0's aren't treated as 0's and were instead concentrations that were below the detection limit and, as such, were instead very small concentrations of elements. Moreover, we cannot do a (\log\_{10}) transformation of the data if observations contain 0's. We can therefore transform these 0's into estimates that can be used with the log10 transformation and retain these small concentrations. Therefore, we run a function that runs through each numerical column, filters out values that are less than or equal to zero, ignores NAs (na.rm = TRUE), finds the smallest remaining positive number, and divides it by two. Finally, it checks every cell in that column. If a cell is either NA or exactly 0, it substitutes it with the replacement value.
 
 Following the data transformation, several multivariate statistical methods were used to investigate the elemental composition of the mural samples. A quantitative exploratory analysis was first done to compare the original and log transformed concentrations of each element with each other. A qualitative exploratory analysis was then conducted to compare the log transformed concentrations graphically with notched box plots.
@@ -220,7 +222,7 @@ output_desc_pix_log <- desc_pixe_log %>%
 output_desc_pix_log
 ```
 
-After the log transformation, the elemental concentrations are on more comparable scales, reducing the influence of the very large raw values. Differences between elements are still present, but no single variable dominates simply because of its measurement scale. This makes the transformed data more suitable for the multivariate analyses that follow. We can see that Si and P both still have the largest maximums of there respective concentrations, but we can now see that that P observation is much larger. Moreover we can see that the concentrations of all ratio elements are much larger then the elements measured originally in percentages in terms of there maximum value. We can also see this difference in respective medians, with percentage elements ranging from -2.30 to 0.66 compared to ratio of 0.00 to 2.72.
+After the log transformation, the elemental concentrations are on more comparable scales, reducing the influence of the very large raw values. Differences between elements are still present, but no single variable dominates simply because of its measurement scale. This makes the transformed data more suitable for the multivariate analyses that follow. We can see that Si and P both still have the largest maximums of there respective concentrations, but we can now see that that P observation is much larger. Moreover we can see that the concentrations of all ratio elements are much larger than the elements measured originally in percentages in terms of there maximum value. We can also see this difference in respective medians, with percentage elements ranging from -2.30 to 0.66 compared to ratio of 0.00 to 2.72.
 
 ## Graphical and Qualitative Analysis
 
@@ -236,7 +238,8 @@ decp_boxplot <- ggplot(data = Table1_long_log, aes(x = Element_Group, y = Concen
         legend.position = "none")
 decp_boxplot
 ```
-The log-scale box plots show that transformation reduces, but does not remove, the pronounced differences in spread among elements. The trace variables remain particularly heterogeneous, while several major matrix components are more concentrated. We can see that Chlorine has the lowest mean of the 17 elements Titanium has the largest median. A number of the elements have outliers including Manganese with 4, Chlorine with 3, Phosphorous, Calcium and Nickel with 2, and finally Sodium and Aluminium having 1. This can be expected as certain types of murals Notable due to the transformation of the data, and the large amount of NA's found in the samples for concentrations of Phosphorous, it contains a very large inter quartile range with, as well as having its median, 1st quatile, a minimum value all being 1.93. 
+
+The log-scale box plots show that transformation reduces, but does not remove, the pronounced differences in spread among elements. The trace variables remain particularly heterogeneous, while several major matrix components are more concentrated. We can see that Chlorine has the lowest mean of the 17 elements Titanium has the largest median. A number of the elements have outliers including Manganese with 4, Chlorine with 3, Phosphorous, Calcium and Nickel with 2, and finally Sodium and Aluminium having 1. This can be expected as certain types of murals Notable due to the transformation of the data, and the large amount of NA's found in the samples for concentrations of Phosphorous, it contains a very large inter quartile range with, as well as having its median, 1st quatile, a minimum value all being 1.93.
 
 ## Are There Surprising Observations?
 
@@ -289,6 +292,7 @@ table(Table1_elements_log$suprise)
 dm_results
 
 ```
+
 The squared Mahalanobis distances were used to identify samples with unusual combinations of elemental concentrations. Most observations have relatively smaller Mahalanobis distance, while a smaller number have larger distance and may be considered potentially unusual. The 90%, 95%, and 99% chi-square cut-offs provide increasing levels of evidence for identifying unusual multivariate observations. These samples are retained in the analysis because an unusual observation is not necessarily an error; it may represent genuine differences in mural composition. From the output we can see that 1 observation is very surprising , 4 are somewhat surprising , while the remaining 30 are typical distances. From the output, TAJ1_4 was identified as a surprising multivariate observation, with a squared Mahalanobis distance of approximately 29.34327. This exceeds the 95th percentile of the $\chi^2_{17}$ distribution (27.59), but remains below the 99th percentile (33.41). This indicates that TAJ1_4 has an surprising combination of elemental concentrations relative to the overall multivariate distribution.
 
 ```{r}
@@ -381,6 +385,7 @@ final_pairs <- cowplot::plot_grid(
 #Takes about 15 seconds to load.
 final_pairs
 ```
+
 The pairs plot shows substantial dependence between several of the elemental concentrations. Specifically, Mg and Si display a strong positive association, as shown by the narrow, upward-oriented density contours, while other pairs, such as Ca and K, show evidence of a negative association. Several trace-element relationships exhibit less regular density contours, suggesting more complex bivariate distributions. The marginal density plots also show asymmetry and irregularity for several elements, providing graphical evidence against multivariate normality. Observations classified as somewhat surprising or surprising by their squared Mahalanobis distances tend to lie away from the main concentration of observations across several pairwise combinations. However, the surprising observation is not consistently extreme for any single element, indicating that its large Mahalanobis distance is primarily associated with an unusual multivariate combination of elemental concentrations rather than a single extreme measurement.
 
 ## Can you assume that the data follows a multivariate normal distribution?
@@ -424,8 +429,8 @@ mvn_result <- mvn(
 mvn_result$multivariate_normality
 mvn_result$univariate_normality
 ```
-The multivariate normality assumption is not fully satisfied. Mardia's skewness test is significant with p-value = 0.003, providing evidence against multivariate normality, although Mardia's kurtosis test is not significant with p-value = 0.664. Through individual Anderson-Darling normality tests we find that Calcium, phosphorus, Magnesium, and Nickel (Ni) are not normally distributed, which subsequently has effected the multivariate normality of the data. The multivariate Q-Q plot is approximately linear through much of the central region but shows some departures from the reference line. Therefore, results that rely on multivariate normality, specifically the chi-square interpretation of Mahalanobis distances, should be interpreted with caution. From this we can therefore conclude that the data does not follow a multivariate normal distribution
-## Can we find groups in this data?
+
+The multivariate normality assumption is not fully satisfied. Mardia's skewness test is significant with p-value = 0.003, providing evidence against multivariate normality, although Mardia's kurtosis test is not significant with p-value = 0.664. Through individual Anderson-Darling normality tests we find that Calcium, phosphorus, Magnesium, and Nickel (Ni) are not normally distributed, which subsequently has effected the multivariate normality of the data. The multivariate Q-Q plot is approximately linear through much of the central region but shows some departures from the reference line. Therefore, results that rely on multivariate normality, specifically the chi-square interpretation of Mahalanobis distances, should be interpreted with caution. From this we can therefore conclude that the data does not follow a multivariate normal distribution \## Can we find groups in this data?
 
 ```{r}
 #| echo: false
@@ -438,8 +443,7 @@ ggcorrplot(cor(Table1_log[,-1]),
            type = "lower")
 ```
 
-The correlogram shows the direction and strength of the relationships among the log-transformed elemental concentrations. Red circles represent positive correlations and blue circles represent negative correlations, while larger and darker circles indicate stronger relationships. Several element pairs show clear associations, suggesting that some elemental concentrations tend to vary together across the mural samples.
-Elements Mn, Mg, Si, Fe, Ni, Al, Ti, K, and Zn are all positively correlated with each other, meaning as one increases the other increase. Moreover Na, Ca, P, S, and Pb are all negatively or uncorrelated with those same elements, meaning when those elements increase, Na, Ca, P, S, and Pb tend to decrease or remain unchanged, such as between Pb and both Mg and Mn. 
+The correlogram shows the direction and strength of the relationships among the log-transformed elemental concentrations. Red circles represent positive correlations and blue circles represent negative correlations, while larger and darker circles indicate stronger relationships. Several element pairs show clear associations, suggesting that some elemental concentrations tend to vary together across the mural samples. Elements Mn, Mg, Si, Fe, Ni, Al, Ti, K, and Zn are all positively correlated with each other, meaning as one increases the other increase. Moreover Na, Ca, P, S, and Pb are all negatively or uncorrelated with those same elements, meaning when those elements increase, Na, Ca, P, S, and Pb tend to decrease or remain unchanged, such as between Pb and both Mg and Mn.
 
 To examine these patterns more closely, two contrasting relationships from the correlogram are considered below.
 
@@ -533,11 +537,11 @@ ggplot(q.samp, aes(x=y, y=x, z=prob)) +
   theme_minimal()
 ```
 
-As we can see from the Bivariate Scatter plot of 22-Ti and 17-Cl, there is a negative association between the log-transformed concentrations of the two elements. the downward oreientation of the density contours suggest that samples with higher Cl concentrations generally have lower Ti concentrations. However, this relationship is relatively weaker than the relationship shown between 12-Mg and 14-Si as indicated by the dispersion of points and broader contour lines.
+As we can see from the Bivariate Scatter plot of 22-Ti and 17-Cl, there is a negative association between the log-transformed concentrations of the two elements. the downward orientation of the density contours suggest that samples with higher Cl concentrations generally have lower Ti concentrations. However, this relationship is relatively weaker than the relationship shown between 12-Mg and 14-Si as indicated by the dispersion of points and broader contour lines.
 
 ## PCA
 
-We can now conduct a Principle component analysis of the data to find how many groups are in the data. The Covariance matrix was used instead of the correlation matrix to keep inline with the original studies PCA.
+We can now conduct a Principal Component Analysis of the data to find how many groups are in the data. The Covariance matrix was used instead of the correlation matrix to keep inline with the original studies PCA.
 
 ```{r}
 #| echo: false
@@ -563,7 +567,7 @@ PCA_table <- knitr::kable(
 PCA_table
 ```
 
-The first three principal components explained 77.08% of the total variance, with PC1, PC2, and PC3 accounting for 34.02%, 25.00%, and 18.05%, respectively. These results are broadly consistent with the original study, which reported 34.88%, 24.95%, and 11.32% for the first three components, and 71.15% of total variance (Sanchez del Rio et al, 2006). The first two components are particularly similar. However the third principle component in our analysis is noticeably larger then the percentage of variance in the original study. We can now plot PC1 versus PC2 to look at the clustering of the 35 mural samples to find clear support for or against the original study. 
+The first three principal components explained 77.08% of the total variance, with PC1, PC2, and PC3 accounting for 34.02%, 25.00%, and 18.05%, respectively. These results are broadly consistent with the original study, which reported 34.88%, 24.95%, and 11.32% for the first three components, and 71.15% of total variance (Sanchez del Rio et al, 2006). The first two components are particularly similar. However the third principle component in our analysis is noticeably larger than the percentage of variance in the original study. We can now plot PC1 versus PC2 to look at the clustering of the 35 mural samples to find clear support for or against the original study.
 
 ```{r}
 #| echo: false
@@ -591,6 +595,7 @@ ggbiplot::ggbiplot(PCA_log, obs.scale = 1, var.scale = 1,
     y = "PC2")+
   theme_minimal()
 ```
+
 The clearest pattern is the separation of the CEC samples from the other two groups. The CEC observations form a very tight cluster at strongly negative PC2 values, suggesting that their elemental compositions are relatively similar to one another but distinct from the other samples. The Convent samples generally lie toward positive PC1, particularly the Tot and Tez samples, while the Prehispanic samples are concentrated mainly toward negative PC1. However, there is some overlap between the Convent and Prehispanic groups near the centre of the plot, particularly for samples such as Cua1_2. Therefore, the PCA indicates group structure, but not complete separation.
 
 The arrows help explain this pattern. Elements whose arrows point in similar directions are positively associated in the first two PCs, while arrows pointing in opposite directions indicate contrasting contributions. In particular, S, Cl and Pb point strongly toward positive PC1, in approximately the direction of many of the Convent samples. This suggests that these elements contribute to the separation of the Convent samples from many of the Prehispanic samples. P, on the other hand, has a strong positive PC2 loading and therefore contributes more strongly to vertical separation. Mn points strongly in the negative PC2 direction.
@@ -637,9 +642,10 @@ ggplot(pca_scores, aes(x = PC2, y = PC1, colour = Group, label = Sample)) +
   theme_bw()
 ```
 
-The PCA plot broadly reproduces Figure 2 from Sánchez del Río et al. (2006). The CEC samples (Santa Cecilia Acatitlán) form a tight, well-separated cluster, consistent with their distinct non-fresco preparation technique. The Prehispanic and Convent groups occupy partially overlapping regions of the PC1–PC2 plane, suggesting that, despite their temporal separation, both groups employed similar mural painting techniques. It is also worth noting that we can observe that despite being listed in the Mexican Franciscan convents group, both Cuauhtinchan samples cluster around the Prehispanic murals, suggesting its work is more closely related to this type of mural. This was also seen in the original papers figure, however there is more noticeable overlap with this figure compared to the original. 
+The PCA plot broadly reproduces Figure 2 from Sánchez del Río et al. (2006). The CEC samples (Santa Cecilia Acatitlán) form a tight, well-separated cluster, consistent with their distinct non-fresco preparation technique. The Prehispanic and Convent groups occupy partially overlapping regions of the PC1–PC2 plane, suggesting that, despite their temporal separation, both groups employed similar mural painting techniques. It is also worth noting that we can observe that despite being listed in the Mexican Franciscan convents group, both Cuauhtinchan samples cluster around the Prehispanic murals, suggesting its work is more closely related to this type of mural. This was also seen in the original papers figure, however there is more noticeable overlap with this figure compared to the original.
 
 # Discussion
+
 The analysis of elemental concentrations within Maya blue samples provides evidence of structure, although the groups are not completely distinct. Taking a log transformation of the data helped to account for large differences in concentration levels between the elements, which is consistent with the approach used in the original study. However, the data cannot be assumed to follow a multivariate normal distribution, as it fails Mardia’s skewness test, despite the kurtosis result showing consistency with normality. Several of the individual elements also showed evidence of non-normality; these elements were calcium, phosphorus, manganese and nickel. This should be taken into consideration when interpreting the multivariate results.
 
 The data also showed some surprising observations. TAJ1_4 had the biggest Mahalanobis distance and was classified as surprising, while Tot1_1, TAJ1_1, Jiu1_1 and Cec1_3 were all classified as somewhat surprising. The clustering analysis provides evidence of some meaningful groups in the data, with the CEC samples forming a distinct group. This is consistent with the authors’ observation of these samples containing unusually low calcium concentrations and likely not being produced with the fresco technique. The samples also show a less clear distinction between predominantly Prehispanic and Colonial samples, as these two groups have substantial overlap rather than being completely separated.
@@ -647,7 +653,8 @@ The data also showed some surprising observations. TAJ1_4 had the biggest Mahala
 We agree with the authors’ conclusions about the zones in Figure 2. The original PCA differentiated samples into broad Prehispanic and Colonial patterns and identified CEC as a distinct cluster. They also concluded that the data did not form well-defined groups. We were able to reproduce a similar graph, providing evidence of these findings. Elemental composition provides information about the historical period and the technique used, but the overlap between samples means that the groups cannot be treated as completely separated categories. The authors’ hypothesise that the overlap may be due to similarities in the painting techniques between the Prehispanic and Colonial periods.
 
 # Conclusion
-Overall, the results show some structure in the Maya blue samples, but the groups are not completely distinct. The CEC samples are clearly separated, while the Prehispanic and Colonial samples overlap. Figure 2 supports the authors’ conclusion that the zones represent broad patterns rather than clearly defined groups. 
+
+Overall, the results show some structure in the Maya blue samples, but the groups are not completely distinct. The CEC samples are clearly separated, while the Prehispanic and Colonial samples overlap. Figure 2 supports the authors’ conclusion that the zones represent broad patterns rather than clearly defined groups.
 
 # References {style="text-align: left;"}
 
