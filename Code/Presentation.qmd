@@ -33,18 +33,29 @@ source("Presentation_Data.R")
 
 ## Questions to Answer
 
-There are 4 main questions that we set out to answer during this project
+There are **4 main questions** that we set out to answer during this project
 
-1.  Are there any surprising observations in the data?
-
-2.  Can we assume that the data follows a multivariate normal distribution?
-
-3.  Can we find groups in this data?
-
-4.  Can we recreate figure 2 from the original study?
+  - Are there any surprising observations in the data?
+  - Can we assume that the data follows a multivariate normal distribution?
+  - Can we find groups in this data?
+  - Can we recreate figure 2 from the original study?
 
 ## Figure 2. from the original Paper
-![]("../Figures/Original_plot.png"){width=50%}
+:::: {.columns}
+
+::: {.column width="55%"}
+- **Original Figure** shows clustering of 3 types of Muarls
+  - *CEC* Cluster in the top left; Very compact together
+  - *PreHispanic* Cluster across the bottom; spread through left to middel
+  - *Convents* Cluster in top right; Cua Moving closer to PreHispanic
+:::
+
+
+::: {.column width="45%"}
+![]("../Figures/Original_plot.png"){width=100%}
+:::
+
+::::
 
 ## Method
 
@@ -52,18 +63,45 @@ There are 4 main questions that we set out to answer during this project
 ## Data Transformation
 
 
+
+## Original Data vs Transform Data
+
+
 ## Descriptive Statistics
 ![](../Figures/output_desc_pix_log.png){width=70%}
 
 
 ## Qualitative Analysis 
-![]("../Figures/Boxplot.png"){width=70%}
+::: {.columns}
 
 
+:::{.column width = "50%"}
+![]("../Figures/Boxplot.png"){width=100%}
+:::
 
+:::{.column width = "50%"}
+-
+-
+-
+:::
+
+
+:::
 ## Are There Surprising Observations?
-![]("../Figures/DM2_Plot.png"){width=70%}
+::: {.columns}
 
+
+:::{.column width = "50%"}
+![]("../Figures/DM2_Plot.png"){width=100%}
+:::
+
+:::{.column width = "50%"}
+- The 90%, 95%, and 99% Cut off values were: 24.76904, 27.58711, and 33.40866 Receptively
+- We Identified 1 Suprising and 4 somewhat suprising observations
+:::
+
+
+:::
 
 ## Closer Look at Suprising Observations
 
