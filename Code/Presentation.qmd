@@ -60,11 +60,13 @@ There are **4 main questions** that we set out to answer during this project
 ## Method
 
 
+## Original Data
+
+
 ## Data Transformation
 
 
-
-## Original Data vs Transform Data
+## Transformed Data
 
 
 ## Descriptive Statistics
@@ -130,7 +132,10 @@ The largest Mahalanobis distances identify samples with unusual combinations of 
 
 ::::
 
+## Contour plot 1
 
+
+## Contour plot 2
 
 
 ## Can we assume that the data follows a multivariate normal distribution?
@@ -139,6 +144,9 @@ The largest Mahalanobis distances identify samples with unusual combinations of 
 
 - Fails Mardia’s skewness test (p = 0.003) — **not multivariate normal**
 - Kurtosis result is consistent with normality
+
+
+## Elements that arent normally distribted 
 
 
 ## Correlogram
