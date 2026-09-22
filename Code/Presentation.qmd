@@ -2,7 +2,13 @@
 title: "PIXE Analysis on Maya Blue in Prehispanic and Colonial Mural Paintings"
 subtitle: "Group_Project_8_Presentation"
 author: "Awet, Connor, Lachlan, and Pablo"
-format: beamer
+format: 
+  beamer:
+    theme: Madrid
+    navigation: empty
+    include-in-header:
+      - text: |
+          \setbeamertemplate{footline}{\hfill\insertframenumber\,/\,\inserttotalframenumber\hspace*{2ex}}
 ---
 
 ```{r}
@@ -194,7 +200,7 @@ H0: Normally Distributed H1: Not Normally Distributed ~ $\alpha = 0.05$
 
 - Anderson-Darling	28-Ni	  0.812	0.032	  Not normal
 
-Note: 15-P more than likely Not normal due to data transformation due to large number of missing values. 
+Note: 15-P more than likely not normal due to large number of missing values that were transformed earlier. 
 
 ## Correlogram
 ![]("../Figures/Correlogram.png"){width=55% fig-align="center"}
