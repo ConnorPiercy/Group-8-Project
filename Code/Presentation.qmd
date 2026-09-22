@@ -59,15 +59,24 @@ There are **4 main questions** that we set out to answer during this project
 
 ## Method
 
+- **Original Data** was first cleaned and transformed to remove LOD brackets and change NA's and 0's into usable data
+- A **Quantitative** and **Qualitative** analysis was done on the data to compare element concentrations
+- **Mahalanobis Distances** were then used to evalate if certain observations had suprising distances. 
+- **Multivariate normality** was assessed graphically using a multivariate Q-Q plot of the ordered squared Mahalanobis distances against theoretical chi-squared quarantines, as well as using Mardia MVN test. 
+- **Principal component analysis** was performed on the covariance matrix of the log-transformed elemental concentrations.
+- **Figure 2** from the original paper was recreated using the first two PCs from the Principal component analysis
+
 
 ## Original Data
 
+![]("../Figures/Original_Data.png"){width=100%}
 
 ## Data Transformation
 
 
 ## Transformed Data
 
+![]("../Figures/Transformed_Data.png"){width=100%}
 
 ## Descriptive Statistics
 ![](../Figures/output_desc_pix_log.png){width=70%}
@@ -98,8 +107,8 @@ There are **4 main questions** that we set out to answer during this project
 :::
 
 :::{.column width = "50%"}
-- The 90%, 95%, and 99% Cut off values were: 24.76904, 27.58711, and 33.40866 Receptively
-- We Identified 1 Suprising and 4 somewhat suprising observations
+- The 90%, 95%, and 99% Cut off values were: 24.76904, 27.58711, and 33.40866 respectively
+- We Identified 1 surprising and 4 somewhat surprising observations
 :::
 
 
@@ -112,7 +121,8 @@ There are **4 main questions** that we set out to answer during this project
 knitr::kable(dm_results)
 ```
 
-The largest Mahalanobis distances identify samples with unusual combinations of elemental concentrations. TAJ1_4 is the most extreme observation, suggesting that its overall elemental profile differs most strongly from the centre of the dataset.
+- The largest Mahalanobis distances identify samples with unusual combinations of elemental concentrations.
+- TAJ1_4 is the most extreme observation, suggesting that its overall elemental profile differs most strongly from the center of the dataset.
 
 
 ## Pairs Plot of Mahalanobis Distances and Contour Densities
@@ -134,10 +144,35 @@ The largest Mahalanobis distances identify samples with unusual combinations of 
 
 ## Contour plot 1
 
+:::: {.columns}
+
+::: {.column width="60%"}
+![]("../Figures/Contour_1.png"){width=100% fig-align="center"}
+:::
+
+::: {.column width="40%"}
+- 
+- 
+- 
+:::
+
+::::
 
 ## Contour plot 2
 
+:::: {.columns}
 
+::: {.column width="60%"}
+![]("../Figures/Contour_2.png"){width=100% fig-align="center"}
+:::
+
+::: {.column width="40%"}
+- 
+- 
+- 
+:::
+
+::::
 ## Can we assume that the data follows a multivariate normal distribution?
 
 ![]("../Figures/QQ-plot.png"){width=60% fig-align="center"}
@@ -146,8 +181,20 @@ The largest Mahalanobis distances identify samples with unusual combinations of 
 - Kurtosis result is consistent with normality
 
 
-## Elements that arent normally distribted 
+## Elements that aren't normally distributed 
+Anderson-Darling Tests were conducted on each element to check individual normality
 
+H0: Normally Distributed H1: Not Normally Distributed ~ $\alpha = 0.05$ 
+
+- Anderson-Darling	20-Ca*	2.670	<0.001	Not normal
+
+- Anderson-Darling	15-P	  3.143	<0.001	Not normal
+
+- Anderson-Darling	25-Mn	  2.809	<0.001	Not normal
+
+- Anderson-Darling	28-Ni	  0.812	0.032	  Not normal
+
+Note: 15-P more than likely Not normal due to data transformation due to large number of missing values. 
 
 ## Correlogram
 ![]("../Figures/Correlogram.png"){width=55% fig-align="center"}
