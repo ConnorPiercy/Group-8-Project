@@ -213,7 +213,6 @@ Note: 15-P more than likely not normal due to large number of missing values tha
 - Mn, Mg, Si, Fe, Ni, Al, Ti, K, and Zn are mutually positively correlated
 - Na, Ca, P, S, and Pb are negatively or uncorrelated with that group
 
-
 ## Can we find groups in this data?
 
 :::: {.columns}
