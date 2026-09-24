@@ -232,15 +232,30 @@ Note: 15-P more than likely not normal due to large number of missing values tha
 
 
 ## Discussion 
-The data also showed some surprising observations. TAJ1_4 had the biggest Mahalanobis distance and was classified as surprising, while Tot1_1, TAJ1_1, Jiu1_1 and Cec1_3 were all classified as somewhat surprising. The clustering analysis provides evidence of some meaningful groups in the data, with the CEC samples forming a distinct group. This is consistent with the authors’ observation of these samples containing unusually low calcium concentrations and likely not being produced with the fresco technique. The samples also show a less clear distinction between predominantly Prehispanic and Colonial samples, as these two groups have substantial overlap rather than being completely separated.
+- **TAJ1_4** had the largest Mahalanobis distance and was the most surprising observation.
+- **Tot1_1, TAJ1_1, Jiu1_1, and Cec1_3** were somewhat surprising.
+- **CEC** forms a clear and distinct cluster.
+- **Prehispanic and Colonial** samples overlap substantially.
+- Therefore, the data show some group structure, but the groups are not completely separated.
 
 
-## Discussion 
-We agree with the authors’ conclusions about the zones in Figure 2. The original PCA differentiated samples into broad Prehispanic and Colonial patterns and identified CEC as a distinct cluster. They also concluded that the data did not form well-defined groups. We were able to reproduce a similar graph, providing evidence of these findings. Elemental composition provides information about the historical period and the technique used, but the overlap between samples means that the groups cannot be treated as completely separated categories. The authors’ hypothesise that the overlap may be due to similarities in the painting techniques between the Prehispanic and Colonial periods.
+## Discussion — Main Findings
+- **TAJ1_4** had the largest Mahalanobis distance and was the most surprising observation.
+- **Tot1_1, TAJ1_1, Jiu1_1, and Cec1_3** were somewhat surprising.
+- **CEC** forms a clear and distinct cluster.
+- **Prehispanic and Colonial** samples overlap substantially.
+- Therefore, the data show some group structure, but the groups are not completely separated.
 
+
+## Discussion — Comparison with Original Study
+- Our PCA reproduced a pattern similar to **Figure 2** of the original study.
+- **CEC** remains clearly separated from the other samples.
+- **Prehispanic and Colonial** samples show considerable overlap.
+- This supports the authors' conclusion that the zones represent **broad patterns rather than well-defined groups**.
+- The authors suggest that the overlap may reflect similarities in painting techniques between the Prehispanic and Colonial periods.
 
 ## Conclusion
-Overall, the results show some structure in the Maya blue samples, but the groups are not completely distinct. The CEC samples are clearly separated, while the Prehispanic and Colonial samples overlap. Figure 2 supports the authors’ conclusion that the zones represent broad patterns rather than clearly defined groups.
+Overall, the results show some structure in the Maya Blue samples, but the groups are not completely distinct. The CEC samples are clearly separated, while the Prehispanic and Colonial samples overlap. Figure 2 supports the authors' conclusion that the zones represent broad patterns rather than clearly defined groups.
 
 
 ## References
