@@ -19,6 +19,10 @@ source("Presentation_Data.R")
 
 The aim of the present analysis is to investigate whether similar group structure can be identified in the available data and to assess the reproducibility of the main findings reported by Sánchez del Río et al. (2006)
 
+- Maya Blue is a historically important blue-green pigment used in Prehispanic and Colonial mural paintings.
+- PIXE provides elemental concentration data that can be used to compare the chemical composition of the mural samples.
+- Our analysis investigates unusual observations, multivariate normality, group structure, and whether the original study's PCA pattern can be reproduced.
+
 ## Background
 
 :::: {.columns}
@@ -79,10 +83,9 @@ There are **4 main questions** that we set out to answer during this project
 ![]("../Figures/Original_Data.png"){width=100%}
 
 ## Data Transformation
-- Element concentrations varied greatly in magnitude and were positively skewed.
-- A log transformation was applied before the multivariate analysis.
-- This reduces the influence of very large concentrations and makes comparisons between elements more meaningful.
-
+- Element concentrations varied greatly in magnitude and were strongly right-skewed.
+- A log transformation, **log(x + 1)**, was applied to all elemental concentrations before the multivariate analysis.
+- Adding 1 allows zero values to be transformed, while the log transformation reduces skewness and stabilises variance.
 
 ## Transformed Data
 
@@ -101,9 +104,9 @@ There are **4 main questions** that we set out to answer during this project
 :::
 
 :::{.column width = "50%"}
--
--
--
+- The log-scale boxplots show that transformation reduces, but does not remove, differences in spread among the elements.
+- Chlorine has the lowest mean, while Titanium has the largest median.
+- Several elements contain outliers, particularly Mn, Cl, P, Ca, and Ni.
 :::
 
 
