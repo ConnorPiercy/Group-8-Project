@@ -238,15 +238,6 @@ Note: 15-P more than likely not normal due to large number of missing values tha
 - **Prehispanic and Colonial** samples overlap substantially.
 - Therefore, the data show some group structure, but the groups are not completely separated.
 
-
-## Discussion — Main Findings
-- **TAJ1_4** had the largest Mahalanobis distance and was the most surprising observation.
-- **Tot1_1, TAJ1_1, Jiu1_1, and Cec1_3** were somewhat surprising.
-- **CEC** forms a clear and distinct cluster.
-- **Prehispanic and Colonial** samples overlap substantially.
-- Therefore, the data show some group structure, but the groups are not completely separated.
-
-
 ## Discussion — Comparison with Original Study
 - Our PCA reproduced a pattern similar to **Figure 2** of the original study.
 - **CEC** remains clearly separated from the other samples.
