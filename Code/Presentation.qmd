@@ -184,11 +184,11 @@ knitr::kable(dm_results)
 
 ::::
 ## Can we assume that the data follows a multivariate normal distribution?
-
+- Points close to the Q-Q reference pattern would support multivariate normality; departures indicate non-normality.
+- Mardia's skewness test gives p = 0.003 < 0.05, so the multivariate normality assumption is rejected.
+- Mardia's kurtosis result is consistent with normality.
+- Overall, because the skewness test fails, the data cannot be assumed to be multivariate normal.
 ![]("../Figures/QQ-plot.png"){width=60% fig-align="center"}
-
-- Fails Mardia’s skewness test (p = 0.003) — **not multivariate normal**
-- Kurtosis result is consistent with normality
 
 
 ## Elements that aren't normally distributed 
