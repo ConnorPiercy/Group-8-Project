@@ -17,6 +17,7 @@ source("Presentation_Data.R")
 ```
 ## Introduction
 
+The aim of the present analysis is to investigate whether similar group structure can be identified in the available data and to assess the reproducibility of the main findings reported by Sánchez del Río et al. (2006)
 
 ## Background
 
@@ -78,6 +79,7 @@ There are **4 main questions** that we set out to answer during this project
 ![]("../Figures/Original_Data.png"){width=100%}
 
 ## Data Transformation
+
 
 
 ## Transformed Data
