@@ -1,6 +1,6 @@
 ---
 title: "PIXE Analysis on Maya Blue in Prehispanic and Colonial Mural Paintings"
-subtitle: "Group_Project_8_Presentation"
+subtitle: "Group 8"
 author: "Awet, Connor, Lachlan, and Pablo"
 format: 
   beamer:
