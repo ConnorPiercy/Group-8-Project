@@ -96,7 +96,7 @@ There are **4 main questions** that we set out to answer during this project
 ![]("../Figures/Transformed_Data.png"){width=100%}
 
 ## Descriptive Statistics
-![](../Figures/output_desc_pix_log.png){width=70%}
+![](../Figures/output_desc_pix_log.png){fig-align="center" height="85%"}
 
 
 ## Qualitative Analysis 
@@ -124,7 +124,7 @@ There are **4 main questions** that we set out to answer during this project
 :::
 
 :::{.column width = "50%"}
-- The 90%, 95%, and 99% Cut off values were: 24.76904, 27.58711, and 33.40866 respectively
+- The 90%, 95%, and 99% Cut off values were: 24.76904, 27.58711, and 33.40866 respectively were calculated using 
 - We Identified 1 surprising and 4 somewhat surprising observations
 :::
 
