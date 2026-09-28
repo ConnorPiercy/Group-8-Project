@@ -221,6 +221,27 @@ Note: 15-P more than likely not normal due to large number of missing values tha
 - Mn, Mg, Si, Fe, Ni, Al, Ti, K, and Zn are mutually positively correlated
 - Na, Ca, P, S, and Pb are negatively or uncorrelated with that group
 
+## PCA Biplots
+
+:::: {.columns align=center}
+
+::: {.column width="60%"}
+![]("Group_8_File_files/figure-html/unnamed-chunk-16-1.png"){width=100% fig-align="center"}
+:::
+
+::: {.column width="40%"}
+\centering
+
+- Observations and variables projected onto PC1 and PC2.
+
+- Variables pointing in similar directions are positively correlated.
+
+- Some separation between sample groups is visible.
+
+:::
+
+::::
+
 ## Can we find groups in this data?
 
 :::: {.columns}
@@ -237,8 +258,7 @@ Note: 15-P more than likely not normal due to large number of missing values tha
 
 ::::
 
-
-## Discussion 
+## Discussion
 - **TAJ1_4** had the largest Mahalanobis distance and was the most surprising observation.
 - **Tot1_1, TAJ1_1, Jiu1_1, and Cec1_3** were somewhat surprising.
 - **CEC** forms a clear and distinct cluster.
