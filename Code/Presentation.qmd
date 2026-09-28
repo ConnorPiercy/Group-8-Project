@@ -161,36 +161,11 @@ knitr::kable(dm_results)
 ::::
 
 ## Contour plot 1
-
-:::: {.columns}
-
-::: {.column width="60%"}
-![]("../Figures/Contour_1.png"){width=100% fig-align="center"}
-:::
-
-::: {.column width="40%"}
-- 
-- 
-- 
-:::
-
-::::
+![]("../Figures/Contour_1.png"){width=50% fig-align="center"}
 
 ## Contour plot 2
-
-:::: {.columns}
-
-::: {.column width="60%"}
 ![]("../Figures/Contour_2.png"){width=100% fig-align="center"}
-:::
 
-::: {.column width="40%"}
-- 
-- 
-- 
-:::
-
-::::
 ## Can we assume that the data follows a multivariate normal distribution?
 - Points close to the Q-Q reference pattern would support multivariate normality; departures indicate non-normality.
 - Mardia's skewness test gives p = 0.003 < 0.05, so the multivariate normality assumption is rejected.
